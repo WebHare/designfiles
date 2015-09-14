@@ -1,0 +1,24 @@
+.wh-video
+{
+  position:relative;
+  width:100%;
+}
+.wh-video:after
+{
+  display:block;
+  content: '';
+}
+.wh-video.aspect_16_9:after
+{
+  padding-top:56.25%;
+}
+.wh-video.aspect_4_3:after
+{
+  padding-top:56.25%;
+}
+.wh-video > iframe
+{
+  position:absolute;
+  width:100%;
+  height:100%;
+}

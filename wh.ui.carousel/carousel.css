@@ -1,0 +1,153 @@
+.tile.nofocus img, .tile.nofocus h2
+{
+  opacity: .15;
+}
+
+.btn_prevslide.enabled
+{
+  left: 0; top: 0; bottom: 0;
+}
+
+.btn_nextslide.enabled
+{
+  right: 0; top: 0; bottom: 0;
+}
+
+.wh-carousel
+{
+  position: relative;
+  height:   430px;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.wh-carousel div.titlebar
+{
+  position: relative;
+  display: inline-table;
+  top: 0;
+  margin: 0 auto;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+}
+
+.wh-carousel div.titlebar em
+{
+  font-style: normal;
+  font-weight: bold;
+}
+
+.wh-carousel .wh-scrollableview
+{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height:100%;
+  padding: 0;
+  margin: 0;
+}
+
+.wh-carousel .wh-scrollableview-content
+{
+  position: absolute;
+  overflow: hidden;
+  padding: 0;
+  margin: 0
+}
+
+.wh-carousel div.tile
+{
+  position: relative;
+  display: table-cell;
+  vertical-align: top;
+  text-align: center;
+  height: 430px;
+  width: 300px;
+  opacity: .95;
+  overflow: hidden;
+  margin: 0;
+}
+
+.wh-carousel div.tile div.tilewrapper
+{
+  position: relative;
+  width: 300px;
+  margin: 0;
+  padding: 0;
+}
+
+.wh-carousel div.tile.enabled
+{
+  opacity: 1;
+}
+
+.wh-carousel div.tile.selected
+{
+  opacity: 0.5;
+}
+
+.wh-carousel div.tile img
+{
+  width: 300px;
+  height: 430px;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: block;
+}
+
+.wh-carousel div.tile.enabled > div.mobiletouch
+{
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 60px;
+  height: 60px;
+  line-height: 45px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 2em;
+  font-weight: bold;
+  display: block;
+}
+
+.wh-carousel div.tile > div.mobiletouch
+{
+  display: none;
+}
+
+.wh-carousel div.tile h2
+{
+  max-width: 300px;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 10px;
+}
+
+.wh-carousel-title
+{
+  display: inline;
+}
+
+.wh-slideshow-item img
+{
+  vertical-align: middle;
+}
+
+.tile div.overlay
+{
+  display: none;
+  position: absolute;
+  bottom: 0px;
+  left: 5px;
+  width: 300px;
+  height: 0px;
+  opacity: .90;
+  overflow: hidden;
+  margin: 0;
+}

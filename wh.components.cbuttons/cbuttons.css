@@ -1,0 +1,54 @@
+  .wh-cbutton
+, .-wh-cbutton
+{
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none !important;
+  white-space: nowrap;
+  display: inline-block;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  position: relative;
+}
+
+ .-wh-cbutton > .left
+,.-wh-cbutton > .mid
+,.-wh-cbutton > .right
+,.wh-cbutton > .left
+,.wh-cbutton > .mid
+,.wh-cbutton > .right
+{
+  padding: 0;
+  vertical-align: top;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.-wh-cbutton > .left
+,.wh-cbutton > .left
+{
+  background: transparent no-repeat right center;
+}
+.-wh-cbutton > .mid
+,.wh-cbutton > .mid
+{
+  background: transparent repeat-x center center;
+}
+.-wh-cbutton > .right
+,.wh-cbutton > .right
+{
+  background: transparent no-repeat left center;
+}
+.wh-cbutton > input /*hide the submit button inside a converted button. don't use display none, it breaks ENTER */
+,.-wh-cbutton > input
+{
+  position:absolute;
+  overflow: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+}

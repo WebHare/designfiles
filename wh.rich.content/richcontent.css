@@ -1,0 +1,28 @@
+  .-wh-rtd img.-wh-rtd-floatleft
+, .wh-rtd img.-wh-rtd-floatleft
+, img.wh-rtd-floatleft
+, img.wh-rtd.floatleft
+{
+  float: left;
+  margin: 0 10px 0 0;
+}
+  .-wh-rtd img.-wh-rtd-floatright
+, .wh-rtd img.-wh-rtd-floatright
+, img.wh-rtd-floatright
+, img.wh-rtd.floatright
+{
+  float: right;
+  margin: 0 0px 0 10px;
+}
+.wh-rtd-table > table
+{
+  border-collapse: collapse;
+  border: none;
+}
+.wh-rtd-table > table > tbody > tr > td
+{
+  padding: 0;
+  vertical-align: top;
+  text-align: left;
+  empty-cells: show;
+}

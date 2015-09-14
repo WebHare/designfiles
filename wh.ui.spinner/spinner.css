@@ -1,0 +1,67 @@
+.wh-spinner
+, .-wh-spinner
+{
+  position:relative;
+  cursor: pointer;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.wh-spinner-wrapper
+, .-wh-spinner-wrapper
+{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  height:100%;
+}
+.wh-spinner-nav
+, .-wh-spinner-nav
+{
+  position:absolute;
+  right:0px;
+  top:0px;
+  width:11px;
+  height:100%;
+}
+.wh-spinner-up
+, .-wh-spinner-up
+{
+  position:absolute;
+  right:0px;
+  top:0px;
+  width:100%;
+  height:50%;
+  background: transparent url(spinnerarrows.png) 0 0 no-repeat;
+}
+.wh-spinner-down
+, .-wh-spinner-down
+{
+  position:absolute;
+  right:0px;
+  bottom:0px;
+  width:100%;
+  height:50%;
+  background: transparent url(spinnerarrows.png) 0 -20px no-repeat;
+}
+.wh-spinner-list
+, .-wh-spinner-list
+{
+  position:absolute;
+  display:block;
+  margin:0;
+  padding:0;
+  list-style-type: none;
+}
+.wh-spinner-list li
+, .-wh-spinner-list li
+{
+  height:100%;
+  margin:0;
+  padding:0;
+}
+.-wh-spinner.-wh-spinner-readonly
+, .wh-spinner.wh-spinner-readonly
+{
+  opacity:0.5;
+}

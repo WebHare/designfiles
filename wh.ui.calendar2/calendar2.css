@@ -1,0 +1,13 @@
+div.wh-datepicker
+{
+  display: inline-block;
+  position: relative;
+}
+div.wh-calendar /* the popup container */
+{
+  position: absolute;
+}
+div.wh-datepicker + input
+{
+  display:none !important;
+}

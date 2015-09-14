@@ -1,0 +1,15 @@
+.wh-form .templaterow
+, .-wh-form .templaterow
+{
+  display:none;
+}
+.wh-form-disabled[data-form-disablemode="hidden"]
+{
+  display:none !important;
+}
+.wh-form-prefillbutton
+{
+  display:inline-block;
+  background:#7f7f7f;
+  padding:5px;
+}

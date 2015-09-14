@@ -1,0 +1,22 @@
+div.wh-edgedebugger
+{
+  z-index: 999999999;
+  background: #ffffff;
+  color: #000000;
+  border-radius: 0 0 0 3px;
+  padding: 4px;
+  font: 16px Verdana;
+  position: absolute;
+  top:0;
+  right:0;
+  cursor:pointer;
+  opacity:0.5;
+}
+
+div.wh-edgedebugger-menu
+{
+  position:absolute;
+  top:100%;
+  right:0;
+  background:#ffffff;
+}

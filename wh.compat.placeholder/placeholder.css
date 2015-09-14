@@ -1,0 +1,30 @@
+/* Our custom placeholder */
+.-placeholder
+{
+  color: #999999;
+}
+
+/* Older Firefox */
+input:-moz-placeholder,
+textarea:-moz-placeholder
+{
+  color: #999999;
+}
+/* Newer Firefox */
+::-moz-placeholder
+{
+  color: #999999;
+}
+
+/* Internet Explorer */
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder
+{
+  color: #999999;
+}
+
+/* Chrome, Safari, newer Opera */
+::-webkit-input-placeholder
+{
+  color: #999999;
+}

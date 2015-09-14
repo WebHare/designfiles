@@ -1,0 +1,27 @@
+  .wh-scrollableview
+, .-wh-scrollableview
+{
+  overflow:hidden;
+  position:relative;
+}
+
+  .wh-scrollableview-content
+, .-wh-scrollableview-content
+{
+  position:absolute;
+}
+
+  .wh-scroller-vertical
+, .-wh-scroller-vertical
+{
+  /* position scrollers offscreen until we need them */
+  position:absolute;
+  top:-10000px;
+}
+  .wh-scroller-horizontal
+, .-wh-scroller-horizontal
+{
+  /* position scrollers offscreen until we need them */
+  position:absolute;
+  left:-10000px;
+}

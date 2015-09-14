@@ -1,0 +1,47 @@
+  .wh-slideshow-holder
+, .-wh-slideshow-holder
+{
+  display:block;
+  position:relative;
+  overflow:hidden;
+}
+  .wh-slideshow-slidearea
+, .-wh-slideshow-slidearea
+{
+  position:absolute;
+}
+  .wh-slideshow-holder .wh-slideshow-item
+, .-wh-slideshow-holder .-wh-slideshow-item
+{
+  position:absolute;
+  display:block;
+}
+  .wh-slideshow-holder .wh-slideshow-item + .wh-slideshow-item
+, .-wh-slideshow-holder .-wh-slideshow-item + .-wh-slideshow-item
+{
+  display:none;
+}
+  .wh-slideshow-jumpbutton
+, .-wh-slideshow-jumpbutton
+{
+  cursor:pointer;
+}
+.wh-slideshow-holder > .debugcontrols
+{
+  position:absolute;
+  top:0;
+  left:0;
+}
+.wh-slideshow-holder > .debugcontrols > span
+{
+  font:8px Verdana;
+  color:#ffffff;
+  background:#000000;
+  padding:2px;
+  margin:0;
+  cursor:pointer;
+}
+.wh-slideshow-holder > .debugcontrols > span + span
+{
+  margin-left:3px;
+}

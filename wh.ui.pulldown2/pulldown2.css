@@ -1,0 +1,21 @@
+.wh-pulldown
+{
+  cursor: pointer;
+  display: inline-block;
+  white-space: nowrap;
+}
+.wh-pulldown.disabled
+{
+  cursor: default;
+  color: rgb(152, 152, 152);
+}
+.wh-pulldown-values
+{
+  /* make sure the z-index is higher than the popup, because the pulldown activated
+     from within the popup must overlay the popup. (and the popup isn't in the popup's DOM)*/
+  z-index: 50001;
+}
+.wh-pulldown + select /* hide replaced */
+{
+  display:none !important;
+}

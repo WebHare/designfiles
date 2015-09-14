@@ -1,0 +1,110 @@
+  ul.-wh-menu, ul.-wh-menu ul
+, ul.wh-menu, ul.wh-menu ul
+{
+  position:relative;
+  z-index: 1;
+  list-style-type: none;
+  padding:0;
+  margin:0;
+}
+  ul.-wh-menu li
+, ul.wh-menu li
+{
+  position:relative;
+  cursor:pointer;
+  /* white-space: nowrap;  - Why? a pulldown values list in a fixed-width container needs this. this white-space rule should be much more specific */
+}
+  ul.-wh-menu li.-wh-menu-disabled
+, ul.wh-menu li.wh-menu-disabled
+{
+  cursor:default;
+}
+  ul.-wh-menu li.-wh-menu-hidden
+, ul.wh-menu li.wh-menu-hidden
+{
+  display:none;
+}
+
+  li.-wh-menu-hassubmenu
+, li.wh-menu-hassubmenu
+{
+}
+
+  ul.-wh-menu > li > span.wh-menu-shortcut
+, ul.wh-menu > li > span.wh-menu-shortcut
+{
+  float: right;
+}
+
+  ul.-wh-menu > li ul
+, ul.wh-menu > li ul
+{
+  position:absolute;
+  display:none;
+}
+  ul.-wh-menu > li > ul
+, ul.wh-menu > li > ul
+{
+  /* position topright of the ul*/
+  left:100%;
+  top:0;
+}
+  ul.-wh-menu li div.-wh-scrollableview
+, ul.wh-menu li div.wh-scrollableview
+{
+  left:100%;
+  top:0px;
+  position:absolute;
+  display:none;
+}
+  div.-wh-scrollableview.-wh-menu-detached
+, div.wh-scrollableview.wh-menu-detached
+{
+  display:block;
+}
+  div.-wh-scrollableview.-wh-menu-detached > ul
+, div.wh-scrollableview.wh-menu-detached > ul
+{
+  display:block;
+}
+
+  ul.-wh-menu div.-wh-scrollableview.-wh-disable-overflow
+, ul.wh-menu div.wh-scrollableview.wh-disable-overflow
+{
+  overflow:visible;
+}
+
+  ul.-wh-menu li.-wh-menu-selected > ul
+, ul.-wh-menu li.-wh-menu-selected > div.-wh-scrollableview
+, ul.-wh-menu li.-wh-menu-selected > div.-wh-scrollableview > ul
+, ul.wh-menu li.wh-menu-selected > ul
+, ul.wh-menu li.wh-menu-selected > div.wh-scrollableview
+, ul.wh-menu li.wh-menu-selected > div.wh-scrollableview > ul
+{
+  display:block;
+}
+
+  ul.-wh-menu.-wh-menu-menubar
+, ul.wh-menu.wh-menu-menubar
+{
+
+}
+  ul.-wh-menu.-wh-menu-menubar > li
+, ul.wh-menu.wh-menu-menubar > li
+{
+  display:inline;
+  position:relative;
+}
+  ul.-wh-menu.-wh-menu-menubar > li > ul
+, ul.wh-menu.wh-menu-menubar > li > ul
+{
+  /* position bottomleft of the li */
+  left:0;
+  top:100%;
+}
+  ul.-wh-menu.-wh-menu-menubar > li > div.-wh-scrollableview
+, ul.wh-menu.wh-menu-menubar > li > div.wh-scrollableview
+{
+  left:0;
+  top:100%;
+}

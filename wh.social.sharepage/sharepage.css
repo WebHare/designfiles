@@ -1,0 +1,47 @@
+  .wh-general-sharepage .share
+, .wh-general-sharepage .wh-share
+{
+  width: 36px;
+  height: 36px;
+  display: inline-block;
+  background-color: #660066;
+  background-repeat: no-repeat;
+  transition: background .2s;
+  cursor: pointer;
+}
+  .wh-general-sharepage .share.share-facebook
+, .wh-general-sharepage .wh-share.share-facebook
+{
+  background-image: url(social-sharepage-facebook.png);
+  background-color: #3d5595;
+}
+  .wh-general-sharepage .share.share-twitter
+, .wh-general-sharepage .wh-share.share-twitter
+{
+  background-image: url(social-sharepage-twitter.png);
+  background-color: #53a6d6;
+}
+  .wh-general-sharepage .share.share-googleplus
+, .wh-general-sharepage .wh-share.share-googleplus
+{
+  background-image: url(social-sharepage-googleplus.png);
+  background-color: #c25033;
+}
+  .wh-general-sharepage .share.share-linkedin
+, .wh-general-sharepage .wh-share.share-linkedin
+{
+  background-image: url(social-sharepage-linkedin.png);
+  background-color: #5b96cc;
+}
+  .wh-general-sharepage .share.share-pinterest
+, .wh-general-sharepage .wh-share.share-pinterest
+{
+  background-image: url(social-sharepage-pinterest.png);
+  background-color: #bd081c;
+}
+  .wh-general-sharepage .share.share-email
+, .wh-general-sharepage .wh-share.share-email
+{
+  background-image: url(social-sharepage-email.png);
+  background-color: #555555;
+}

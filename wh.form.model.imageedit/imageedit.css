@@ -1,0 +1,15 @@
+.wh-imageedit
+{
+  display:inline-block;
+  position:relative;
+}
+.wh-imageedit > img.currentimage
+{
+  display:block;
+}
+.wh-imageedit > .buttons
+{
+  position:absolute;
+  bottom:0;
+  right:0;
+}

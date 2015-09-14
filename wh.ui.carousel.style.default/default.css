@@ -1,0 +1,451 @@
+/*
+#mediaviewer:full-screen
+{
+  width: 100%;
+  height: 100%;
+}
+*/
+
+#mediaviewer:-webkit-full-screen
+{
+  background-color: #000000;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+/*.-wh-mediaviewer-slideshow*/
+.-wh-mediaviewer .-wh-slideshow-holder
+{
+  position: relative;
+}
+
+.-wh-mediaviewer-mediabrowser
+{
+
+}
+
+.-wh-mediaselector-go-left.enabled,
+.-wh-mediaselector-go-right.enabled,
+.btn_prevslide.enabled,
+.btn_nextslide.enabled
+{
+  cursor: pointer;
+}
+
+
+
+.-wh-mediabrowser
+{
+  position: relative;
+  height:   130px;
+}
+
+.-wh-mediabrowser .-wh-scrollableview
+{
+  position: absolute;
+  left: 41px;
+  right: 41px;
+  top: 0;
+  height:100%;
+}
+.-wh-mediabrowser .-wh-scrollableview-content
+{
+  position: absolute;
+  white-space: nowrap;
+}
+
+/* FIXME: better name for .mediaitem ? */
+.-wh-mediabrowser span.mediaitem
+{
+  /*float:left;*/
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  cursor: pointer;
+}
+
+.-wh-mediabrowser span.mediaitem.selected
+{
+  opacity: 0.5;
+}
+
+.-wh-mediabrowser span.mediaitem img
+{
+  display: inline;
+  /*
+  we resized the images ourselves
+  max-width: 109px;
+  max-height: 80px;
+  */
+}
+
+.-wh-mediabrowser span.mediaitem + span.mediaitem
+{
+/*  margin-left:10px;*/
+}
+
+.-wh-mediabrowser .mediaitem.isvideo:before
+{
+  display: block;
+  content: " ";
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -38px;
+  margin-top: -38px;
+  width: 76px;
+  height: 77px;
+  background: transparent url("img/btn_play.png") no-repeat scroll top left;
+}
+
+
+
+
+
+
+
+
+
+.-wh-mediaviewer-title
+{
+  display: none;
+}
+
+.-wh-slideshow-item img
+{
+  vertical-align: middle;
+}
+
+.mediaitem_image
+{
+  background-color: #FFFFFF;
+}
+.-wh-popup-theme-black .mediaitem_image
+{
+  background-color: #000000;
+}
+
+
+
+
+.-wh-mediaselector-go-left,
+.-wh-mediaselector-go-right
+{
+  position: absolute;
+  top: 0;
+  width: 39px;
+  height: 130px;
+}
+
+
+.-wh-mediaselector-go-left
+{
+  left: 0;
+}
+
+.-wh-mediaselector-go-right
+{
+  right: 0;
+}
+
+
+
+
+
+.-wh-mediaviewer-theme-white .btn_prevslide
+{
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 4%;
+  border-radius: 0 5px 5px 0;
+  z-index: 1;
+}
+
+.-wh-mediaviewer-theme-white .btn_nextslide
+{
+  position: absolute;
+  right: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 4%;
+  border-radius: 5px 0 0 5px;
+  z-index: 1;
+}
+
+.-wh-mediaviewer-theme-white .-wh-mediaselector-go-left,
+.-wh-mediaviewer-theme-white .btn_prevslide
+{
+  background: transparent url("img/btn_previous.png") no-repeat scroll center center;
+}
+.-wh-mediaviewer-theme-white .-wh-mediaselector-go-right,
+.-wh-mediaviewer-theme-white .btn_nextslide
+{
+  background: transparent url("img/btn_next.png") no-repeat scroll center center;
+}
+
+.-wh-mediaviewer-theme-white .btn_prevslide,
+.-wh-mediaviewer-theme-white .btn_nextslide,
+.-wh-mediaviewer-theme-white .-wh-mediaselector-go-left,
+.-wh-mediaviewer-theme-white .-wh-mediaselector-go-right
+{
+  background-color: rgba(0,0,0,0.75);
+  opacity: 0.2;
+}
+
+.-wh-mediaviewer-theme-black .btn_prevslide,
+.-wh-mediaviewer-theme-black .btn_nextslide,
+.-wh-mediaviewer-theme-black .-wh-mediaselector-go-left,
+.-wh-mediaviewer-theme-black .-wh-mediaselector-go-right
+{
+  background-color: rgba(255,255,255,0.75);
+  opacity: 0.2;
+}
+
+.-wh-mediaviewer-theme-white .btn_prevslide.enabled,
+.-wh-mediaviewer-theme-white .btn_nextslide.enabled,
+.-wh-mediaviewer-theme-white .-wh-mediaselector-go-left.enabled,
+.-wh-mediaviewer-theme-white .-wh-mediaselector-go-right.enabled
+{
+  opacity: 0.4;
+}
+.-wh-mediaviewer-theme-white .btn_prevslide.enabled:hover,
+.-wh-mediaviewer-theme-white .btn_nextslide.enabled:hover,
+.-wh-mediaviewer-theme-white .-wh-mediaselector-go-left.enabled:hover,
+.-wh-mediaviewer-theme-white .-wh-mediaselector-go-right.enabled:hover
+{
+  opacity: 1;
+}
+
+
+/* ==========================================================================
+ *
+ * MediaViewer fullscreen popup
+*/
+
+.-wh-mediaviewer-popup .mediabrowser
+{
+  margin-bottom: 10px;
+}
+
+.-wh-mediaviewer-popup .mediabrowser .-wh-slideshow-holder,
+.-wh-mediaviewer-popup .mediabrowser .-wh-slideshow-slidearea
+{
+}
+
+.-wh-mediaviewer-popup .-wh-slideshow-holder,
+.-wh-mediaviewer-popup .-wh-slideshow-slidearea,
+.-wh-mediaviewer-popup .-wh-slideshow-item
+{
+  width: 100%;
+}
+.-wh-mediaviewer-popup .-wh-slideshow-item
+{
+  height: 100%;
+}
+
+.-wh-mediaviewer-title
+{
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #FFFFFF;
+
+  text: 16px Arial;
+  text-transform: uppercase;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.-wh-mediaviewer-popup .mediabrowser
+{
+  width: 100%;
+}
+
+.mediabrowser .mediaitem
+{
+  position: relative;
+}
+
+.-wh-mediaviewer-popup .mediabrowser .mediaitem
+{
+}
+
+.-wh-mediaviewer-popup .mediabrowser .mediaitem.selected
+{
+  opacity: 0.5;
+}
+
+
+
+
+
+/********************************************************************************************************************
+//
+//  Mediaviewer Popup
+*/
+
+.-wh-mediaviewer-popup .header
+{
+  margin-bottom: 15px;
+}
+
+/* Browser can't read multiple CSS selectors if a prefix is unknown */
+#mediaviewer:full-screen .header
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+#mediaviewer:-webkit-full-screen .header
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+#mediaviewer:-ms-full-screen .header
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+#mediaviewer:-moz-full-screen .header
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+ #mediaviewer:full-screen .title
+,#mediaviewer:full-screen .author
+{
+  color: #ffffff;
+}
+ #mediaviewer:-webkit-full-screen .title
+,#mediaviewer:-webkit-full-screen .author
+{
+  color: #ffffff;
+}
+ #mediaviewer:-ms-full-screen .title
+,#mediaviewer:-ms-full-screen .author
+{
+  color: #ffffff;
+}
+ #mediaviewer:-moz-full-screen .title
+,#mediaviewer:-moz-full-screen .author
+{
+  color: #ffffff;
+}
+
+.-wh-mediaviewer-popup .title
+{
+  color: #000000;
+  font: 24px/20px ProximaNovaBold,Arial,Sans-Serif;
+}
+.-wh-mediaviewer-popup .author
+{
+  margin-left: 38px;
+  font: 14px/20px Arial;
+}
+.-wh-mediaviewer-popup .author a
+{
+  color: inherit;
+  text-decoration: underline;
+}
+.-wh-mediaviewer-popup .author a:hover
+{
+  color: inherit;
+  text-decoration: underline;
+  color: #ff251b;
+}
+
+#mediaviewer:full-screen #showfullscreen { display: none; }
+#mediaviewer:-ms-full-screen #showfullscreen { display: none; }
+#mediaviewer:-moz-full-screen #showfullscreen { display: none; }
+#mediaviewer:-webkit-full-screen #showfullscreen { display: none; }
+
+#showfullscreen
+{
+  display: inline-block;
+  background: #afafaf;
+  color: #ffffff;
+  padding: 6px;
+  border: 0;
+  margin: 0;
+  font: 11px Arial, Sans-Serif;
+  cursor: pointer;
+  float: right;
+  outline: none;
+}
+
+.-wh-mediaviewer-popup .-wh-slideshow-holder
+{
+  background-color: #000000;
+}
+
+
+
+.-wh-slideshow-holder .btn_prevslide,
+.-wh-slideshow-holder .btn_nextslide
+{
+  display:  none;
+  position: absolute;
+  z-index:  999;
+
+  top: 50%;
+
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+}
+
+.-wh-slideshow-holder .btn_prevslide
+{
+  left: 0;
+  background: #FFFFFF url("btn_previous.png") no-repeat scroll center center;
+}
+
+.-wh-slideshow-holder .btn_nextslide
+{
+  right: 0;
+  background: #FFFFFF url("btn_next.png") no-repeat scroll center center;
+}
+
+.-wh-slideshow-holder .btn_prevslide.enabled,
+.-wh-slideshow-holder .btn_nextslide.enabled
+{
+  display: block;
+}
+
+.-wh-mediaviewer-popup .-wh-mediabrowser
+{
+  margin-top: 1px;
+}
+
+
+.-wh-mediabrowser .-wh-mediaselector-go-left
+{
+  display: none;
+  background: #FFFFFF url("btn_previous.png") no-repeat scroll center center;
+}
+.-wh-mediabrowser .-wh-mediaselector-go-left.enabled
+{
+  display: block;
+}
+
+.-wh-mediabrowser .-wh-mediaselector-go-right
+{
+  display: none;
+  background: #FFFFFF url("btn_next.png") no-repeat scroll center center;
+}
+.-wh-mediabrowser .-wh-mediaselector-go-right.enabled
+{
+  display: block;
+}
+

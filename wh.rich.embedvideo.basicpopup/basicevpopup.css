@@ -1,0 +1,5 @@
+#wh-rtd-embedvideopopup textarea[name="videocode"]
+{
+  min-width:300px;
+  min-height:150px;
+}

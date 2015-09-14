@@ -1,0 +1,87 @@
+.wh-slider-holder
+{
+  min-width: 100px;
+  display: inline-block;
+}
+.wh-slider-holder.vertical
+{
+  min-width: auto;
+  min-height: 100px;
+}
+.wh-slider-holder > .wh-slider > .minvalue
+{
+  position: absolute;
+  right: 100%;
+}
+.wh-slider-holder > .wh-slider > .maxvalue
+{
+  position: absolute;
+  left: 100%;
+}
+.wh-slider-holder.vertical > .wh-slider > .minvalue
+{
+  right: auto;
+  bottom: 100%;
+}
+.wh-slider-holder.vertical > .wh-slider > .maxvalue
+{
+  left: auto;
+  top: 100%;
+}
+
+.wh-slider
+{
+  position:relative;
+  height:1px;
+  width:100%;
+  background-color: #ccc;
+}
+  .vertical > .wh-slider
+, .wh-slider.vertical
+{
+  height:100%;
+  width:1px;
+}
+.wh-slider > .wh-slider-knob
+{
+  position:absolute;
+  cursor:pointer;
+  top:0;
+  left:0;
+  margin-top:-5px;
+  margin-left:-5px;
+  height:10px;
+  width:10px;
+  border-radius:10px;
+  background-color:#999;
+}
+.wh-slider > .wh-slider-rangebar
+{
+  position:absolute;
+  background-color:#999;
+  top:-1px;
+  height:3px;
+}
+  .vertical > .wh-slider > .wh-slider-rangebar
+, .wh-slider.vertical > .wh-slider-rangebar
+{
+  top:auto;
+  height:auto;
+  left:-1px;
+  width:3px;
+}
+
+.wh-slider > .wh-tick
+{
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  background-color: #439bbd;
+  top: 50%;
+}
+  .vertical > .wh-slider > .wh-tick
+, .wh-slider.vertical > .wh-tick
+{
+  left: 50%;
+}

@@ -1,0 +1,12 @@
+.-wh-checkbox
+, .wh-checkbox
+{
+  cursor: pointer;
+  display: inline-block;
+  vertical-align:middle;
+}
+.-wh-checkbox.-wh.disabled
+, .wh-checkbox.wh.disabled
+{
+  cursor: default;
+}

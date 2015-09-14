@@ -1,0 +1,12 @@
+.-wh-radiobutton
+, .wh-radiobutton
+{
+  cursor: pointer;
+  display: inline-block;
+  vertical-align:middle;
+}
+.-wh-radiobutton.-wh.disabled
+, .wh-radiobutton.wh.disabled
+{
+  cursor: default;
+}

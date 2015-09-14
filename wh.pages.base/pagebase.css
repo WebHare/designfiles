@@ -1,0 +1,8 @@
+.wh-page
+{
+  display:none;
+}
+.wh-page.isvisible
+{
+  display:block;
+}

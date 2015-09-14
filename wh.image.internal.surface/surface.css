@@ -1,0 +1,8 @@
+.wh-image-surface
+{
+  position:relative;
+  overflow:hidden;
+  /*checkerboard*/
+  background: #ccc url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAAIUlEQVQ4y2P4jxecwQsYRjWPaiaoGb80fqNHNY9qJqgZAP2BNAVlXUe2AAAAAElFTkSuQmCC) 0 0 repeat;
+}
+

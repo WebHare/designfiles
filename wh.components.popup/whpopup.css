@@ -1,0 +1,21 @@
+.-wh-popup
+{
+}
+
+.-wh-popup-closebutton
+{
+}
+
+.-wh-popup-modalitylayer
+{
+ background-color: #000000;
+ opacity: 0.4;
+ filter: alpha(opacity=40);
+}
+
+.-wh-popup-header
+{
+}
+.-wh-popup-title
+{
+}

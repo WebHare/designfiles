@@ -1,0 +1,10 @@
+  .wh-fileedit.nofile .replacebutton
+, .wh-fileedit.nofile .editbutton
+, .wh-fileedit.nofile .deletebutton
+{
+  display:none;
+}
+.wh-fileedit.hasfile .addbutton
+{
+  display:none;
+}

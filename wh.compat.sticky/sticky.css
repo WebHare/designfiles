@@ -1,0 +1,20 @@
+.wh-sticky
+{
+  position:relative; /* resizelistener prefers to have this ready */
+  position:-webkit-sticky;
+  position:sticky;
+}
+.wh-sticky.wh-sticky-inflow
+{
+  position:relative;
+  top: 0 !important;
+}
+.wh-sticky.wh-sticky-inflow + div.wh-sticky-reservespace
+{
+  display:none;
+}
+
+.wh-sticky.wh-sticky-locked
+{
+  position:fixed;
+}

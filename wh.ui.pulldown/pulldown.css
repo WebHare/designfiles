@@ -1,0 +1,35 @@
+.wh-pulldown, .-wh-pulldown
+{
+  cursor: pointer;
+  display: inline-block;
+  white-space: nowrap;
+}
+.wh-pulldown.wh-disabled, .-wh-pulldown.-wh-disabled
+{
+  cursor: default;
+}
+
+.wh-pulldown-arrow, .-wh-pulldown-arrow
+{
+  float: right;
+}
+.wh-pulldown-arrow:after, .-wh-pulldown-arrow:after
+{
+  content: "\25BE";
+}
+
+.wh-pulldown-values, .-wh-pulldown-values
+{
+  position: absolute;
+}
+
+.wh-pulldown-values
+{
+  /* make sure the z-index is higher than the popup, because the pulldown activated
+     from within the popup must overlay the popup. (and the popup isn't in the popup's DOM) */
+  z-index: 50001;
+}
+.wh-pulldown-values > ul.wh-menu
+{
+  display:block; /* compatibility with wh.ui.menu */
+}

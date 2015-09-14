@@ -1,0 +1,212 @@
+/*
+#mediaviewer:full-screen
+{
+  width: 100%;
+  height: 100%;
+}
+*/
+
+.wh-mediaviewer
+{
+  position: relative; /* So we get the offsetTop correctly, even in fullscreen mode (otherwise our positioning context parent might be outside the screen) */
+}
+
+.wh-mediaviewer:-webkit-full-screen,
+#wh-mediaviewer:-webkit-full-screen /* for specificy ??? FIXME */
+{
+  background-color: #000000;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+/*.wh-mediaviewer-slideshow*/
+.wh-mediaviewer .wh-slideshow-holder
+{
+  position: relative;
+}
+
+.wh-mediaviewer-mediabrowser
+{
+
+}
+
+.wh-mediaselector-go-left.enabled,
+.wh-mediaselector-go-right.enabled,
+.btn_prevslide.enabled,
+.btn_nextslide.enabled
+{
+  cursor: pointer;
+}
+
+
+
+.wh-mediabrowser
+{
+  position: relative;
+  height:   130px;
+}
+
+.wh-mediabrowser .wh-scrollableview
+{
+  position: absolute;
+  left: 41px;
+  right: 41px;
+  top: 0;
+  height:100%;
+}
+.wh-mediabrowser .wh-scrollableview-content
+{
+  position: absolute;
+  white-space: nowrap;
+}
+
+/* FIXME: better name for .mediaitem ? */
+.wh-mediabrowser span.mediaitem
+{
+  /*float:left;*/
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  cursor: pointer;
+}
+
+.wh-mediabrowser span.mediaitem.selected
+{
+  opacity: 0.5;
+}
+
+.wh-mediabrowser span.mediaitem img
+{
+  display: inline;
+  /*
+  we resized the images ourselves
+  max-width: 109px;
+  max-height: 80px;
+  */
+}
+
+.wh-mediabrowser span.mediaitem + span.mediaitem
+{
+/*  margin-left:10px;*/
+}
+
+.wh-mediabrowser .mediaitem.isvideo:before
+{
+  display: block;
+  content: " ";
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -38px;
+  margin-top: -38px;
+  width: 76px;
+  height: 77px;
+  background: transparent url("img/btn_play.png") no-repeat scroll top left;
+}
+
+
+.wh-mediaviewer-title
+{
+  display: none;
+}
+
+.wh-slideshow-item img
+{
+  vertical-align: middle;
+}
+
+.mediaitem_image
+{
+  background-color: #FFFFFF;
+}
+.wh-popup-theme-black .mediaitem_image
+{
+  background-color: #000000;
+}
+
+
+
+.wh-mediaviewer-theme-white .btn_prevslide
+{
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 4%;
+  border-radius: 0 5px 5px 0;
+  z-index: 1;
+}
+
+.wh-mediaviewer-theme-white .btn_nextslide
+{
+  position: absolute;
+  right: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 4%;
+  border-radius: 5px 0 0 5px;
+  z-index: 1;
+}
+
+/* ==========================================================================
+ *
+ * MediaViewer fullscreen popup
+*/
+
+.wh-mediaviewer-popup .mediabrowser
+{
+  margin-bottom: 10px;
+}
+
+.wh-mediaviewer-popup .mediabrowser .wh-slideshow-holder,
+.wh-mediaviewer-popup .mediabrowser .wh-slideshow-slidearea
+{
+}
+
+.wh-mediaviewer-popup .wh-slideshow-holder,
+.wh-mediaviewer-popup .wh-slideshow-slidearea,
+.wh-mediaviewer-popup .wh-slideshow-item
+{
+  width: 100%;
+}
+.wh-mediaviewer-popup .wh-slideshow-item
+{
+  height: 100%;
+}
+
+.wh-mediaviewer-title
+{
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #FFFFFF;
+
+  text: 16px Arial;
+  text-transform: uppercase;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.wh-mediaviewer-popup .mediabrowser
+{
+  width: 100%;
+}
+
+.mediabrowser .mediaitem
+{
+  position: relative;
+}
+
+.wh-mediaviewer-popup .mediabrowser .mediaitem
+{
+}
+
+.wh-mediaviewer-popup .mediabrowser .mediaitem.selected
+{
+  opacity: 0.5;
+}

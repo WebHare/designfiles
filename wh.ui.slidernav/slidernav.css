@@ -1,0 +1,85 @@
+/* slidenavigation */
+.wh-slidernav
+{
+  display:inline-block;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+.wh-slidernav .wh-slidernav-sliderarea
+{
+  position:relative;
+  top:0;
+  left:0;
+}
+.wh-slidernav ul
+{
+  left:0;
+  top:0;
+  display:inline-block;
+  position:relative;
+  padding:0;
+  margin:0;
+  list-style-type: none;
+  white-space: nowrap
+}
+.wh-slidernav ul.wh-slidernav-notactive
+{
+  z-index:1;
+}
+.wh-slidernav .wh-slidernav-viewport
+{
+  z-index:10;
+  position:absolute;
+  top:0;
+  left:0;
+  overflow:hidden;
+}
+.wh-slidernav ul.wh-slidernav-active
+{
+  left:0;
+  top:0;
+}
+.wh-slidernav ul li
+{
+  padding:0;
+  margin:0;
+}
+.wh-slidernav ul li a,
+.wh-slidernav ul li span,
+.wh-slidernav ul li
+{
+  text-align: center;
+  display:inline-block;
+  float:left;
+  white-space: nowrap;
+}
+.wh-slidernav.vertical ul li
+{
+  float:none;
+  display:block;
+}
+.wh-slidernav ul li a,
+.wh-slidernav ul li span
+{
+  float:none;
+  display:block;
+  text-decoration: none;
+}
+.wh-slidernav ul.wh-slidernav-active li
+{
+  color:#000;
+}
+.wh-slidernav .wh-slidernav-sliderknob
+{
+  position:absolute;
+  top:0;
+  background-color: #ddd;
+  min-height:20px;
+  min-width:20px;
+  z-index:5;
+  outline: none;
+}
+.wh-slidernav .wh-slidernav-sliderknob.ontop
+{
+  z-index:15;
+}

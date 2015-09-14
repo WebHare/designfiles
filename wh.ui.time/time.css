@@ -1,0 +1,26 @@
+.wh-timeinput
+{
+  display: inline-block;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.wh-timeinput *
+{
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.wh-timeinput > span
+{
+  display: inline-block;
+  padding: 0 3px;
+  line-height: 26px;
+}
+.wh-timeinput > input
+{
+  width: 29px;
+}
+.wh-timeinput > input.milliseconds
+{
+  width: 35px;
+}
