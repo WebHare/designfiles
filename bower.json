@@ -9,6 +9,7 @@
   "moduleType": [
     "globals"
   ],
+  "main": [],
   "license": "MIT",
   "ignore": [
     "**/.*",
