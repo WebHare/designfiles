@@ -1,4 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
+require ('./embedvideo.css');
 require ('wh.compat.base');
 require ('wh.ui.base');
 /*! LOAD: wh.compat.base, wh.ui.base !*/

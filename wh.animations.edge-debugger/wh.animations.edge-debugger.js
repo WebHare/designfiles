@@ -1,4 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
+require ('./edge-debugger.css');
 require ('wh.animations.edge');
 /*! LOAD: wh.animations.edge !*/
 

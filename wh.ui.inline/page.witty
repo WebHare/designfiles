@@ -1,0 +1,42 @@
+<div id="mediaviewer">
+  [embed media_slideshow]
+  [embed media_selector]
+</div>
+
+
+
+[component media_selector]
+  <div id="mediaviewer_selector" class="wh-mediabrowser">[! style="display: none;">!]
+    <div class="container">
+      <div class="wh-mediaselector-go-left"></div>
+      <div class="wh-mediaselector-go-right"></div>
+      <div class="wh-scrollableview">
+        <div class="wh-scrollableview-content">
+          [forevery media_items]
+            <span class="mediaitem[if isvideo] isvideo[/if]">
+              <img src="[image_thumb.link]" width="[image_thumb.width]" height="[image_thumb.height]" alt="[title]"/>
+  [!            [if isvideo]<img class="playbutton" src="[imgroot]video_symbol.png" />[/if] !]
+            </span>
+          [/forevery]
+        </div>
+      </div>
+    </div>
+  </div>
+[/component]
+
+[component media_slideshow]
+  <div id="mediaviewer_slideshow">
+    <div class="btn_prevslide"></div>
+    <div class="btn_nextslide"></div>
+
+    <div class="wh-slideshow-holder">
+      <div class="wh-slideshow-slidearea">
+        [forevery media_items]
+          <div class="wh-slideshow-item" data-title="[title]">
+            <img src="[image.link]" width="[width]" height="[height]" />
+          </div>
+        [/forevery]
+      </div>
+    </div>
+  </div>
+[/component]

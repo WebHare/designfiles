@@ -1,4 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
+require ('./autocomplete.css');
 require ('frameworks.mootools.more.class.binds');
 require ('frameworks.mootools.more.keyboard');
 require ('wh.compat.base');

@@ -1,4 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
+require ('./carousel.css');
 require ('frameworks.mootools.core');
 require ('frameworks.mootools.more.fx.sort');
 require ('wh.animations.slideshow');

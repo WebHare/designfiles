@@ -1,4 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
+require ('./calendar2.css');
 require ('frameworks.mootools.core');
 require ('wh.compat.base');
 require ('wh.ui.base');

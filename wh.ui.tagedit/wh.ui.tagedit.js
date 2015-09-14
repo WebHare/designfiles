@@ -1,4 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
+require ('./tagedit.css');
 require ('frameworks.rangy13');
 require ('frameworks.mootools.core');
 require ('frameworks.mootools.more.class.binds');

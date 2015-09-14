@@ -1,4 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
+require ('./toolbars.css');
 require ('frameworks.mootools.core');
 require ('wh.compat.base');
 /*! LOAD: frameworks.mootools.core, wh.compat.base !*/

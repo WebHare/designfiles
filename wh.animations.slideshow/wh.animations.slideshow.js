@@ -1,4 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
+require ('./slideshow.css');
 require ('frameworks.mootools.core');
 require ('frameworks.mootools.more.element.measure');
 require ('wh.util.resizelistener');

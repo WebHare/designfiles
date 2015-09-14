@@ -1,0 +1,84 @@
+<?wh
+LOADLIB "wh::float.whlib";
+LOADLIB "wh::witty.whlib";
+LOADLIB "wh::graphics/canvas.whlib";
+LOADLIB "module::system/cache.whlib";
+LOADLIB "module::system/database.whlib";
+LOADLIB "module::publisher/publisher.whlib";
+LOADLIB "module::system/whfs.whlib";
+LOADLIB "module::publisher/webdesign.whlib";
+
+RECORD resizespecs :=
+    [
+    /*
+    Usually you want to use "FIT" as resize method for the Mediaviewer.
+      - this won't stretch small images
+      - too large images will be shrunk, but keep their aspect ratio
+      - no parts will be cut off
+
+    In some cases (especially when not running in a popup) you
+    want to use "FILL" so a whole rectangle in your page is filled
+    with a photo or video.
+    */
+      photoalbum_thumb := [ method := "fit",  setwidth := 259, setheight := 172 ]
+    , photoalbum_big   := [ method := "fit",  setwidth := 960, setheight := 540 ]
+    ];
+
+
+PUBLIC OBJECTTYPE DynamicPage EXTEND DynamicPageBase
+<
+  UPDATE PUBLIC MACRO RunBody(OBJECT webdesign)
+  {
+    OBJECT witty := LoadWittyLibrary("relative::page.witty", "HTML");
+
+    INTEGER photos_folder_id := webdesign->targetsite->OpenByPath("design/img/testphotos")->id;
+
+    RECORD config := [ media_items := GetPhotoAlbumItems(photos_folder_id) ];
+
+    witty->Run(config);
+  }
+>;
+
+
+/** @short get all items from a single photoalbum folder
+*/
+PUBLIC RECORD ARRAY FUNCTION GetPhotoAlbumItems(INTEGER folderid)
+{
+  OBJECT imagetype := OpenWHFSType("http://www.webhare.net/xmlns/publisher/imagefile");
+
+  RECORD ARRAY images :=
+      SELECT id
+           , title
+           , image          := GetCachedFSImage("", id, resizespecs.photoalbum_big)
+           , image_thumb    := GetCachedFSImage("", id, resizespecs.photoalbum_thumb)
+           , fullsize_link  := url
+           , isvideo        := FALSE
+        FROM system.fs_objects
+       WHERE parent = folderid
+         AND publish
+         AND type = 12
+         AND NOT isfolder;
+
+  // we can get away with using the original non-resized width & height
+  // because the JustifiedImageGrid only needs it to determine the aspect ratio
+  images := imagetype->EnrichWithBulkData(images, ["width","height"]);
+
+  RETURN images;
+}
+
+RECORD FUNCTION GetCachedFSImage(STRING basepath, INTEGER id, RECORD resize)
+{
+  IF (id = 0)
+    THROW NEW Exception("No image");
+
+  OBJECT imagetype := OpenWHFSType("http://www.webhare.net/xmlns/publisher/imagefile");
+  RECORD origsize := imagetype->GetInstanceData(id);
+
+  STRING url := GetCachedFSImageURL(basepath, id, resize);
+  RECORD newsize := GetImageResizeInstruction(origsize.width, origsize.height, "", resize);
+
+  RETURN [ link    := url
+         , width  := newsize.outwidth
+         , height := newsize.outheight
+         ];
+}

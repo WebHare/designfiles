@@ -1,0 +1,23 @@
+#mediaviewer
+{
+  background-color: #F0F0F0;
+  margin: 15px;
+  width: 500px;
+}
+
+#mediaviewer_slideshow
+{
+  position: relative;
+}
+
+#mediaviewer_selector
+{
+  margin-top: 15px;
+}
+
+.wh-slideshow-holder,
+.wh-slideshow-slidearea
+{
+/*  width: 320px;*/
+  height: 300px;
+}

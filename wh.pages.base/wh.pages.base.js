@@ -1,4 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
+require ('./pagebase.css');
 require ('frameworks.mootools.core');
 require ('wh.util.preloader');
 /*! LOAD: frameworks.mootools.core, wh.util.preloader

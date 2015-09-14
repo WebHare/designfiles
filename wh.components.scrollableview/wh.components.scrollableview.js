@@ -1,4 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
+require ('./scrollableview.css');
 require ('wh.util.dragevents');
 require ('wh.util.resizelistener');
 require ('frameworks.mootools.more.class.binds');

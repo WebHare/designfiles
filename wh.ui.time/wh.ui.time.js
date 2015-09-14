@@ -1,4 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
+require ('./time.css');
 require ('frameworks.mootools.core');
 require ('wh.compat.base');
 require ('frameworks.mootools.more.keyboard');

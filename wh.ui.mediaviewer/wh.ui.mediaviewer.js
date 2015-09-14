@@ -1,4 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
+require ('./mediaviewer.css');
 require ('frameworks.mootools.core');
 require ('wh.ui.popup');
 require ('wh.animations.slideshow');
