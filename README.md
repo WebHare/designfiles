@@ -12,7 +12,7 @@ The contents of this repository are generated based on our internal
 - Push to github
 
 # Download procedure
-- Go to ../modules/<modulename>/designs/<designname>/
-- If no bower.json exists, create in (wh noderun bower init)
+- Go to ../modules/&lt;modulename>/designs/&lt;designname>/
+- If no bower.json exists, create it (wh noderun bower init)
 - Install designfiles: wh noderun bower install --save-dev WebHare/designfiles
 - Add { resolve: { fallback: [ __dirname + '/bower_components/designfiles' ] to webpack.node.js

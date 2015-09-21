@@ -218,7 +218,7 @@ $wh.WRDAuthenticationProvider = new Class(
         $wh.executeSubmitInstruction(response.submitinstruction, { debug: $wh.debug.aut });
         return;
       }
-throw new Error(1);
+
       //The user has succesfully logged in
       location.reload(true);
       return;
