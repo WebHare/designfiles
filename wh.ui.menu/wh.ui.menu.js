@@ -490,7 +490,17 @@ var MenuController = new Class(
     return submenu;
   }
 
-, openAsList:function(submenu, coords, preferreddirection, preferredalign, exitdirection, minwidth)
+  /** Open a submenu as a list
+      @param submenu Menu to open
+      @param coords Reference element coordinates (.top, .bottom, .right, .left)
+      @param preferreddirection 'right', 'left', 'up', 'down'
+      @param preferredalign left/right (only used when preferreddirection is 'up' or 'down')
+      @param exitdirection '', 'top', 'left' - cursor direction in which the selection can be removed
+      @param minwidth Minimum menu width
+      @param options
+      @cell options.forcenooverlap Whether to disallow overlap of the reference element
+  */
+, openAsList:function(submenu, coords, preferreddirection, preferredalign, exitdirection, minwidth, options)
   {
     if($wh.debug.men)
       console.log("[men] openAsList called");
@@ -498,7 +508,7 @@ var MenuController = new Class(
       return;
 
     closingmenus=[]; //if we're back to opening menus, forget about the close list
-    submenu._openMenu(coords, preferreddirection, null, preferredalign, exitdirection, minwidth);
+    submenu._openMenu(coords, preferreddirection, null, preferredalign, exitdirection, minwidth, options);
     this.recomputeSubSelection();
     this.takeSemiFocus();
   }
@@ -848,15 +858,6 @@ $wh.MenuBase = new Class(
     }
   }
 
-, _handleKeyEsc: function(event, topmenu)
-  {
-    if ($wh.debug.men)
-      console.log("[men] _handleKeyEsc");
-
-    this._closeMenu();
-    return topmenu;
-  }
-
 , _handleKeyUp: function(event, topmenu)
   {
     if ($wh.debug.men)
@@ -1123,10 +1124,10 @@ $wh.MenuList = new Class(
     @param maxattr Name of attribute with lowest coordinates ('left' or 'top')
     @param preferfirst Whether to prefer placement in the lower range
     @param overlapcoords Whether to fully overlap the coordinates (eg for the left/rigth coords when placing the menu below an element)
-    @param forcenoverlap Whether to disallow overlap if menu doesn't fit at all (only when overlapcoords is false)
+    @param forcenooverlap Whether to disallow overlap if menu doesn't fit at all (only when overlapcoords is false)
     @return Whether scrolling is needed for the calculated positioning
   */
-, _calculatePosition: function(styles, coords, size, bounds, viewport, bodysize, horizontal, preferfirst, overlapcoords, forcenoverlap)
+, _calculatePosition: function(styles, coords, size, bounds, viewport, bodysize, horizontal, preferfirst, overlapcoords, forcenooverlap)
   {
     // Calc the style attrs that
     var sizeattr = horizontal ? "x" : "y";
@@ -1217,7 +1218,7 @@ $wh.MenuList = new Class(
       console.log("[men] no fit on both sides");
 
     // Doesn't fit before or after.
-    if (!overlapcoords && forcenoverlap)
+    if (!overlapcoords && forcenooverlap)
     {
       // No overlap allowed? Place where the most space is in the viewport, and limit the size to force scroll
       if (space_before > space_after)
@@ -1363,11 +1364,18 @@ $wh.MenuList = new Class(
       @param parentmenu
       @param preferredalign left/right (only used when preferreddirection is 'up' or 'down')
       @param exitdirection '', 'top', 'left' - cursor direction in which the selection can be removed
+      @param options
+      @cell options.horizbounds Horizontal bounds
+      @cell options.horizbounds.left Left bound
+      @cell options.horizbounds.right Right bound
+      @cell options.forcenooverlap Whether to disallow overlap of the reference element
   */
-, _openMenu:function(coords, preferreddirection, parentmenu, preferredalign, exitdirection, minwidth)
+, _openMenu:function(coords, preferreddirection, parentmenu, preferredalign, exitdirection, minwidth, options)
   {
     if($wh.debug.men)
       console.log("[men] openMenu called, prefdir:", preferreddirection, "prefalign:", preferreddirection, "exitdir", exitdirection)
+
+    options = options || {};
 
     this._fixupDividers();
 
@@ -1465,14 +1473,14 @@ $wh.MenuList = new Class(
     if (preferreddirection == "left" || preferreddirection == "right" || !preferreddirection)
     {
       // Right is preferred direction
-      scroll_horizontal = this._calculatePosition(styles, coords, size, bounds, viewport, bodysize, true, preferreddirection == "left", false);
+      scroll_horizontal = this._calculatePosition(styles, coords, size, bounds, viewport, bodysize, true, preferreddirection == "left", false, options.forcenooverlap || false);
 
       // Down is preferred alignment
       scroll_vertical = this._calculatePosition(styles, coords, size, bounds, viewport, bodysize, false, preferredalign == "up", true);
     }
     else
     {
-      scroll_vertical = this._calculatePosition(styles, coords, size, bounds, viewport, bodysize, false, preferreddirection == "up", false);
+      scroll_vertical = this._calculatePosition(styles, coords, size, bounds, viewport, bodysize, false, preferreddirection == "up", false, options.forcenooverlap || false);
 
       // Left is preferred alignment
       scroll_horizontal = this._calculatePosition(styles, coords, size, bounds, viewport, bodysize, true, preferredalign == "right", true);
@@ -1540,6 +1548,7 @@ $wh.MenuList = new Class(
     at: Location where to open. Either an element or a mouse event
     options
     options.direction 'down', 'right', 'up'
+    options.forcenooverlap
 */
 $wh.openMenuAt = function(el, at, options)
 {
@@ -1585,8 +1594,12 @@ $wh.openMenuAt = function(el, at, options)
 
   controller.closeAll();
 
+  var openaslistoptions = {};
+  if ("forcenooverlap" in options)
+    openaslistoptions.forcenooverlap = options.forcenooverlap;
+
   controller.eventnode = eventnode;
-  controller.openAsList(ml, coords, openoptions.direction, openoptions.align, openoptions.exitdirection, openoptions.minwidth || 0);
+  controller.openAsList(ml, coords, openoptions.direction, openoptions.align, openoptions.exitdirection, openoptions.minwidth || 0, openaslistoptions);
 
   return ml;
 }

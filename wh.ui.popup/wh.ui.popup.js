@@ -108,6 +108,14 @@ Events on $wh.PopupManager
   - aftershow  -> fired after the popup's animation has finished
   - activate
 
+
+
+Next popup version:
+  - use animations instead of transitions?? (if we can properly animate multiple CSS properties)
+  - only support the JSON version of popup settings
+
+
+
 ***********************************************************/
 
 
@@ -323,11 +331,11 @@ $wh.PopupManagerClass = new Class(
   {
     //console.info("Removing popup from stack ", instance.nodes.container);
 
-    var popupidx = this.popupstack.indexOf(instance);//indexByProperty("instance", instance);
+    var popupidx = this.popupstack.indexOf(instance);
     if (popupidx > -1)
       this.popupstack.splice(popupidx, 1);
 
-    var modalidx = this.modalstack.indexOf(instance);//indexByProperty("instance", instance);
+    var modalidx = this.modalstack.indexOf(instance);
     if (modalidx > -1)
     {
       this.modalstack.splice(modalidx, 1);
@@ -507,6 +515,7 @@ $wh.PopupManagerClass = new Class(
 
     window.addEvent("message", this.onMessage.bind(this)); // for autoresize... ADDME: extend to real event for other users?
     window.addEvent("resize", this.onViewportResize.bind(this)); // for autosizing (width or height option set to "stretch")
+    window.addEvent("orientationchange", this.onOrientationChange.bind(this)); // needed for correct resizing in iOS after an orientation change
     window.addEvent("mousewheel", this.onMouseWheel.bind(this)); // for preventing mousewheel leaking/scrolling outside the popup
   }
 
@@ -561,6 +570,12 @@ $wh.PopupManagerClass = new Class(
     }
     else
       console.error("Cannot find owner popup of iframe which messaged us.");
+  }
+
+, onOrientationChange: function(evt)
+  {
+    // workaround for iOS so it resizes *after* the new viewport size is known
+    this.onViewportResize.delay(0, this, evt);
   }
 
   // inform all open popups on the changed viewport size
@@ -1499,8 +1514,9 @@ $wh.BasicPopup = new Class(
 
     // clean out transform property to work around Firefox messing up
     // mouse events in iframes within transformed elements
-    this.nodes.chrome.style.mozTransform = "none";
-    this.nodes.chrome.style.transform = "none";
+    // FIXME: this triggers a new transition with some effects...
+    //this.nodes.chrome.style.mozTransform = "none";
+    //this.nodes.chrome.style.transform = "none";
 
     //console.info("popup now visible and not animating anymore");
 

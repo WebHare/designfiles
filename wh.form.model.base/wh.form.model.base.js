@@ -4,7 +4,9 @@ require ('wh.ui.base');
 require ('frameworks.mootools.more.locale');
 require ('frameworks.mootools.more.date');
 require ('wh.util.validation');
-/*! LOAD: frameworks.mootools.core, wh.ui.base, frameworks.mootools.more.locale, frameworks.mootools.more.date, wh.util.validation
+/*! LOAD: frameworks.mootools.core, wh.ui.base, frameworks.mootools.more.locale
+    LOAD: frameworks.mootools.more.date
+    LOAD: wh.util.validation
 !*/
 
 (function($) {

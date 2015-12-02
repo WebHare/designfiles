@@ -1,4 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
+ // FIXME: convert our use of .hassClass to .classList.contains("wh-video") when IE9 is a non-issue
+
 (function($) {
 
 if(!window.$wh) window.$wh={};
@@ -13,9 +15,10 @@ $wh.trimHTML = function(rcontent)
   while(firstelement)
   {
     //console.log(firstelement.innerHTML);
-    if (firstelement.tagName == "IMG"
-        || firstelement.children.length > 1)
-        //|| (firstelement.children.length == 1 && firstelement.children[0].tagName != "BR"))
+
+    if (firstelement.tagName == "IMG" || firstelement.tagName == "INPUT" // skip 'empty' elements
+        || firstelement.hasClass("wh-video") // skip elements which we replace with real content
+        || firstelement.children.length > 0)
     {
       //console.log("has content", firstelement.children.length, firstelement.tagName);
       break;

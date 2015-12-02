@@ -178,7 +178,7 @@ $wh.Accordion = new Class(
               , duration: .500
               }
           //, { onStateChange: function(dd, evt) { $wh.fireLayoutChangeEvent(dd, "up"); }.bind(this, dd) }
-            , { onStateChange: $wh.fireLayoutChangeEvent.bind(this, dd,'') }
+            , { onStateChange: $wh.fireLayoutChangeEvent.bind(this, dd, "up") }
             ];
 
         if (this.animator)
@@ -194,7 +194,7 @@ $wh.Accordion = new Class(
       //dd.setStyle('height', new_state ? dd.scrollHeight : 0);
       dd.setStyle('height', new_state ? "" : 0);
 
-    $wh.fireLayoutChangeEvent(dd,'');
+    $wh.fireLayoutChangeEvent(dd, "up");
   }
 
 , onFinishedOpenAnim: function(dd)

@@ -57,6 +57,7 @@ $wh.TabControl = new Class(
     var desttab = this.pagemgr.findPage(tabid);
     if(!desttab)
       return;
+
     this.pagemgr.start(desttab);
   }
 

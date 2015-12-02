@@ -43,11 +43,12 @@ String.implement(
     return this.split('"').join('&#34;').split("'").join("&#39;");
   }
   /* decodeFromHtml */
-, decodeFromHtml: function(str)
+, decodeFromHtml: function()
   {
+    var str = this.replace(/<br *\/?>/, "\n");
     str = str.replace(/&#(\d+);/g, function(match, dec) { return String.fromCharCode(dec) });
-    str = str.replace(/&amp;/g, function(match, dec) { return "&" });
-    return str.replace(/&lt;/g, function(match, dec) { return "<" });
+    str = str.replace(/&amp;/g, "&");
+    return str.replace(/&lt;/g, "<");
   }
 });
 
@@ -954,7 +955,7 @@ $wh.fireLayoutChangeEvent = function(node, direction)
 
   var up = !direction || direction == "up";
   var down = !direction || direction == "down";
-  //console.log( up ? "UP":"", down ? "DOWN":"", node);
+//  console.log( up ? "UP":"", down ? "DOWN":"", node);
   //console.trace();
 
   if (up)
@@ -974,6 +975,8 @@ $wh.getJSONAttribute = function(node, attrname)
   var data = node.getAttribute(attrname) || 'null';
   if (data.substr(0,1) == '@')
   {
+    // This is a reference to a variable in window.
+    // It is meant for reuse of settings (for example for RTE or slideshow settings)
     var path = data.substr(1).split('.');
     path.unshift(window);
     var curr = window;
@@ -1184,25 +1187,39 @@ $wh.getCoverCoordinates = function(inwidth, inheight, outwidth, outheight, fit)
          , left: (outwidth - (inwidth/scale))/2
          };
 }
-//manually fire 'onchange' events. needed for event simulation and some IE<=8 modernizations
-$wh.fireHTMLEvent=function(element, type)
+
+$wh.dispatchDomEvent=function(element, eventtype, options)
 {
-  //http://stackoverflow.com/questions/2856513/trigger-onchange-event-manually
-  var bubbles = ["input","change","click"].contains(type);
-  var cancelable = true; // FIXME: not used (yet?)
+  if(!options)
+    options={};
+  if(!("cancelable" in options)) //you generally need to think about these two...
+    console.error("You should set 'cancelable' to true or false in a $wh.dispatchDomEvent call");
+  if(!("bubbles" in options))
+    console.error("You should set 'bubles' to true or false in a $wh.dispatchDomEvent call");
 
   //Firefox Bugzilla #329509 - Do not prevent event dispatching even if there is no prescontext or (form) element is disabled
   //we'll just normalize around Firefox' behaviour - IE might do it too?
   if(element.disabled)
     return true;
 
-  var evt = element.ownerDocument.createEvent(type == "click" ? "MouseEvents" : "HTMLEvents");
-  evt.initEvent(type, bubbles, true);
-  if(type=='click' && window.IScroll)
+  var evt = element.ownerDocument.createEvent(eventtype == "click" ? "MouseEvents" : "HTMLEvents");
+  evt.initEvent(eventtype, options.bubbles, options.cancelable);
+
+  if(options.detail)
+    evt.detail = options.detail;
+
+  if(eventtype=='click' && window.IScroll)
     evt._constructed = true; //ensure IScroll doesn't blindly cancel our synthetic clicks
 
   var result = element.dispatchEvent(evt);
   return result;
+}
+
+//manually fire 'onchange' events. needed for event simulation and some IE<=8 modernizations
+$wh.fireHTMLEvent=function(element, type)
+{
+  //http://stackoverflow.com/questions/2856513/trigger-onchange-event-manually
+  return $wh.dispatchDomEvent(element, type, { bubbles: ["input","change","click"].contains(type), cancelable: true});
 }
 $wh.setTextWithLinefeeds = function(node, message)
 {
@@ -1425,15 +1442,28 @@ $wh.executeSubmitInstruction = function(instr, options)
   }
 }
 
+function isInDocument(node)
+{
+  while (node)
+  {
+    if (node.nodeType == 9)
+      return true;
+    node = node.parentNode;
+  }
+}
+
 /** Signal that a node and its subnodes are about to be removed from the DOM
     @param node Node that has just been removed
 */
 $wh.fireRemovingFromDOMEvent = function(node)
 {
   node = $(node);
-  console.log('fireRemovingFromDOMEvent', node);
+  if (!isInDocument(node))
+    return;
+
   if (node.hasClass("wh-domevents"))
     node.fireEvent("wh-dom-removing");
+
   node.getElements(".wh-domevents").fireEvent("wh-dom-removing");
 }
 
@@ -1443,9 +1473,12 @@ $wh.fireRemovingFromDOMEvent = function(node)
 $wh.fireAddedToDOMEvent = function(node)
 {
   node = $(node);
-  console.log('fireAddedToDOMEvent', node);
+  if (!isInDocument(node))
+    return;
+
   if (node.hasClass("wh-domevents"))
     node.fireEvent("wh-dom-added");
+
   node.getElements(".wh-domevents").fireEvent("wh-dom-added");
 }
 

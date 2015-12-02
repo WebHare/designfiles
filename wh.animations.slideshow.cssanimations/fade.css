@@ -1,0 +1,40 @@
+.wh-slideshow-cssanimation.anim-fade-in .wh-slideshow-item
+{
+  opacity: 0;
+}
+.wh-slideshow-cssanimation.anim-fade-in .wh-slideshow-item.selected
+{
+  opacity: 1;
+}
+
+.wh-slideshow-cssanimation.anim-fade-in .hidePrevious,
+.wh-slideshow-cssanimation.anim-fade-in .hideNext
+{
+  visibility: visible;
+  z-index: 2;
+  -webkit-animation: fadeOut 1450ms cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+  -moz-animation: fadeOut 1450ms cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+  -ms-animation: fadeOut 1450ms cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+  animation: fadeOut 1450ms cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+}
+
+@-webkit-keyframes fadeOut
+{
+    0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@-moz-keyframes fadeOut
+{
+    0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@-ms-keyframes fadeOut
+{
+    0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes fadeOut
+{
+    0% { opacity: 1; }
+  100% { opacity: 0; }
+}

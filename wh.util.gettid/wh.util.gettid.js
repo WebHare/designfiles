@@ -6,11 +6,6 @@ require ('frameworks.mootools.more.locale');
 
 (function($) { //mootools wrapper
 
-var decodeHtmlEntity = function(str)
-{
-  return str.replace(/&#(\d+);/g, function(match, dec) { return String.fromCharCode(dec); });
-};
-
 /// Conditional decode from HTML
 $wh.__condDecodeFromHTML = function(rich, text)
 {

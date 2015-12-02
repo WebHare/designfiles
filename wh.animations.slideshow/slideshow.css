@@ -45,3 +45,19 @@
 {
   margin-left:3px;
 }
+
+.wh-slideshow.wh-slideshow-cssanimation
+{
+  overflow: hidden;
+}
+.wh-slideshow-cssanimation .wh-slideshow-item
+{
+  visibility: hidden;
+}
+
+.wh-slideshow-cssanimation .wh-slideshow-item.selected
+{
+  position: relative;
+  visibility: visible;
+}
+

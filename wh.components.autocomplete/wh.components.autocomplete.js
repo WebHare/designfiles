@@ -1,14 +1,13 @@
 /* generated from Designfiles Public by generate_data_designfles */
 require ('./autocomplete.css');
 require ('frameworks.mootools.more.class.binds');
-require ('frameworks.mootools.more.keyboard');
 require ('wh.compat.base');
 require ('wh.ui.base');
 require ('wh.net.jsonrpc');
 require ('wh.ui.menu');
 require ('wh.components.scrollableview');
 require ('wh.util.promise');
-/*! LOAD: frameworks.mootools.more.class.binds, frameworks.mootools.more.keyboard
+/*! LOAD: frameworks.mootools.more.class.binds
     LOAD: wh.compat.base, wh.ui.base, wh.net.jsonrpc, wh.ui.menu, wh.components.scrollableview, wh.util.promise
 !*/
 
@@ -290,7 +289,7 @@ $wh.AutoCompleteService = new Class(
 
 $wh.AutoComplete = new Class(
 { Implements: [ Options, Events ]
-, Binds: [ "startRequest", "cancelRequest"
+, Binds: [ "_startRequest", "cancelRequest"
          , "onInputBlur", "onInputFocus", "onInputKeyup", "onInputMouseup", "onInputPaste"
          , "onKeyDown"
          , "onMenuItemSelect", "onResults" ]
@@ -302,11 +301,15 @@ $wh.AutoComplete = new Class(
            , onResults: null
            }
 
-, service: null
+// DOM nodes
 , node: null
-, values: null
-, valuesnode: null
 , listnode: null
+
+// objects
+, service: null
+, valuesmenu: null // $wh.menu object
+
+, values: null
 , pendingrequest: false
 
 /****************************************************************************************************************************
@@ -317,10 +320,11 @@ $wh.AutoComplete = new Class(
       @cell options.service The AutoCompleteService (or derived) class to use as autocompletion service
       @cell options.url The JSON RPC web service URL (used by the autocompletion service)
       @cell options.rpccall The function to call (used by the autocompletion service)
-      @cell options.enablescrollbar Set to true to enable scrolling within the suggestions menu
       @cell options.valuescssclass Extra CSS class to apply to the suggestions menu
-      //@cell options.onValue The function to call when a suggestion is selected  (DEPRECATED, use the valueselected event)
       @cell options.onResults The function to call when suggestions have been retrieved
+
+      //@cell options.onValue The function to call when a suggestion is selected  (DEPRECATED, use the valueselected event)
+      //@cell options.enablescrollbar Set to true to enable scrolling within the suggestions menu (DEPRECATED, NOT WORKING ANYMORE)
   */
 , initialize: function(node, service, options)
   {
@@ -363,20 +367,10 @@ $wh.AutoComplete = new Class(
       this.node.store("wh-autocomplete", this);
 
       // Initialize the values list
-      this.valuesnode = new Element("div", { "class": this.options.valuescssclass }); // Wrapper is needed for scrollbar option
-      this.valuesnode.addClass("wh-autocomplete-values");
-
-      if (this.node.get("id"))
-        this.valuesnode.set("id", this.node.get("id") + "-values");
-
-      if (this.options.enablescrollbar)
-        this.valuesnode.addClass("wh-scrollableview");
-
       this.listnode = new Element("ul", { "class": "wh-menu wh-autocomplete-values" });
-      if (this.options.enablescrollbar)
-        this.listnode.addClass("wh-scrollableview-content");
 
-      this.valuesnode.grab(this.listnode);
+      if (this.options.valuescssclass)
+        this.listnode.addClass(this.options.valuescssclass);
     }
 
     if(this.node && $wh.hasFocus(this.node))
@@ -415,17 +409,25 @@ $wh.AutoComplete = new Class(
       return this.node.get("text");
   }
 
-, startRequest: function()
+, _startRequest: function() //expects uibusy to be +1
   {
+    if(this.node.nodeName.toUpperCase() == "INPUT" && (this.node.disabled || this.node.readOnly))
+    {
+      $wh.updateUIBusyFlag(-1); //we can't actually modify the input  (ADDME Also block updates if use selected value and the input since went readonly)
+      return;
+    }
+
     var query = this.getUserQuery();
     if(this.lastquery === query)
+    {
+      $wh.updateUIBusyFlag(-1);
       return; //nothing new
+    }
 
     if(this.pendingrequest)
       this.cancelRequest();
 
     this.pendingrequest=true;
-    $wh.updateUIBusyFlag(+1);
 
     this.lastquery = query;
     this.service.getValues(query, this.onResults);
@@ -444,8 +446,6 @@ $wh.AutoComplete = new Class(
       if(!$wh.debug.meo)
         this.valuesmenu.destroy();
       this.valuesmenu = null;
-      if(!$wh.debug.meo)
-        this.valuesnode.dispose();
     }
   }
 
@@ -467,26 +467,32 @@ $wh.AutoComplete = new Class(
     if (event.key == "esc")
       this.cancelRequest();
     else if (!["down","up"].contains(event.key))
-      this.startRequest();
+    {
+      $wh.updateUIBusyFlag(+1);
+      this._startRequest(true);
+    }
   }
 
 , onInputMouseup: function(event)
   {
     // If the user clicked the little 'clear' button within a <input type="search"> field, the value of the input is not yet
     // cleared when the mouseup event fires, so we'll start the request after a delay
-    this.startRequest.delay(1, this);
+    $wh.updateUIBusyFlag(+1);
+    this._startRequest.delay(1, this);
   }
 
 , onInputPaste: function(event)
   {
-    this.startRequest();
+    $wh.updateUIBusyFlag(+1);
+    this._startRequest();
   }
 
 , onKeyDown: function(event)
   {
     if (!this.valuesmenu)
     {
-      this.startRequest();
+      $wh.updateUIBusyFlag(+1);
+      this._startRequest();
       event.stop();
 //      Keyboard.stop(event);
     }
@@ -600,6 +606,7 @@ $wh.AutoComplete = new Class(
         , exitdirection: "top"
         , capturekeyboard: false
         , handlehomeend: false
+        , forcenooverlap: true
         });
   }
 

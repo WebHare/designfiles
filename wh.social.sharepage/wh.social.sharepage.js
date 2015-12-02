@@ -34,12 +34,13 @@ require ('wh.compat.base');
 
    Supported networks:
 
+   - email
    - facebook
-   - twitter
    - googleplus
    - linkedin
+   - twitter
    - pinterest
-   - email
+   - print
 */
 
 
@@ -55,7 +56,7 @@ function onDomReady()
 function handlePageShare(evt, networkelement)
 {
   var networktype = networkelement.getAttribute("data-network");
-  var link = location.href;
+  var link = networkelement.getAttribute("data-link") || location.href;
   if (networkelement.hasAttribute("data-nohash"))
     link = link.split("#")[0];
 
@@ -160,6 +161,12 @@ function handlePageShare(evt, networkelement)
 
       $wh.navigateTo(shareurl);
     } break;
+
+    case "print":
+    {
+      evt.stop();
+      window.print();
+    }
 
     default:
     {

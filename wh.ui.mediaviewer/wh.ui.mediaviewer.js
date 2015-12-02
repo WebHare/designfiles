@@ -10,10 +10,6 @@ require ('wh.components.scrollableview');
 
 /*
 
-WARNING: Still experimental
-    - API and classnames can still change
-
-
 Supported browsers
     - Internet Explorer 8+
     - Firefox
@@ -766,7 +762,7 @@ $wh.MediaViewer = new Class(
             if (videoid)
             {
               var embed = new Element( "iframe"
-                                     , { "src":    "http://www.youtube.com/embed/" + videoid + "?enablejsapi=1"
+                                     , { "src":    "//www.youtube.com/embed/" + videoid + "?enablejsapi=1"
                                        , "width":  "100%"
                                        , "height": "100%"
                                        , "frameborder": 0
@@ -784,7 +780,7 @@ $wh.MediaViewer = new Class(
             if (videoid)
             {
               var embed = new Element( "iframe"
-                                     , { "src":    "http://player.vimeo.com/video/" + videoid + "?api=1"
+                                     , { "src":    "//player.vimeo.com/video/" + videoid + "?api=1"
                                        , "width":  "100%"
                                        , "height": "100%"
                                        , "frameborder": 0
@@ -839,6 +835,7 @@ $wh.MediaViewer = new Class(
     }
   }
 
+  // FIXME: use our designfiles covercoordinated functions
 , resizeSlide: function(slide, width, height)
   {
     slide.setStyles({ width:  width

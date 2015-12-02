@@ -5,15 +5,15 @@ require ('frameworks.mootools.more.request.jsonp');
 require ('wh.social.socialite.widget');
 /*! REQUIRE: frameworks.mootools.core, frameworks.mootools.more.locale, frameworks.mootools.more.request.jsonp, wh.social.socialite.widget !*/
 
+/*
+
+Support for creating Twitter widgets
+
+*/
+
 if(!window.$wh) $wh={};
 
 (function($) { //mootools wrapper
-
-//////////////////////////////////////////////////////////////
-//
-//  Twitter client-side support
-//  (c)B-Lex IT 2011-2013
-//
 
 $wh.TwitterWidget = new Class(
 { Extends: $wh.SocialWidget
@@ -27,54 +27,15 @@ $wh.TwitterWidget = new Class(
     if (!this.container)
       return console.error("No container specified for tweets.");
 
+    el.store("wh-twitter-widget",this);
+
     var req = new Request.JSON({ url: '/.socialite/feeds/twitter.shtml?q=' + encodeURIComponent(this.options.query) + "&l=" + this.options.maxitems
-                               , onSuccess: this.callback.bind(this)
+                               , onSuccess: this.updatePostsDOM.bind(this)
                                });
     req.get();
   }
-/*
-    var callbackname = "__wh_twittercallback" + (++$wh.TwitterWidget.count);
-    window[callbackname] = this.callback.bind(this);
 
-    var usequery = options.query && options.query != "";
-    var usescreenname = options.screenname && options.screenname != "";
-
-    if (usequery && usescreenname)
-    {
-      console.error("Cannot use both query and screenname.");
-      return;
-    }
-
-    var twitterscript;
-    if (usequery)
-    {
-       twitterscript = (location.protocol=='https:' ? 'https:' : 'http:')
-                       + '//search.twitter.com/search.json?callback=' + encodeURIComponent(callbackname)
-                       + '&q=' + encodeURIComponent(this.options.query)
-                       + '&rpp=' + this.options.maxitems
-                       + '&page=1&include_entities=true';
-    }
-    else if (usescreenname)
-    {
-      twitterscript = (location.protocol=='https:' ? 'https:' : 'http:')
-                      + '//api.twitter.com/1/statuses/user_timeline.json?callback=' + encodeURIComponent(callbackname)
-                      + '&screen_name=' + this.options.screenname
-                      + '&count=' + this.options.maxitems
-                      + '&include_rts=true&include_entities=true';
-    }
-    else
-    {
-      console.error("No query or screenname specified.");
-      return;
-    }
-
-    var twitterscript = new Element("script", {"src": twitterscript
-                                              ,"async":true
-                                              });
-    $$('head').pick().adopt(twitterscript);
-  }
-*/
-, callback: function(result)
+, updatePostsDOM: function(result)
   {
     // set Locale lang
     var doclang = $wh.getDocumentLanguage();
@@ -90,71 +51,17 @@ $wh.TwitterWidget = new Class(
     {
       var feeditem = result.messages[msgnr];
       feeditem.postdate = Date.parse(feeditem.postdate);
-      feeditem.network = 'twitter';
+      feeditem.network = "twitter";
+      //feeditem.fromlink = "http://twitter.com/#!/" + feeditem.from;
+      feeditem.fromlink = "http://twitter.com/" + feeditem.from;
 
       //messages_shown++;
       var quote = this.createFeedItem(this.prepareFeedItem(feeditem));
-      if(quote)
+      if (quote) // we use the hardcoded dom created by js (if a template was used we don't get the node back)
         this.container.appendChild(quote);
-
-/*
-      if (searchformat && msg.entities && msg.entities.urls)
-      {
-        var htmlstr = "";
-        var readpos = 0;
-        // twitter returns the urls sorted by starting indice,
-        for(var tel=0; tel<msg.entities.urls.length; tel++)
-        {
-          var urlrec = msg.entities.urls[tel];
-
-          htmlstr = htmlstr
-                    + msg.text.substring(readpos, urlrec.indices[0])
-                    + "<a href='" + urlrec.expanded_url + "' target='_blank'>" + urlrec.display_url + "</a>"
-
-          readpos = urlrec.indices[1];
-        }
-        htmlstr = htmlstr + msg.text.substring(readpos, msg.text.lenght);
-      }
-      else
-        htmlstr = msg.text;
-
-      var quote = new Element("quote");
-      var quotecontent = new Element("div", { style: "overflow: hidden;" });
-      var message = new Element("span", { "class": "message"
-                                        , html: htmlstr //msg.text
-                                        });
-
-      if (this.options.showprofileimage)
-      {
-        var profileimage = new Element("img", { src:     useravatar
-                                              , "class": "profileimage"
-                                              });
-        quotecontent.appendChild(profileimage);
-      }
-      quotecontent.appendChild(message);
-
-
-      var networkicon = new Element("div", { "class": "networkicon" });
-
-      var arrow = new Element("div", { "class": "balloonarrow" });
-
-      quote.appendChild(quotecontent);
-      quote.appendChild(networkicon);
-
-      if (this.options.showpostdate)
-      {
-        var creationdescription = new Element( "div"
-                                             , { "class": "creationtime"
-                                               , text:this.describeTimePassed(msg.created_at)
-                                               }
-                                             )
-        quote.appendChild(creationdescription);
-      }
-      quote.appendChild(arrow);
-
-      this.container.appendChild(quote);
-*/
     }
+
+    $wh.fireLayoutChangeEvent(this.container, "up");
   }
 });
 $wh.TwitterWidget.count=0;
@@ -162,8 +69,6 @@ $wh.TwitterWidget.count=0;
 $wh.setupElementAsTwitterWidget = function(el)
 {
   el=$(el);
-  if(el.retrieve("-wh-twitter-widget"))
-    return el.retrieve("-wh-twitter-widget");
   if(el.retrieve("wh-twitter-widget"))
     return el.retrieve("wh-twitter-widget");
 

@@ -50,7 +50,10 @@ var reported = [];
 */
 $wh.reportException = function(errorobj, options)
 {
-  var exception_text = (errorobj && errorobj.stack);
+  var exception_text = '';
+  if (errorobj) // Firefox may throw permission denied on stack property
+    try { exception_text = errorobj.stack; } catch (e) {}
+
   if (!exception_text && options && options.altstack)
     exception_text = options.altstack;
 

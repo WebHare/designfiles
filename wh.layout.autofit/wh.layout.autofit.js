@@ -60,7 +60,7 @@ $wh.makeTextFit = function makeTextFit(container_or_elements, options)
 
   if (options.debug)
     console.groupEnd();
-}
+};
 
 $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
 {
@@ -102,7 +102,7 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
   }
 
   if (options.debug)
-    console.log("Max size for text is " + maxwidth + " x " + maxheight);;
+    console.log("Max size for text is " + maxwidth + " x " + maxheight);
 
 
   if (!("minfontsize" in options))
@@ -133,6 +133,7 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
 
   // if we aren't visible or there's no text, get the hell out of here!
   var textsize = textcontainer.getBoundingClientRect();
+  var textwidth;
   var textheight = textsize.bottom - textsize.top; //textcontainer.scrollHeight;
   //if (textcontainer.clientHeight == 0)
   if (textheight == 0)
@@ -162,9 +163,9 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
     if (options.lineheight)
       textcontainer.style.lineHeight = options.lineheight;
 
-    var textsize = textcontainer.getBoundingClientRect();
-    var textwidth = textsize.right - textsize.left; //textcontainer.scrollWidth;
-    var textheight = textsize.bottom - textsize.top; //textcontainer.scrollHeight;
+    textsize = textcontainer.getBoundingClientRect();
+    textwidth = textsize.right - textsize.left; //textcontainer.scrollWidth;
+    textheight = textsize.bottom - textsize.top; //textcontainer.scrollHeight;
 
     if (options.debug)
       console.log("font-size "+current_fontsize.toFixed(2)+" results in "+textwidth.toFixed(2)+" x "+textheight.toFixed(2));
@@ -208,8 +209,8 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
   // now we can apply vertical alignment
   if (options.verticalalign === true || options.verticalalign === "middle")
   {
-    var textsize = textcontainer.getBoundingClientRect();
-    var textheight = textsize.bottom - textsize.top;
+    textsize = textcontainer.getBoundingClientRect();
+    textheight = textsize.bottom - textsize.top;
 
     //var verticaloffset = (container.clientHeight - textcontainer.scrollHeight) / 2;
     var verticaloffset = (maxheight - textheight) / 2;
@@ -226,10 +227,10 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
   else if (options.verticalalign === "bottom")
   {
     //textcontainer.style.marginTop = (container.clientHeight - textcontainer.scrollHeight)+"px";
-    var textsize = textcontainer.getBoundingClientRect();
-    var textheight = textsize.bottom - textsize.top;
+    textsize = textcontainer.getBoundingClientRect();
+    textheight = textsize.bottom - textsize.top;
     textcontainer.style.marginTop = (container.clientHeight - textheight)+"px";
   }
-}
+};
 
 })(document.id);

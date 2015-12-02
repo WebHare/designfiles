@@ -98,7 +98,7 @@
   margin-top: -38px;
   width: 76px;
   height: 77px;
-  background: transparent url("img/btn_play.png") no-repeat scroll top left;
+  background: transparent url("btn_play.png") no-repeat scroll top left;
 }
 
 
@@ -297,7 +297,7 @@
 }
 
 /* Browser can't read multiple CSS selectors if a prefix is unknown */
-#mediaviewer:full-screen .header
+#mediaviewer:fullscreen .header
 {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -309,7 +309,7 @@
   margin-bottom: 10px;
   text-align: center;
 }
-#mediaviewer:-ms-full-screen .header
+#mediaviewer:-ms-fullscreen .header
 {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -322,8 +322,8 @@
   text-align: center;
 }
 
- #mediaviewer:full-screen .title
-,#mediaviewer:full-screen .author
+ #mediaviewer:fullscreen .title
+,#mediaviewer:fullscreen .author
 {
   color: #ffffff;
 }
@@ -332,8 +332,8 @@
 {
   color: #ffffff;
 }
- #mediaviewer:-ms-full-screen .title
-,#mediaviewer:-ms-full-screen .author
+ #mediaviewer:-ms-fullscreen .title
+,#mediaviewer:-ms-fullscreen .author
 {
   color: #ffffff;
 }
@@ -365,8 +365,8 @@
   color: #ff251b;
 }
 
-#mediaviewer:full-screen #showfullscreen { display: none; }
-#mediaviewer:-ms-full-screen #showfullscreen { display: none; }
+#mediaviewer:fullscreen #showfullscreen { display: none; }
+#mediaviewer:-ms-fullscreen #showfullscreen { display: none; }
 #mediaviewer:-moz-full-screen #showfullscreen { display: none; }
 #mediaviewer:-webkit-full-screen #showfullscreen { display: none; }
 

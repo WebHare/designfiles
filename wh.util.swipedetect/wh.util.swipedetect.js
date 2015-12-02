@@ -13,13 +13,20 @@ if(!window.$wh) window.$wh={};
 $wh.SwipeDetect = new Class(
 { Implements: [ Options ]
 
-, options : { threshold_distance : 15, threshold_speed : 0.3 }
+, options : { threshold_distance : 15, threshold_speed : 0.3, enablemouseswipe: false }
 , el: null
 , initialize: function(el, options)
   {
     this.el = $(el);
 
     this.setOptions(options);
+
+    if(this.options.enablemouseswipe)
+    {
+      this.el.addEvent("mousedown", this.onTouchStart.bind(this));
+      this.el.addEvent("mousemove", this.onTouchMove.bind(this));
+      this.el.addEvent("mouseup", this.onTouchEnd.bind(this));
+    }
 
     if(this.touchEnabled())
     {
@@ -34,6 +41,7 @@ $wh.SwipeDetect = new Class(
   }
 , onTouchStart: function(ev)
   {
+    ev.stop();
     this.swipeinfo = { starttime : new Date().getTime()
                      , endtime   : -1
                      , start     : { x : ev.page.x, y : ev.page.y }
@@ -44,10 +52,15 @@ $wh.SwipeDetect = new Class(
   }
 , onTouchMove: function(ev)
   {
+    if(!this.swipeinfo)
+      return;
     this.swipeinfo.end = { x : ev.page.x, y : ev.page.y };
   }
 , onTouchEnd: function(ev)
   {
+    if(!this.swipeinfo)
+      return;
+
     var dx = this.swipeinfo.end.x - this.swipeinfo.start.x;
     var dy = this.swipeinfo.end.y - this.swipeinfo.start.y;
 
@@ -64,6 +77,8 @@ $wh.SwipeDetect = new Class(
 
     if(this.swipeinfo.direction != '')
       this.el.fireEvent('swipe', this.swipeinfo);
+
+    this.swipeinfo = null;
   }
 
 });

@@ -1,0 +1,64 @@
+.wh-slideshow-scroller
+{
+  position: relative;
+  height: 40px;
+  width: 50%;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+.wh-slideshow-scroller > ul
+{
+  display: block;
+  position: absolute;
+  white-space: nowrap;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  height: 40px;
+}
+.wh-slideshow-scroller > ul.swipe
+{
+  transition: left 0.5s, top 0.5s;
+}
+.wh-slideshow-scroller > ul > li
+{
+  vertical-align: top;
+  display: inline-block;
+  height: 100%;
+  text-align: center;
+}
+.wh-slideshow-scroller > ul > li > img
+{
+  height: 100%;
+  width: auto;
+  vertical-align: middle;
+}
+
+
+.wh-slideshow-scroller.vertical
+{
+  position: absolute;
+  height: 400px;
+  width: 40px;
+  top: 0;
+  left: 400px;
+}
+.wh-slideshow-scroller.vertical > ul
+{
+  list-style-type: none;
+  width: 40px;
+  height: auto;
+}
+.wh-slideshow-scroller.vertical > ul > li
+{
+  display: block;
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+.wh-slideshow-scroller.vertical > ul > li > img
+{
+  width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}

@@ -267,41 +267,40 @@ $wh.TimeField = new Class(
       node.value = val;
   }
 
-  /** Add padding to node
+  /** Add padding to node value, optionally writing back to node
   */
-, _padNode: function(node, padding)
+, _padNode: function(node, padding, writeback)
   {
     if (node && node.value != '')
     {
       var newval = (padding + node.value).substr(node.value.length);
-      if (node.value != newval)
+      if (writeback && node.value != newval)
         node.value = newval;
+      return newval;
     }
+    return "";
   }
 
   /** Read the currently entered time from the subcomponent inputs, place it in the replaced element
   */
 , _setTime: function(nopadding)
   {
-    if(!nopadding)
-    {
-      this._padNode(this.hournode, '00');
-      this._padNode(this.minutenode, '00');
-      this._padNode(this.secondsnode, '00');
-      this._padNode(this.millisecondsnode, '000');
-    }
+    var hour_value = this._padNode(this.hournode, '00', !nopadding);
+    var minute_value = this._padNode(this.minutenode, '00', !nopadding);
+    var second_value = this._padNode(this.secondsnode, '00', !nopadding);
+    var millisecond_value = this._padNode(this.millisecondsnode, '000', !nopadding);
 
     var newval = '';
-    if (this.hournode.value != '' && this.minutenode.value != '')
+    if (hour_value != '' && minute_value != '')
     {
       var prevtime = this.el.value;
-      newval = this.hournode.value != '' ? this.hournode.value + ':' + this.minutenode.value : '';
+      newval = hour_value + ':' + minute_value;
 
-      if(this.secondsnode && this.secondsnode.value != '')
+      if(this.secondsnode && second_value != '')
       {
-        newval += ':' + this.secondsnode.value;
-        if(this.millisecondsnode && this.millisecondsnode.value != '')
-          newval += '.' + this.millisecondsnode.value;
+        newval += ':' + second_value;
+        if(this.millisecondsnode && millisecond_value != '')
+          newval += '.' + millisecond_value;
       }
     }
 

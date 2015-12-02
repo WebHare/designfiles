@@ -179,7 +179,7 @@ $wh.JSONRPC = new Class(
             "post",
             request.url,
             JSON.encode(request.request),
-            { headers: { "Content-Type": "application/json" }
+            { headers: { "Content-Type": "application/json; charset=utf-8" }
             , synchronous: request.synchronous
             });
     }

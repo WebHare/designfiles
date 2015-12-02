@@ -59,23 +59,41 @@ $wh.applyEllipsisToText = function applyEllipsisToText(container_or_elements, op
   if (options.debug)
     console.group(container_or_elements);
 
-  var multiple = typeOf(container_or_elements) == "elements";
+  /*
+  .querySelectorAll() -> "collection"
+  $$() (mootools)     -> "elements"
+  .getElement() (geen match) -> null
+  .querySelector() (geen match) -> null
+  */
 
+  var sourcetype = typeOf(container_or_elements);
+  var multiple = sourcetype == /*MooTools*/"elements" || sourcetype == /*HTML*/"collection";
   var elements = multiple ? container_or_elements : [container_or_elements];
+
   for (var idx = 0; idx < elements.length; idx++)
   {
     var container = elements[idx];
+    if (container == null)
+    {
+      console.warn("$wh.applyEllipsisToText got a null as element.");
+      continue;
+    }
+console.log(container);
 
+    var orig_overflow_value;
     if (use_maxheight)
     {
-      var orig_overflow_value = container.style.overflow;
+      orig_overflow_value = container.style.overflow;
       container.style.overflow = "auto"; // so scrollHeight returns the full content height instead of clientHeight
+
+      $wh.__applyEllipsisToText(container, options);
+
+      if (orig_overflow_value != "auto")
+        container.style.overflow = orig_overflow_value;
     }
+    else
+      $wh.__applyEllipsisToText(container, options);
 
-    $wh.__applyEllipsisToText(container, options);
-
-    if (use_maxheight && orig_overflow_value != "auto")
-      container.style.overflow = orig_overflow_value;
   }
 
   if (options.debug)
@@ -90,6 +108,8 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
     console.log(container);
   //  console.log(container.clientHeight, container.getComputedSize());
 
+
+  var origminheight;
 
   var currentnode = container;
   // restore now
@@ -186,9 +206,7 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
     console.warn("maxlines ellipsis only works on inline elements.");
   }
 
-
-  var currentnode = container;
-  var rect, textheight;
+  var textheight;
   var textcontent;
 
   if (!("originalTextContent" in currentnode))
@@ -230,9 +248,8 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
 
 
 
-  // Does the element content already confirm to demans?
+  // Does the element content already confirm to demands?
   var fits = true;
-  var textheight;
 
   //if (options.debug)
   //  console.log("Lines: ", $wh.countLinesInElement(currentnode));
@@ -277,7 +294,7 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
     }
 
     var origheight = container.getStyle("height");
-    var origminheight = container.getStyle("minheight");
+    origminheight = container.getStyle("minheight");
     container.style.height = "";
     container.style.minHeight = "";
   }
@@ -300,8 +317,7 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
     //currentnode.textContent = newtextcontent;
     currentnode.set("text", newtextcontent);
 
-    var fits = true;
-    var textheight;
+    fits = true;
 
     if (options.maxlines && $wh.countLinesInElement(currentnode) > options.maxlines)
       fits = false;
@@ -391,7 +407,7 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
     //  uselength = 0;
   }
 
-  newtextcontent = textcontent.substr(0, uselength) + "\u2026" // "…";
+  newtextcontent = textcontent.substr(0, uselength) + "\u2026"; // "…";
   //currentnode.textContent = newtextcontent;
   currentnode.set("text", newtextcontent);
 
@@ -403,11 +419,11 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
 
   // restore original minheight
   //container.style.minHeight = origminheight;
-  if (origminheight != "")
+  if (origminheight !== "")
     container.setStyle("minHeight", origminheight);
 
   return true; // succesfully applied ellipsis
-}
+};
 
 
 //console.log( $wh.countLinesInElement( $("blaat") ) );

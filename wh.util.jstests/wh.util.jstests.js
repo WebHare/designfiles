@@ -333,9 +333,9 @@ window.getInputValue = function(element)
 {
   if(element.hasClass && element.hasClass("-wh-pulldown"))
     return element.retrieve("todd").getValue();
-  if(element.hasClass && element.hasClass("wh-pulldown"))
+  if(element.hasClass && (element.hasClass("wh-pulldown") || element.hasClass("wh-checkbox")))
     return element.retrieve("todd").getValue();
-  throw new Error("component not yet supported by getInputValue");
+  throw new Error("component not yet supported by getInputValue (classes: " + element.className + ")");
 }
 
 window.setInputValue = function(element,newvalue)
@@ -1085,9 +1085,18 @@ function processGestureQueue()
           var intersectingelement = null;
           if(mousestate.lastoverel && mousestate.lastoverel.ownerDocument && mousestate.lastoverel.ownerDocument.defaultView) // don't fire events for nonexisting documents
           {
-            fireMouseEvent("mouseout", mousestate.cx, mousestate.cy, mousestate.lastoverel, 0, elhere, part);
-            if ("onmouseenter" in window)
-              fireMouseEventsTree("mouseleave", mousestate.cx, mousestate.cy, mousestate.lastoverel, 0, elhere, Object.merge({ preventBubble: true }, part));
+            var canfire = true;
+            // Edge causes permission denied throws when accessing a freed window
+            try { mousestate.lastoverel.ownerDocument.defaultView.onerror } catch (e) { canfire = false; }
+
+            if (canfire)
+            {
+              fireMouseEvent("mouseout", mousestate.cx, mousestate.cy, mousestate.lastoverel, 0, elhere, part);
+              if ("onmouseenter" in window)
+                fireMouseEventsTree("mouseleave", mousestate.cx, mousestate.cy, mousestate.lastoverel, 0, elhere, Object.merge({ preventBubble: true }, part));
+            }
+            else
+              mousestate.lastoverel = null;
           }
 
           fireMouseEvent("mouseover", mousestate.cx, mousestate.cy, elhere, 0, mousestate.lastoverel, part);
@@ -1859,8 +1868,6 @@ window.getListViewExpanded = function(row)
   return null;
 }
 
-
-
 // ---------------------------------------------------------------------------
 //
 // Selenium support
@@ -2040,7 +2047,7 @@ $selenium =
   {
     keys = Array.from(keys);
 
-    this.getElementSeleniumId(element).then(function(seleniumid)
+    return this.getElementSeleniumId(element).then(function(seleniumid)
     {
       return doSeleniumRequest('SendKeysToElement', [ seleniumid, keys ]);
     });

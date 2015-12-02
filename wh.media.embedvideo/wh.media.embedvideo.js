@@ -145,7 +145,7 @@ function generateVideoNode(video, playback)
 }
 
 $wh.__defaultplaybackoptions = default_video_playback;
-$wh.__generateVideoNode = generateVideoNode; //exposed only for wh.ui.popup.video - do
+$wh.__generateVideoNode = generateVideoNode; //exposed only for wh.ui.popup.video and wh.ui.popup.mediaslides
 $wh.initializeVideoElement = initializeVideoElement;
 
 function initializeVideoElement(node)

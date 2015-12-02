@@ -39,6 +39,10 @@ Target:
 
 */
 
+(function($) { //mootools wrapper
+
+if(!window.$wh) window.$wh={};
+
 $wh.JustifiedContentGrid = new Class(
 { Implements: [ Options, Events ]
 , options:
@@ -483,3 +487,5 @@ $wh.JustifiedImageGrid = new Class(
     this.refresh();
   }
 });
+
+})(document.id); //end mootools wrapper

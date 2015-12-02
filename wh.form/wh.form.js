@@ -8,7 +8,7 @@ require ('wh.form.model.base');
 /*! LOAD: frameworks.mootools.core, wh.compat.base, frameworks.mootools.more.class.binds
     LOAD: wh.ui.base
     LOAD: wh.form.model.base
-!*///, frameworks.mootools.more.keyboard
+!*/
 
 /* To pass submitted forms to the Google tagmanager dataLayer, add a data-gtm-submit attribute to the form,eg
   <form class="wh-form" data-gtm-submit='{"event":"formulier-submit","form":"preregistration"}'>
@@ -368,7 +368,7 @@ $wh.Form.Handler = new Class(
       {
         this.sendFormEvent("verified", { data: response.verifyresult, extradata: response.extradata })
         if(onsuccess)
-          onsuccess();
+          onsuccess( response.verifyresult );
       }
     }
   }

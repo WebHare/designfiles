@@ -35,10 +35,13 @@ $wh.AnimationTimeline = new Class(
 { Implements: [Events, Options]
 , baseelement: null
 , animations: []
+
 , playing:false
 , playbackrate: 1.0
 , playback_startposition: 0 // where in the animation to start playback
+
 , currenttime: 0
+, starttime:   0
 , framerequest: null // store animation frame request so we can cancel it
 , framenr: 0
 , options: { timeunit: 1000
@@ -238,17 +241,25 @@ $wh.AnimationTimeline = new Class(
   }
 , play:function()
   {
-    this.playFrom(0);
+    this.playFrom(-1); // resume if possible
   }
 , playFrom: function(timeoffset)
   {
-    for(var i=0;i<this.animations.length;++i)
-      this.animations[i].iscomplete=false;
+    // if we don't want to resume or just havn't started yet
+    if (timeoffset > -1 || this.starttime == 0)
+    {
+      for(var i=0;i<this.animations.length;++i)
+        this.animations[i].iscomplete=false;
 
-    this.playback_startposition = timeoffset * 1000;
+      this.playback_startposition = timeoffset * 1000;
+    }
 
+    // we need to set a base time to calculate how much time has passed
+    // in the timeline.
+    // (we also need to redo this if we resume, because we don't want to skip all the time we havn't animated before)
     this.starttime = new Date-0;
     this.starttimeoffset = this.currenttime;
+
     this.playing = true;
 
     if (!this.framerequest)
@@ -257,6 +268,7 @@ $wh.AnimationTimeline = new Class(
 , stop:function()
   {
     cancelAnimationFrame(this.framerequest);
+    this.framerequest = null;
     this.playing=false;
   }
 , setPlaybackRate:function(newrate)
@@ -275,14 +287,20 @@ $wh.AnimationTimeline = new Class(
   }
 , animationTick:function()
   {
+    //console.log("animationTick" + (this.playing ? " playing" : "NOT playing"));
+
     if(!this.playing)
+    {
+      this.framerequest = null; // how did we get here?
       return;
+    }
 
 
     // frameskip
     this.framenr++;
     if (this.options.skipframes > 0 && this.framenr % (this.options.skipframes+1) != 1)
     {
+      // reschedule and then skip doing any animation work for the current frame
       this.framerequest = requestAnimationFrame(this.animationTick.bind(this));
       return;
     }

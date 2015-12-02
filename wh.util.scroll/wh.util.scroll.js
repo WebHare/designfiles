@@ -176,6 +176,7 @@ $wh.scrollToElement = function(node, options)
     @cell options.context Context pixels to use. Use number or css syntax (eg: "0 20px 30px". Only unit 'px' is supported)
     @cell options.limitnode Parent top stop scrolling at
     @cell options.duration Duration
+    @cell options.allownodes List of nodes to explicitly allow scrolling (compensate for overflow: hidden)
     @return List of scroll animations (can be fed into animation timeline)
     @cell return.target
     @cell return.from
@@ -263,6 +264,8 @@ $wh.getScrollToElementAnimations = function(node, options)
     parent = node.parentNode;
     if (parent == doc.body)
       parent = doc.documentElement;
+    if(!parent)
+      return []; //we were out of the dom..
 
     if($wh.debugscrolling)
       console.log('pre boxes', boxes.clone());
@@ -295,6 +298,11 @@ $wh.getScrollToElementAnimations = function(node, options)
     var general_scroll = parent.getStyle("overflow");
     var can_scroll_x = match_overflow_set.contains(parent.getStyle("overflow-x") || general_scroll) || parent.hasClass("wh-scrollableview-canscroll-h");
     var can_scroll_y = match_overflow_set.contains(parent.getStyle("overflow-y") || general_scroll) || parent.hasClass("wh-scrollableview-canscroll-v");
+
+    if (!can_scroll_x && options.allownodes)
+      can_scroll_x = options.allownodes.contains(parent);
+    if (!can_scroll_y && options.allownodes)
+      can_scroll_y = options.allownodes.contains(parent);
 
     if($wh.debugscrolling)
       console.log('can scroll', parent, 'x:', can_scroll_x, 'y:', can_scroll_y);

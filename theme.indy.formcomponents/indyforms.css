@@ -23,7 +23,7 @@ Esp overwriting input,textarea, let just the site arrange for that (or if you ha
 }
 ul.wh-menu
 {
-  background: #fafafa;
+  background: #ffffff;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
   min-width:100px;
 }
@@ -421,8 +421,10 @@ input.withcounter
   display:inline-block;
   padding: 0 20px 0 0;
   vertical-align: middle;
-  max-width:calc(100%);
+
+  max-width: 100%;
   text-overflow:ellipsis;
+  overflow: hidden;
 }
 .wh-pulldown > .arrow
 {

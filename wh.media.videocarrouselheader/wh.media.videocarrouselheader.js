@@ -23,6 +23,9 @@ $wh.VideoCarrouselHeader = new Class(
 , player: null
 , firstinit: true
 , isplaying: false
+, removeLast: false
+, disabled: false
+, debug: false
 , options:
   { videos: { vid:       ""
             , poster:    ""
@@ -71,6 +74,7 @@ $wh.VideoCarrouselHeader = new Class(
           ,"stalled": this.startDelayed.bind(this)
           ,"canplaythrough": this.onCanPlayThrough.bind(this)
           ,"abort": this.startDelayed.bind(this)
+          ,"error": this.ensurePlaybackOrHandleError.bind(this)
           };
 
     this.player = new Element("video", {src:      ""
@@ -103,7 +107,8 @@ $wh.VideoCarrouselHeader = new Class(
     window.addEvent("resize", this.relayout.bind(this));
     this.startDelayed();// Prevent Safari from borking on first load
     (function() { this.player.setStyle("visibility", "visible") }.bind(this)).delay(1100);// Try to force initialization
-    //console.log("init finished; videos:", this.options.videos);
+    if(this.debug)
+      console.log("init finished; videos:", this.options.videos);
   }
   // Layout
   //
@@ -130,35 +135,62 @@ $wh.VideoCarrouselHeader = new Class(
     this.onLoadedMetadata();
     this.player.play();
   }
+, disable: function()
+  {
+    this.player.autoplay = false;
+    this.player.pause();
+    this.player.setStyle("visibility", "hidden");
+    this.disabled = true;
+  }
   // Event handlers
   //
 , onEnded: function()
   {
     //console.log("ended");
+    if(this.removeLast)
+    {
+      this.options.videos.splice(this.current, 1);// Remove it
+      this.removeLast = false;
+      if(this.options.videos.length == 0)
+      {
+        // Troublesome, we need to handle this unlikely scenario to prevent the page from breaking:
+        this.disable();
+        console.warn("There were no supported videos in the playlist; disabled the video carruosel for this session.");
+        return;
+      }
+    }
+
+    if(this.disabled)
+      return;
+
     if(this.current < (this.options.videos.length - 1))
       this.current++;
     else
       this.current = 0;
 
-    //console.log("playing video", "#" + this.current, "out of", this.options.videos.length, "videos");
+    if(this.debug)
+      console.log("playing video", "#" + this.current, "out of", this.options.videos.length, "videos");
 
     this.next = this.current + 1;
     if(this.next == this.options.videos.length)
       this.next = 0;
 
     this.player.setStyle("visibility", "hidden");
-    //console.log("visibility set to hidden");
+    if(this.debug)
+      console.log("visibility set to hidden");
 
     this.player.setAttribute("src", this.options.videos[this.current].vid);
 
     this.isplaying = false;
     (function() { if(!this.isplaying){ this.player.play(); } }.bind(this)).delay(500);// Fallback in case the load was not quick enough
-    //console.log("video ended; loaded", this.options.videos[this.current].vid);
+    if(this.debug)
+      console.log("video ended; loaded", this.options.videos[this.current].vid);
   }
 , onLoadedMetadata: function()
   {
     //console.log("loadedmetadata");
-    //console.log("metadata loaded for", this.options.videos[this.current].vid);
+    if(this.debug)
+      console.log("metadata loaded for", this.options.videos[this.current].vid);
     var rawWidth = this.player.videoWidth;
     var rawHeight = this.player.videoHeight;
     var origAspect = rawWidth / rawHeight;
@@ -190,20 +222,24 @@ $wh.VideoCarrouselHeader = new Class(
       return;
     }
     //this.player.play();
-    //console.log("issued play command");
     // Fix for the latest safari, which does not trigger the playing event after the first load:
     //this.player.fireEvent("playing", null, 25);
     //(function() { if(!this.isplaying){ this.player.play(); } }.bind(this)).delay(250);// Fallback in case the load was not quick enough
     if(!this.isplaying)
       this.player.play();
+
+    if(this.debug)
+      console.log("issued play command");
   }
 , onPlayStart: function()
   {
-    //console.log("playing");
+    if(this.debug)
+      console.log("playing");
     if(this.isplaying)
       return;
 
-    //console.log("playStart event triggered");
+    if(this.debug)
+      console.log("playStart event triggered");
     (function() { this.player.setStyle("visibility", "visible") }.bind(this)).delay(250);// Short delay to prevent flashing
 
     //this.player.setStyle("visibility", "visible");
@@ -213,15 +249,38 @@ $wh.VideoCarrouselHeader = new Class(
   }
 , startDelayed: function()
   {
-    //console.log("stalled/abort");
+    if(this.debug)
+      console.log("stalled/abort");
     (function() { if(!this.isplaying){ this.onLoadedMetadata(); } }.bind(this)).delay(1000);// Try to force initialization
     (function() { if(!this.isplaying){ this.onEnded(); } }.bind(this)).delay(2000);// Load the next video as a last resort if playback has not been resumed after two seconds
   }
 , onCanPlayThrough: function()
   {
-    //console.log("canplaythrough");
+    if(this.debug)
+      console.log("canplaythrough");
+
     if(!this.isplaying)
       this.player.play();
+  }
+, ensurePlaybackOrHandleError: function()
+  {
+    if(this.player.error && this.player.error.code)
+    {
+      // The player encountered an error which prevents playback
+      console.warn("An error has occurred while attempting to play the current video:", this.player.error.code);
+      if(this.player.error.code == 4)
+      {
+        this.removeLast = true;// Unsupported for the current browser: Remove it
+        if(this.debug)
+          console.log("Removing video #" + this.curent + " (" + this.options.videos[this.current].vid + ") from the playlist as your current browser does not support it.");
+      }
+      this.onEnded();// Handle as expected
+    }
+    else
+    {
+      if(!this.isplaying)
+        this.player.play();
+    }
   }
 });
 

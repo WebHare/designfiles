@@ -98,7 +98,7 @@
   margin-top: -38px;
   width: 76px;
   height: 77px;
-  background: transparent url("img/btn_play.png") no-repeat scroll top left;
+  background: transparent url("btn_play.png") no-repeat scroll top left;
 }
 
 
@@ -180,12 +180,12 @@
 .-wh-mediaviewer-theme-white .-wh-mediaselector-go-left,
 .-wh-mediaviewer-theme-white .btn_prevslide
 {
-  background: transparent url("img/btn_previous.png") no-repeat scroll center center;
+  background: transparent url("btn_previous.png") no-repeat scroll center center;
 }
 .-wh-mediaviewer-theme-white .-wh-mediaselector-go-right,
 .-wh-mediaviewer-theme-white .btn_nextslide
 {
-  background: transparent url("img/btn_next.png") no-repeat scroll center center;
+  background: transparent url("btn_next.png") no-repeat scroll center center;
 }
 
 .-wh-mediaviewer-theme-white .btn_prevslide,

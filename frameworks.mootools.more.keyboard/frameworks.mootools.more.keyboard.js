@@ -291,4 +291,4 @@ provides: [Keyboard]
   });
 
 })();
-window.Keyboard = this.Keyboard;
+window.Keyboard = Keyboard;

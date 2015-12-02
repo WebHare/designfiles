@@ -8,7 +8,10 @@ if(!window.$wh) $wh={};
 
 (function($) { //mootools wrapper
 
-$wh.legacyclasses=true;
+$wh.legacyclasses = true;
+$wh.autoreplacecomponents = true; // set to false if you want control over order of initialization (for control over reflow of your page)
+
+
 
 function getToplevelWindow()
 {
@@ -261,6 +264,8 @@ $wh.getFocusableComponents = function(startnode, recurseframes)
   return focusable;
 }
 
+
+
 // register replace instructions, so we can reapply them on new elements
 var replaces = [], seendomready = false;
 
@@ -303,8 +308,11 @@ function executeReplaceInstruction(startnode, instruction)
 
 function executeReplaceDomready()
 {
-  seendomready = true;
-  $wh.applyReplaceableComponents(null);
+  if ($wh.autoreplacecomponents)
+  {
+    seendomready = true;
+    $wh.applyReplaceableComponents(null);
+  }
 }
 
 /* Passing 'mustreplace:true' as option will prevent $wh.debug.nor from disabling the element replacement */
@@ -326,6 +334,8 @@ $wh.applyReplaceableComponents = function(basenode)
 {
   replaces.each(executeReplaceInstruction.bind(window, basenode));
 }
+
+
 
 function informUIWaiters()
 {

@@ -477,10 +477,12 @@ $wh.DateField = new Class(
            , max : null
            , min : null
            , enablecalendar : true //enable calendar popup
+           , onlycalendar: false //if calendar popup enabled, value cannot be edited manually
            , calendarreferencenode : null //if not attach to body set other node where calendar should inject / positioned
            }
 , el : null
 , node : null
+, arrownode: null
 //, date : null
 , keys : null
 , formatstr : ''
@@ -505,8 +507,6 @@ $wh.DateField = new Class(
     this.formatstr = this.el.get('data-format');
     if(!this.formatstr)
       this.formatstr = Locale.get('Date.shortDate');
-
-    Date.defineParser('%Y-%m-%d');
 
     // sets the value for this.seperator and this.manualinputparts
     this.determineInputFormat();
@@ -579,15 +579,17 @@ $wh.DateField = new Class(
     this.node.toggleClass('readonly',this.el.getAttribute('readonly')!=null);
     this.node.toggleClass('disabled',this.el.getAttribute('disabled')!=null);
 
-    this.options.enablecalendar = this.options.enablecalendar && !this.node.hasClass('readonly') && !this.node.hasClass('disabled');
+    var enablecalendar = this.options.enablecalendar && !this.node.hasClass('readonly') && !this.node.hasClass('disabled');
 
-    this.valuenode = new Element('input', { 'class' : 'value'
-                                          , 'disabled': this.node.hasClass('disabled')
-                                          }).inject(this.node);
+    // If the calendar is enabled, and we only allow editing via the calendar (onlycalendar = true) mark the input as readonly
+    // If this logic changes, also change in .refresh()!
+    this.valuenode = new Element('input', { 'class' : 'value' }).inject(this.node);
+    this.valuenode.disabled = this.node.hasClass('disabled');
+    this.valuenode.readOnly = (enablecalendar && this.options.onlycalendar && !this.node.hasClass('disabled')) || this.node.hasClass('readonly');
 
-    var arrownode = null;
-    if(this.options.enablecalendar)
-      arrownode = new Element('span', { 'class' : 'arrow' }).inject(this.node);
+    this.arrownode = new Element('span', { 'class' : 'arrow' });
+    if (enablecalendar)
+      this.node.appendChild(this.arrownode);
 
     this.node.inject(this.el,'before');
 
@@ -605,8 +607,7 @@ $wh.DateField = new Class(
     this.node.addEvent('blur',this.blur.bind(this));
     this.valuenode.addEvent('blur',this.blur.bind(this));
 
-    if(arrownode)
-      arrownode.addEvent('click',this.showCalendar.bind(this));
+    this.arrownode.addEvent('click',this.showCalendar.bind(this));
 
     this.keys.addEvent('keyup',this.formatManualInput.bind(this));
 
@@ -622,9 +623,32 @@ $wh.DateField = new Class(
   }
 , _input : function()
   {
-    Date.defineParser(this.formatstr);
-    var newdate = Date.parse(this.valuenode.value);
-    this.el.value = newdate && newdate.isValid() ? newdate.format('%Y-%m-%d') : '';
+    var newdate = this.valuenode.value;
+    newdate = newdate.split('/').join('-').split('.').join('-');
+    var parts = newdate.split('-');
+
+    if(parts.length == 3)//parseable
+    {
+      var dayoffset = this.formatstr.indexOf('d');
+      var monthoffset = this.formatstr.indexOf('m');
+      var yearoffset = this.formatstr.toLowerCase().indexOf('y');
+
+      var daypos = 0 + (dayoffset > monthoffset ? 1 : 0) + (dayoffset > yearoffset ? 1 : 0);
+      var monthpos = 0 + (monthoffset > dayoffset ? 1 : 0) + (monthoffset > yearoffset ? 1 : 0);
+      var yearpos = 0 + (yearoffset > dayoffset ? 1 : 0) + (yearoffset > monthoffset ? 1 : 0);
+
+      var day = parseInt(parts[daypos],0);
+      var month = parseInt(parts[monthpos],0);
+      var year = parseInt(parts[yearpos],0);
+
+      if(day&&month&&year)
+        this.el.value = new Date(year,month-1,day).format('%Y-%m-%d');
+      else
+        this.el.value = ''
+    }
+   else
+      this.el.value = ''
+
     $wh.fireHTMLEvent(this.el, 'input');
   }
 
@@ -759,6 +783,23 @@ $wh.DateField = new Class(
     var date = this._getReplacedNodeDate();
     this.valuenode.setAttribute("placeholder", this.el.getAttribute("placeholder") || '');
     this.valuenode.set('value', date ? date.format(this.formatstr) : '');
+
+    // Copy required, readonly and disabled from replaced node
+    this.node.toggleClass('required',this.el.getAttribute('required')!=null);
+    this.node.toggleClass('readonly',this.el.getAttribute('readonly')!=null);
+    this.node.toggleClass('disabled',this.el.getAttribute('disabled')!=null);
+
+    var enablecalendar = this.options.enablecalendar && !this.node.hasClass('readonly') && !this.node.hasClass('disabled');
+    this.valuenode.disabled = this.node.hasClass('disabled');
+    this.valuenode.readOnly = (enablecalendar && this.options.onlycalendar && !this.node.hasClass('disabled')) ||  this.node.hasClass('readonly');
+
+    if (enablecalendar != !!this.arrownode.parentNode)
+    {
+      if (enablecalendar)
+        this.node.appendChild(this.arrownode)
+      else
+        this.node.removeChild(this.arrownode)
+    }
 
     if(this.calendar)
       this._hideCalendar();

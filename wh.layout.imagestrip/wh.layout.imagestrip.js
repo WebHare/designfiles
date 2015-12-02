@@ -122,6 +122,7 @@ $wh.ImageStrip = new Class(
 
 
 
+
 function setupImageStrip(node)
 {
   console.info(node);
@@ -142,7 +143,7 @@ function setupImageStrip(node)
 
 function initializeImageStrips()
 {
-  $wh.setupReplaceableComponents(".wh-masonry", setupImageStrip);
+  $wh.setupReplaceableComponents(".wh-imagestrip", setupImageStrip);
 }
 
 window.addEvent("domready", initializeImageStrips);

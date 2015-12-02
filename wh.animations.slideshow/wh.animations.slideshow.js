@@ -21,6 +21,7 @@ NOTES:
   -- 'slide-vertical'
   -- 'fade-in'
   -- 'fade-in-out'
+  -- 'css-animation'
   -- 'display-block' - also usefull as fallback for IE8
 
   If you want fading, it's best to use 'fade-in' for images and 'fade-in-out' for text
@@ -43,9 +44,7 @@ $wh.Slideshow = new Class(
 , element: null
 , slides: []
 , slidearea: null
-, options: { transition: 'sine:in:out'
-
-           , jumpbuttons: null
+, options: { jumpbuttons: null
            , jumpbutton_selectedclass: 'wh-slideshow-selected'
            , jumpbutton_normalclass: ''
            , jumpbutton_animate: false //true: animate slide onclick jumpbutton
@@ -69,8 +68,14 @@ $wh.Slideshow = new Class(
            , initialdelay: 0
            , delay:3000
            , slideduration: 1000
+
+           // animation settings
            , method: 'slide-horizontal'
+           , transition: 'sine:in:out'
            , methodoptions: null
+           , limitlastposition: false //limit position of last slide to end of the viewport (only relevant for slide-horizontal and slide-vertical)
+           , anim: 'fade' // anim for method 'css-animation'
+
            , autoplay: false
            , startposition:0
            , loop: false //if at end or begin, goto first/last slide
@@ -78,14 +83,16 @@ $wh.Slideshow = new Class(
            , pauseonhover: false    // if true the slideshow will pause while the mouse pointer hovers over the specified element (warning: if used the setPause function should not be used anymore)
            , pauseonhovernode: null
 
-           , limitlastposition: false //limit position of last slide to end of the viewport
            , stepsize: 1 // amount of steps the next/prev buttons take
            , persisttag: '' //if set, fieldname in a cookie storing the current slideshow position
 
            , debug:false
            , resizelistener: true
            }
+
 , currentpos: -1
+, currentslideshown: null // time at which the current slide was shown (for progress indicators)
+
 , playing:    false  // whether automatisch playback is enabled
 , paused:     false  // to remember we have paused playback (cancelled any scheduled slide). use setPause() to manipulate the pause state
 
@@ -101,6 +108,12 @@ $wh.Slideshow = new Class(
       console.error("Slideshow: no such element", element);
       return;
     }
+
+    if (this.options.debug && "prevbutton" in options && options.prevbutton == null)
+      console.warn("prevbutton option given but with value null, was this intended?")
+
+    if (this.options.debug && "nextbutton" in options && options.nextbutton == null)
+      console.warn("nextbutton option given but with value null, was this intended?")
 
     if(this.options.persisttag)
     {
@@ -145,7 +158,8 @@ $wh.Slideshow = new Class(
     if(this.options.startposition > 0)
     {
       startpos = this.options.startposition;
-      if(startpos > this.options.slides.length - 1) startpos = this.options.slides.length - 1;
+      if(startpos > this.options.slides.length - 1)
+        startpos = this.options.slides.length - 1;
     }
 
     this.gotoSlide(startpos,false);
@@ -294,7 +308,7 @@ $wh.Slideshow = new Class(
     if(this.options.limitlastposition && this.slidemethod.limitreached)
       return;
 
-    this.gotoSlide((this.currentpos + 1) % this.slidemethod.slides.length, true);
+    this.gotoSlide((this.currentpos + 1) % this.slidemethod.slides.length, true, true);
   }
 
 , gotoSlideRelative:function(relpos, animate)
@@ -315,7 +329,7 @@ $wh.Slideshow = new Class(
        newpos = 0;
     }
 
-    this.gotoSlide(newpos,animate);
+    this.gotoSlide(newpos,animate, relpos > 0);
   }
 , refresh: function()
   {
@@ -323,14 +337,19 @@ $wh.Slideshow = new Class(
   }
 
   // note: gotoSlide won't work correctly in case you accidently pass a string instead of number
-, gotoSlide:function(slideidx, animate)
+, gotoSlide:function(slideidx, animate, forwards)
   {
     // if we allready are on the correct slide or the specified index is out of range (of existing slides), ignore
-    if(slideidx == this.currentpos || ! (slideidx >= 0 && slideidx < this.slidemethod.slides.length))
+    if(slideidx == this.currentpos)// || ! (slideidx >= 0 && slideidx < this.slidemethod.slides.length))
+    {
+      if($wh.debug.ani)
+        console.log("CANCEL");
       return;
+    }
 
  //   if(this.options.limitlastposition && this.slidemethod.limitreached)
  //     return;
+    this.currentslideshown = new Date().getTime();
 
     var slideevt = { target: this
                    , animate: animate
@@ -378,7 +397,8 @@ $wh.Slideshow = new Class(
 
     var lastslide = this.currentpos;
     this.currentpos = slideidx;
-    this.slidemethod.gotoSlide(lastslide, slideidx, animate);
+
+    this.slidemethod.gotoSlide(lastslide, slideidx, animate, forwards);
     //ADDME endslide event with data from 'slideevt', but deal properly with cancellation etc if someone prematurely jumps ?
 
     if(this.options.persisttag)
@@ -831,6 +851,54 @@ $wh.Slideshow.DisplayBlock = new Class(
     }
   }
 });
+
+$wh.Slideshow.CssAnimation = new Class(
+{ Extends: $wh.Slideshow.MethodBase
+, limitreached: false
+, initialize: function(slideshow, items)
+  {
+    this.parent(slideshow);
+    this.setupSingleParentSlides(items);
+
+    slideshow.element.addClass("wh-slideshow-cssanimation");
+    slideshow.element.addClass("anim-"+slideshow.options.anim);
+  }
+
+, refresh:function()
+  {
+    //nothing
+  }
+
+, gotoSlide:function(lastslideidx, slideidx, animate, forwards)
+  {
+    //console.log(lastslideidx, slideidx, animate);
+
+    this.slides.removeClass("hidePrevious");
+    this.slides.removeClass("hideNext");
+    this.slides.removeClass("showNext");
+    this.slides.removeClass("showPrevious");
+    this.slides.removeClass("selected");
+
+    var isforwards = forwards; //slideidx > lastslideidx;
+    if (lastslideidx > -1)
+    {
+      this.slides[lastslideidx].addClass(isforwards ? "hidePrevious" : "hideNext");
+      this.slides[slideidx].addClass(isforwards ? "showNext" : "showPrevious");
+    }
+
+    this.slides[slideidx].addClass("selected");
+
+    if(this.slideshow.options.slide_selectedclass != '')
+    {
+      this.slides.removeClass(this.slideshow.options.slide_selectedclass);
+      this.slides[slideidx].addClass(this.slideshow.options.slide_selectedclass);
+      this.slideshow.fireEvent("endslide");
+    }
+  }
+});
+
+
+
 
 function setupSlideShow(node)
 {

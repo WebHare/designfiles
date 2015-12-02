@@ -65,6 +65,8 @@ var old_setstyle = Element.prototype.setStyle;
         this.store("-wh-blur-value", radius);
         this.store("wh-blur-value", radius);
 
+// Firefox 35 also support filters!!
+
         //console.error( "blur("+ pval[0].value.toFixed(3) +"px)" );
         if(canuse_webkit_blur)
         {

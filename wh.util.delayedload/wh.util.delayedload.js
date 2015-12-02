@@ -25,7 +25,7 @@ function handleWindowResizeOrScroll()
 
   $$('img.wh-delayed-load[data-delayed-src]').each(function(node)
     {
-      var rect  = node.getBoundingClientRect();
+      var rect = node.getBoundingClientRect();
       if(rect.bottom < 0 || rect.right < 0 || rect.left > size.x || rect.top > size.y)
         return;
 

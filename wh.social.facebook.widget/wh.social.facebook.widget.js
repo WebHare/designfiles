@@ -4,16 +4,15 @@ require ('wh.social.socialite.widget');
 require ('frameworks.mootools.more.request.jsonp');
 /*! REQUIRE: frameworks.mootools.core, wh.social.socialite.widget, frameworks.mootools.more.request.jsonp !*/
 
+/*
+
+Support for creating Facebook widgets
+
+*/
+
 if(!window.$wh) $wh={};
 
 (function($) { //mootools wrapper
-
-//////////////////////////////////////////////////////////////
-//
-//  Facebook client-side support
-//  (c)B-Lex IT 2012
-//
-
 
 /*
 Note: Facebook first searches for posts with the specified limit,
@@ -30,9 +29,6 @@ ADDME: show images for all friends in 'added friends'-status/link post? requires
 ADDME: ability (and option to enable/disable) support for inline youtube video's in a post
 */
 
-//pthunl/posts?since=2008-02-06&limit=100
-
-
 $wh.FacebookWidget = new Class(
 { Extends: $wh.SocialWidget
 , options: { userid:           "" // numeric id or username
@@ -46,28 +42,33 @@ $wh.FacebookWidget = new Class(
 , initialize: function(el, options)
   {
     this.parent(options);
+
+    if(!this.options.userid && !this.options.url)
+    {
+      console.error("No userid or url provided to indentify from which source to get Facebook posts.");
+      return;
+    }
+
     if(!this.options.userid)
       this.options.userid = this.getUseridFromUrl(this.options.url);
 
     this.container = $(el);
     this.container.addClass('-wh-facebook-widget');
-    this.container.addClass('wh-facebook-widget');
-    el.store("-wh-facebook-widget",this);
+    this.container.addClass('wh-facebook-widget'); // FIXME: why add this class??
     el.store("wh-facebook-widget",this);
-
 
     this.update_posts();
   }
 
 , getUseridFromUrl:function(url)
   {
-    ur=url.split('#')[0].split('&')[0];
+    url=url.split('#')[0].split('&')[0];
     var protocol=url.split('//')[0];
     var hostname=url.split('/')[2];
     var urlpath=url.split('/').slice(3).join('/');
 
     if(hostname!='facebook.com' && hostname!='www.facebook.com')
-      return ''
+      return '';
     if(urlpath.substr(0,15)=="profile.php?id=")
       return urlpath.substr(15);
     if(urlpath.substr(0,6)=="pages/")
@@ -86,11 +87,11 @@ $wh.FacebookWidget = new Class(
                                              , access_token: this.options.accesstoken
                                            //, nocache:      Math.round(Math.random()*99999999) // FIXME: caching seems to aggressively happen at Facebook's side, so this doesn't fix a delay in posts appearing
                                              }
-                                     , onSuccess:   this.update_posts_dom.bind(this)
+                                     , onSuccess:   this.updatePostsDOM.bind(this)
                                      }).send();
   }
 
-, update_posts_dom: function(result)
+, updatePostsDOM: function(result)
   {
     if (!result.data)
     {
@@ -151,20 +152,21 @@ $wh.FacebookWidget = new Class(
 
       messages_shown++;
       var quote = this.createFeedItem(this.prepareFeedItem(feeditem));
-      this.container.appendChild(quote);
+      if (quote) // we use the hardcoded dom created by js (if a template was used we don't get the node back)
+        this.container.appendChild(quote);
     }
     if (this.options.debug && window.console)
     {
       console.log("Got "+messages.length+" messages, specified maxitems "+this.options.maxitems+", shown: "+messages_shown);
     }
+
+    $wh.fireLayoutChangeEvent(this.container, "up");
   }
 });
 
 $wh.setupElementAsFacebookWidget = function(el)
 {
   el=$(el);
-  if(el.retrieve("-wh-facebook-widget"))
-    return el.retrieve("-wh-facebook-widget");
   if(el.retrieve("wh-facebook-widget"))
     return el.retrieve("wh-facebook-widget");
 

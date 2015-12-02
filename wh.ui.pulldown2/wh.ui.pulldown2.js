@@ -2,8 +2,8 @@
 require ('./pulldown2.css');
 require ('wh.ui.menu');
 require ('wh.ui.base');
-require ('frameworks.mootools.more.keyboard');
-/*! LOAD: wh.ui.menu, wh.ui.base, frameworks.mootools.more.keyboard
+require ('whfree.keyboard-bunny');
+/*! LOAD: wh.ui.menu, wh.ui.base, whfree.keyboard-bunny
 !*/
 /* For debugging, add #wh-ignore-pulldown-blur to the URL to prevent
    the pulldown from closing on blur
@@ -11,6 +11,7 @@ require ('frameworks.mootools.more.keyboard');
 
   FIXME: switching between pulldowns require two clicks (one to close the first, second to active the next pulldown)
   ADDME: reimplement minvisibleoptions and maxvisibleoptions?
+  FIXME: don't activate on touchstart, but on touchend
 
 
   CSS classes:
@@ -98,11 +99,6 @@ $wh.Pulldown2 = new Class(
 
     this.el = $(el);
 
-    this.keyboard = new Keyboard({ events: { 'down': this.onKeyDown
-       //, 'enter': this.onKeyDown
-                                           }
-                                 });
-
     // Store the supplied values locally, so setNewValues can set the correct
     // values. Also, setNewValues uses getSelected to get the currently selected
     // option, but we want nothing to be selected initially
@@ -112,6 +108,9 @@ $wh.Pulldown2 = new Class(
     this.el.addEvent("change", this.onInputChange);
     this.el.addEvent("wh-refresh", this.refresh.bind(this));
     this.buildNode();
+
+    if(!this.usenativeselector)
+      new KeyboardBunny(this.node, { 'down': this.onKeyDown }, {stopmapped:true});
   }
 
 , buildNode: function()
@@ -410,7 +409,7 @@ $wh.Pulldown2 = new Class(
       }*/
     }
 
-    this.keyboard.activate();
+    //this.keyboard.activate();
   }
 
 , onNodeBlur: function()
@@ -420,7 +419,7 @@ $wh.Pulldown2 = new Class(
     if (this.classicvaluesmenu)
       this.closeOptionsMenu();
 
-    this.keyboard.deactivate();
+    //this.keyboard.deactivate();
   }
 
 , onKeyDown: function(event)

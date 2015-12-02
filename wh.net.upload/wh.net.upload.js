@@ -1036,7 +1036,7 @@ $wh.selectAndUploadFile = function(options)
       console.log("[upload] HTML5 upload start");
 
     // HTML 5 supported upload
-    $wh.selectHTML5File().addEvents(
+    $wh.selectHTML5File(options).addEvents(
       { abort:  group.abort.bind(group)
       , load:   function(event)
                 {
@@ -1092,7 +1092,9 @@ $wh.selectAndUploadFile = function(options)
   // FIXME: also add options.params, so we can use this function from tollium
   doc.body.innerHTML =
     '<form id="form" method="post" enctype="multipart/form-data">'+
-    '  <input type="file" id="file" name="file" />'+
+    '  <input type="file" id="file" name="file" '+
+        (options.mimetypes ? 'accept="'+options.mimetypes.join(',')+'" ' : '')+
+        '/>'+
     '  <input type="text" id="debugname" name="debugname" />'+
     '  <input type="text" id="debugfile" name="debugfile" />'+
     '  <input type="submit" id="submit" name="submitbutton" />'+

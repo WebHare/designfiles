@@ -67,7 +67,9 @@ $wh.Form.Wizard = new Class(
       event.stop();
 
 //FIXME VALIDATE BEFORE VERIFY
+
       var nextpageid = this.pagemgr.getCurrentPage().getPageNode().getAttribute('data-form-nextpage');
+
       if(nextpageid)
       {
         this.nextpage = this.pagemgr.findPage(nextpageid);
@@ -86,6 +88,7 @@ $wh.Form.Wizard = new Class(
       }
 
       var pagenode = this.pagemgr.getCurrentPage().getPageNode();
+      //validate locally before running verifications
       this.handler.validatePage(pagenode, this.validatedForNext.bind(this, event.button));
       return;
     }
@@ -122,11 +125,14 @@ $wh.Form.Wizard = new Class(
     }
     nextstep();
   }
-, submittedToNextPage:function()
+, submittedToNextPage:function(opts)
   {
     var nextpageevent = new $wh.Event;
     nextpageevent.initEvent('wh-form-nextpage', true, true);
     nextpageevent.target = this.pagemgr.getCurrentPage().getPageNode();
+    if(opts.nextpage)
+      this.nextpage = this.pagemgr.findPage(opts.nextpage);
+
     nextpageevent.nextpage = this.nextpage;
     nextpageevent.target.fireEvent('wh-form-nextpage', nextpageevent);
 

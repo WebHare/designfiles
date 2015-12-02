@@ -34,7 +34,9 @@ Locale.define('de-DE', 'wh-common',
   , videopopup: { 'insertcode': "Geben Sie eine URL oder HTML-Embed-Code, die auf das Video, das Sie aufnehmen möchten bezieht"
                 , 'submitcode': "Video einbetten"
                 }
-  , authentication: { 'loginfail': 'Die angegebenen Login-Daten stimmen leider nicht'}
+  , authentication: { 'loginfail': 'Die angegebenen Login-Daten stimmen leider nicht.'
+                    , 'loginerror': 'Es war ein Fehler aufgetreten.'
+                    }
  });
 
 //FIXME Integrate into common texts

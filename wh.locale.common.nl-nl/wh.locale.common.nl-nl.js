@@ -34,7 +34,9 @@ Locale.define('nl-NL', 'wh-common',
   , videopopup: { 'insertcode': "Enter a URL or HTML embed code referring to the video you want to include "
                 , 'submitcode': "Embed video"
                 }
-  , authentication: { 'loginfail': 'De opgegeven login gegevens zijn niet correct.'}
+  , authentication: { 'loginfail': 'De opgegeven login gegevens zijn niet correct.'
+                    , 'loginerror': 'Er is een fout opgetreden.'
+                    }
   });
 
 //FIXME Integrate wh-form into common texts

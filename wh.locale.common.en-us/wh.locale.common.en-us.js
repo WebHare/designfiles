@@ -34,7 +34,9 @@ Locale.define('en-US', 'wh-common',
   , videopopup: { 'insertcode': "Enter a URL or HTML embed code referring to the video you want to include "
                 , 'submitcode': "Embed video"
                 }
-  , authentication: { 'loginfail': 'The specified login data is incorrect.'}
+  , authentication: { 'loginfail': 'The specified login data is incorrect.'
+                    , 'loginerror': 'An error has occurred.'
+                    }
  });
 
 //FIXME Integrate into common texts
