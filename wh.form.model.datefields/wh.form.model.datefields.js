@@ -161,6 +161,8 @@ $wh.Form.models["wh.datefields"] = new Class(
   }
 , generateRawValue:function(date)
   {
+    if (typeof date == "string")
+      date = this.parseRawValue(date);
     return date ? date.toISOString() : '';
   }
 , parseRawValue:function(value)
