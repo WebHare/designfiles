@@ -546,8 +546,6 @@ $wh.AnimationTimeline = new Class(
         delete setstyles["wh-scale"];
         delete setstyles["wh-rotate"];
 
-
-
         if(reset)
         {
           var usetransforms = this.usetransforms;
@@ -585,6 +583,14 @@ $wh.AnimationTimeline = new Class(
                 wh_pos.changed = false;
               }
 
+              //console.log(setstyles);
+
+              if (setstyles.scrollTop)
+              {
+                el.scrollTop = setstyles.scrollTop[0];
+                delete el.scrollTop;
+              }
+
               el.setStyles(setstyles);
             }.bind(this));
         }
@@ -616,6 +622,13 @@ $wh.AnimationTimeline = new Class(
             wh_pos.changed = false;
           }
 
+          if (setstyles.scrollTop)
+          {
+            el.scrollTop = setstyles.scrollTop[0];
+            delete el.scrollTop;
+          }
+
+          //console.log(setstyles);
           ani.elements.setStyles(setstyles);
         }
 

@@ -534,6 +534,25 @@ Element.implement(
     }
 });
 
+
+// Internet Explorer still uses an old prefixed name for the node.matches() method
+// (and just to be nice whe'll also support other old browser.. for now.)
+// http://caniuse.com/#feat=matchesselector
+if (!Element.prototype.matches)
+{
+  var ep = Element.prototype;
+
+  if (ep.webkitMatchesSelector) // Chrome <34, SF<7.1, iOS<8
+    ep.matches = ep.webkitMatchesSelector;
+
+  if (ep.msMatchesSelector) // IE9/10/11 & Edge
+    ep.matches = ep.msMatchesSelector;
+
+  if (ep.mozMatchesSelector) // FF<34
+    ep.matches = ep.mozMatchesSelector;
+}
+
+
 // http://www.nixtu.info/2013/06/how-to-upload-canvas-data-to-server.html
 $wh.dataURItoBlob = function(dataURI)
 {
@@ -887,6 +906,9 @@ $wh.getCurrentHash = function()
           clearTimeout(id);
       };
 
+
+
+
   $(window).addEvent("load", function() { if ($wh.assumecookiepermission) $(document).fireEvent("cookiespermitted"); });
 
   /// Safari seems to immediately repeat keydown events when pressing Esc, so we'll cancel subsequent keydown events
@@ -955,8 +977,10 @@ $wh.fireLayoutChangeEvent = function(node, direction)
 
   var up = !direction || direction == "up";
   var down = !direction || direction == "down";
-//  console.log( up ? "UP":"", down ? "DOWN":"", node);
+  //  console.log( up ? "UP":"", down ? "DOWN":"", node);
   //console.trace();
+
+  //console.log("LayoutChange " + (up?"UP":"") + " " + (down?"DOWN":"") + " from", node);
 
   if (up)
     node.getParents(".wh-layoutlistener").fireEvent("wh-layoutchange", { target: node, direction: "up" });
@@ -1049,20 +1073,19 @@ $wh.getTopMatchedElements = function(node, selector)
 {
   function getSelfAndElements(node,selector)
   {
-    var retval = [];
-    if(node.match(selector))
-      retval.push(node);
+    // NOTE: we convert the static nodelist to a MooTools element list
+    var retval = $$( node.querySelectorAll(selector) );
+    if (node.matches(selector))
+      retval.include( node );
 
-    var toappend = Array.from(node.getElements("*").filter(selector)); //IE8 requires Array.from...
-    retval.append(toappend);
     return retval;
   }
-
 
   var elements=[];
   if(!node)
   {
-    elements=$$(selector);
+    // if no start/root node is specified, get all elements within the document which match the selector
+    elements = document.querySelectorAll(selector);
   }
   else if($wh.isHTMLElement(node))
   {
@@ -1072,7 +1095,7 @@ $wh.getTopMatchedElements = function(node, selector)
   {
     for(var testnode = node.rangestart;testnode&&testnode!=node.rangelimit;testnode=testnode.nextSibling)
       if($wh.isHTMLElement(testnode))
-        elements.append(getSelfAndElements($(testnode), selector));
+        elements.append( getSelfAndElements($(testnode), selector));
   }
   else if(node.firstChild) //document fragment
   {
@@ -1164,7 +1187,8 @@ $wh.getVerticalOverhead = function(node)
   return 0;
 }
 
-//get the information needed to properly stretch an image
+// get the information needed to properly stretch an image
+// (to fully cover (fit or fill) the available space (outwidth/outheight) with the original size (inwidth/inheight) while keeping the aspect ratio)
 $wh.getCoverCoordinates = function(inwidth, inheight, outwidth, outheight, fit)
 {
   var infx = !(outwidth > 0);
@@ -1195,7 +1219,7 @@ $wh.dispatchDomEvent=function(element, eventtype, options)
   if(!("cancelable" in options)) //you generally need to think about these two...
     console.error("You should set 'cancelable' to true or false in a $wh.dispatchDomEvent call");
   if(!("bubbles" in options))
-    console.error("You should set 'bubles' to true or false in a $wh.dispatchDomEvent call");
+    console.error("You should set 'bubbles' to true or false in a $wh.dispatchDomEvent call");
 
   //Firefox Bugzilla #329509 - Do not prevent event dispatching even if there is no prescontext or (form) element is disabled
   //we'll just normalize around Firefox' behaviour - IE might do it too?

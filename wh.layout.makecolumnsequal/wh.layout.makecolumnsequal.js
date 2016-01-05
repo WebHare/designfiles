@@ -123,9 +123,9 @@ $wh.makeColumnsEqual = function makeColumnsEqual(container_or_elements, options)
 
   // for each row, get the highest block; set the max height to all blocks in this row
   var largestheight = 0;
-  for (var i = 0; i < amount_of_blocks; i++)
+  for (var idx = 0; idx < amount_of_blocks; idx++)
   {
-    var colblock = blocks[i];
+    var colblock = blocks[idx];
     var blockpos = colblock.getBoundingClientRect();
     if (options.debug)
     {
@@ -166,6 +166,6 @@ $wh.makeColumnsEqual = function makeColumnsEqual(container_or_elements, options)
   fixBlocks(blockqueue, options, largestheight);
 
   //console.groupEnd();
-}
+};
 
 })(document.id);

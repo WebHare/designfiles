@@ -13,7 +13,6 @@ require ('wh.media.videomgr');
 
 $wh.VideoCarrouselHeader = new Class(
 { url: new $wh.URL(location.href)
-, method: null
 , transitBGC: null
 , video: null
 , container: null
@@ -56,7 +55,6 @@ $wh.VideoCarrouselHeader = new Class(
     }
     this.options.videos = vidinfo;
 
-    this.method = this.url.getVariable('method');
     this.video = $(videoelement);
     this.container = this.video.parentNode;
     this.overlay = overlay;

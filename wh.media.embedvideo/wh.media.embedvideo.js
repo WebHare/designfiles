@@ -11,6 +11,19 @@ var default_video_playback = { autoplay: false
                              , loop:     false // only supported in Vimeo
                              };
 
+/** @short generate a video player to play the specified video with the specified settings
+    @cell video
+    @cell video.network
+    @cell video.id
+    @cell playback
+    @cell playback.autoplay
+    @cell playback.start
+    @cell playback.end
+    @cell playback.controls
+    @cell playback.loop
+    @cell playback.interactive make sure that we can control (ADDME)
+
+*/
 function generateVideoNode(video, playback)
 {
   //<iframe width="560" height="315" src="//www.youtube.com/embed/Sk9ST8R2SDk" frameborder="0" allowfullscreen></iframe>
@@ -48,6 +61,8 @@ function generateVideoNode(video, playback)
         }
 
         args.push("rel=0"); // disable 'related video's'
+
+        args.push("enablejsapi=1");
 
         // ADDME: playsinline parameter for inline or fullscreen playback on iOS
         /*
@@ -143,6 +158,44 @@ function generateVideoNode(video, playback)
   }
   return ifrm;
 }
+
+/** pause any YouTube or Vimeo movie within the specified DOM
+    NOTE: YouTube will only react if ?enablejsapi=1 was specified
+*/
+$wh.pauseVideosWithin = function(node)
+{
+  var iframes = node.querySelectorAll("iframe");
+  for (var idx = 0; idx < iframes.length; idx++)
+  {
+    var iframe = iframes[idx];
+
+    var parser = document.createElement("a");
+    parser.href = iframe.src;
+
+    if (parser.hostname.substr(parser.hostname.length - 11) == "youtube.com")
+    {
+      // Officially the YouTube iframe API must be used
+      // But it requires you to dynamically create a video and we have to wait for the API to have been loaded/ready.
+      //
+      //http://stackoverflow.com/questions/7443578/youtube-iframe-api-how-do-i-control-a-iframe-player-thats-already-in-the-html
+      //iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*')
+      iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*')
+    }
+    else if (parser.hostname.substr(parser.hostname.length - 9) == "vimeo.com")
+    {
+      // Chrome may throw an exception saying the message was blocked,
+      // (on localhost usage?) but the message probably still reached the destination, which it should since we used "*")
+      //var val = JSON.stringify({ method: "pause" });
+      iframe.contentWindow.postMessage('{"method":"pause"}', "*");
+    }
+  }
+}
+
+
+
+
+
+
 
 $wh.__defaultplaybackoptions = default_video_playback;
 $wh.__generateVideoNode = generateVideoNode; //exposed only for wh.ui.popup.video and wh.ui.popup.mediaslides

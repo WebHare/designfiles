@@ -35,6 +35,10 @@ FIXME: move (some) themes and animations to seperatae files or a demo site
   width:0px;
   content: " ";
 }
+.wh-popup-container.scroll-popup-viewport:before
+{
+  display: none; /* only messed with CSS reload in 'popup_viewport' scroll mode */
+}
 
 /*
 Functions as:

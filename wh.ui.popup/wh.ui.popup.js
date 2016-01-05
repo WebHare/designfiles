@@ -630,7 +630,7 @@ $wh.PopupManagerClass = new Class(
         {
           if (node.scrollTop > 0)
           {
-            console.log("Can still scroll:", node);
+            //console.log("Can still scroll:", node);
             return;
           }
         }
@@ -639,7 +639,7 @@ $wh.PopupManagerClass = new Class(
           var over = node.scrollHeight - node.clientHeight - node.scrollTop;
           if (over > 0)
           {
-            console.log("Can still scroll:", node);
+            //console.log("Can still scroll:", node);
             return;
           }
         }
@@ -772,14 +772,21 @@ $wh.BasicPopup = new Class(
                                      // 'none' = don't limit (usefull in combination with position: "absolute")
                                      //     >0 = limit to specified amount of pixels
 
-      /// amount of pixels to keep away from the edge of the viewport
-      , keepfromedge:         25
+      /** amount of pixels to keep away from the edge of the viewport
+          either use the shorthand property 'keepfromedge'
+          when needing popups of a specific width and want to prevent horizontal scrollbars,
+          set keepfromedge_x to 0 and specify the desired keepfromedge_y.
+      */
+      , keepfromedge:         null
+      , keepfromedge_x:       25
+      , keepfromedge_y:       25
       }
 
 // Read-only
 , open:      false // visible and not being closed
 , visible:   false //
 , destroyed: false
+, body:      null  // node containing the popup's content
 
 // Private
 , nodes: {}
@@ -903,6 +910,8 @@ $wh.BasicPopup = new Class(
     body_container.adopt(body);
 
     chrome.store("wh-popup-instance", this);
+
+    this.body = body;
 
     this.nodes =
         { container:      container
@@ -1050,8 +1059,8 @@ $wh.BasicPopup = new Class(
     var chrome_dimensions = this.nodes.chrome.getComputedSize();
 //    var body_dimensions = this.nodes.body.getComputedSize();
 
-    var avail_width = viewportsize.x - (this.options.keepfromedge * 2);
-    var avail_height = viewportsize.y - (this.options.keepfromedge * 2);
+    var avail_width = viewportsize.x - (this.options.keepfromedge_x * 2);
+    var avail_height = viewportsize.y - (this.options.keepfromedge_y * 2);
 
     // FIXME: available_width should account for being placed in other elements than the viewport
     return { // the outer width available for the full popup (including chrome)
@@ -1172,7 +1181,7 @@ $wh.BasicPopup = new Class(
 
       this.nodes.container.setStyle("pointer-events", "auto"); // FIXME: only set once
 
-      this.nodes.chrome.setStyle("margin", this.options.keepfromedge);
+      this.nodes.chrome.style.margin = this.options.keepfromedge_y + "px " + this.options.keepfromedge_x + "px " + this.options.keepfromedge_y + "px " + this.options.keepfromedge_x + "px";
     }
     else
     {
@@ -1235,6 +1244,10 @@ $wh.BasicPopup = new Class(
       this.nodes.chrome.clientHeight; // force reflow
 */
 
+    if (this.options.scroll == "popup_viewport")
+      document.documentElement.addClass("scroll-popup-viewport"); // internal usage
+
+    this.nodes.container.toggleClass("scroll-popup-viewport", this.options.scroll == "popup_viewport"); // internal usage
 
     // Whe'll fire beforeshow when the popup is in the DOM,
     // so dimensions of elements within can be measured
@@ -1272,6 +1285,12 @@ $wh.BasicPopup = new Class(
 
     this.open = false;
 
+    // Make sure there's no focus in the popup so
+    // - elements within the popup don't get events, keypresses etc
+    // - any virtual keyboard (on iOS/Android) is closed
+    if (this.nodes.container.contains(document.activeElement))
+      document.activeElement.blur();
+
     if (!this.visible) // we were closing?
     {
       if (this.options.debug)
@@ -1296,6 +1315,12 @@ $wh.BasicPopup = new Class(
 
     this.fireEvent("beforehide");
     $wh.PopupManager.fireEvent("beforehide", { popup: this });
+
+
+    // FIXME: make this work correct with multiple popups with "popup_viewport" open
+    if (this.options.scroll == "popup_viewport")
+      document.documentElement.removeClass("scroll-popup-viewport"); // internal usage
+
 
     $wh.PopupManager.removeFromStack(this);
     var container = this.nodes.container;
@@ -1385,27 +1410,29 @@ $wh.BasicPopup = new Class(
   // FIXME: can we override the default setOptions??
 , __setOptions: function(options)
   {
-    if (options)
-    {
-      if ("nodeType" in options)
-      {
-        console.error("accidental passing of a node as options parameter.")
-        return;
-      }
-      else
-      {
-        if ("canclose" in options)
-        {
-          console.warn("canclose option is obsolete. Replace canclose:false; with { closebutton:false, explicitclose:false }.")
-          options.closebutton = options.canclose;
-          options.explicitclose = !options.canclose;
-          delete options.canclose;
-        }
+    if (!options)
+      return;
 
-        this.setOptions(options);
-      }
+    if ("nodeType" in options)
+    {
+      console.error("accidental passing of a node as options parameter.")
+      return;
     }
 
+    if ("canclose" in options)
+    {
+      console.warn("canclose option is obsolete. Replace canclose:false; with { closebutton:false, explicitclose:false }.")
+      options.closebutton = options.canclose;
+      options.explicitclose = !options.canclose;
+      delete options.canclose;
+    }
+
+    if ("keepfromedge" in options)
+    {
+      options.keepfromedge_x = options.keepfromedge;
+      options.keepfromedge_y = options.keepfromedge;
+    }
+    this.setOptions(options);
     //console.info(this.options);
 
     if (this.options.anim_open == "")
@@ -1546,6 +1573,8 @@ $wh.BasicPopup = new Class(
   {
     // if the mousedown was done outside the popup,
     // cancel to prevent selection within the popup to occur from outside the popup
+
+    // FIXME: only cancel if left mousebutton??
     if (evt.target == this.nodes.container)
       evt.preventDefault();
   }
@@ -1853,7 +1882,8 @@ $wh.ModalityLayer = new Class(
     //this.options.container.appendChild(this.node);
     beforenode.parentNode.insertBefore(this.overlaynode, beforenode);
 
-    $(document.documentElement).addClass("wh-modal-popup-active");
+    var htmlnode = $(document.documentElement);
+    htmlnode.addClass("wh-modal-popup-active");
 
     if($wh.legacyclasses)
     {
@@ -1944,7 +1974,9 @@ $wh.Popup.closeTop = function()
 {
   if(!$wh.PopupManager.popupstack.length)
     throw "No popups currently open";
-  $wh.PopupManager.popupstack.getLast().hide();
+
+  if($wh.PopupManager.popupstack.length)
+    $wh.PopupManager.popupstack.getLast().hide();
 }
 //Close all dialogs
 $wh.Popup.closeAll = function()

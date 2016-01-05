@@ -705,29 +705,23 @@ $wh.MediaViewer = new Class(
       {
         case "youtube":
             var iframe = node.getElement("iframe");
-            if (!iframe)
-              return;
 
-            if (window.postMessage)
-            {
-              // Officially the YouTube iframe API must be used
-              // But it requires you to dynamically create a video and we have to wait for the API to have been loaded/ready.
-              //
-              //http://stackoverflow.com/questions/7443578/youtube-iframe-api-how-do-i-control-a-iframe-player-thats-already-in-the-html
-              //iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*')
-              iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*')
-            }
+            // Officially the YouTube iframe API must be used
+            // But it requires you to dynamically create a video and we have to wait for the API to have been loaded/ready.
+            //
+            //http://stackoverflow.com/questions/7443578/youtube-iframe-api-how-do-i-control-a-iframe-player-thats-already-in-the-html
+            //iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*')
+            iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*')
             break;
 
         case "vimeo":
             var iframe = node.getElement("iframe");
-            if (window.postMessage)
-            {
-              // Chrome may throw an exception saying the message was blocked,
-              // (on localhost usage?) but the message probably still reached the destination, which it should since we used "*")
-              var val = JSON.encode({ method: "pause" });
-              iframe.contentWindow.postMessage(val, "*");
-            }
+
+            // Chrome may throw an exception saying the message was blocked,
+            // (on localhost usage?) but the message probably still reached the destination, which it should since we used "*")
+            var val = JSON.encode({ method: "pause" });
+            iframe.contentWindow.postMessage(val, "*");
+            break;
       }
     }
   }

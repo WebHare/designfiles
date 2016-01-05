@@ -518,7 +518,7 @@ $wh.AutoComplete = new Class(
         return;
 
     if (value && this.node)
-      this.node.set("value", value.value);
+      $wh.changeValue(this.node, value.value);
     this.cancelRequest();
     this.fireEvent("valueselected", { target: this, value: value });
   }

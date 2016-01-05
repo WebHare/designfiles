@@ -2116,3 +2116,4 @@ window.addEvent("wh-after-domready", function()
 });
 
 })(document.id);
+module.exports = $wh.Form

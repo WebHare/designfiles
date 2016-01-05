@@ -130,7 +130,7 @@ $wh.Form.Wizard = new Class(
     var nextpageevent = new $wh.Event;
     nextpageevent.initEvent('wh-form-nextpage', true, true);
     nextpageevent.target = this.pagemgr.getCurrentPage().getPageNode();
-    if(opts.nextpage)
+    if(opts && opts.nextpage)
       this.nextpage = this.pagemgr.findPage(opts.nextpage);
 
     nextpageevent.nextpage = this.nextpage;
