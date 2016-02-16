@@ -846,20 +846,16 @@ $wh.PhotoGrid = new Class(
   {
     this.gridnode.setStyles({ 'width' : null, 'height' : null });//reset width and height
     var gridsize = this.gridnode.getSize();
-    var usemaxheight = false;
-    if(!gridsize.y)
-    { //if no size given, check max-height
-      var maxh = this.gridnode.getStyle('max-height');
-      if(maxh)
-      {
-        gridsize.y = maxh.toInt();
-        if(isNaN(gridsize.y))
-          gridsize.y = 0;
 
-        if(maxh.indexOf('%') != -1)
-          gridsize.y = this.gridnode.getParent().getSize().y * gridsize.y * 0.01;
-      }
-      usemaxheight = gridsize.y > 0;
+    var maxhstr = this.gridnode.getStyle('max-height');
+    var maxhint = maxhstr.toInt();
+    var usemaxheight = !isNaN(maxhint) && maxhint > 0;
+    if(usemaxheight)
+    { //if no size given, check max-height
+      if(maxhstr.indexOf('%') != -1)
+        gridsize.y = this.gridnode.getParent().getSize().y * maxhint * 0.01;
+      else
+        gridsize.y = maxhint;
     }
 
     var imagegroups = new Array();
@@ -871,7 +867,7 @@ $wh.PhotoGrid = new Class(
 
     var rowheight = this.gridslideshownode ? Math.ceil(gridsize.y/gridrows) : this.options.maxthumbheight;
     while(this.gridslideshownode && rowheight > this.options.maxthumbheight)
-    {
+    {//calculate nr. rows in a slide
       gridrows++;
       rowheight = Math.ceil(gridsize.y/gridrows);
     }

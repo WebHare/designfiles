@@ -12,53 +12,7 @@ require ('wh.util.errorreporting');
 
 /*
 
-WARNING: Still experimental
-    - API and classnames can still change
-
-
-Supported browsers
-    - Internet Explorer 8+
-    - Firefox
-    - Chrome
-    - Safari
-
-What features are supported in which browser:
-    - Pausing of video upon leaving a slide is not supported in Internet Explorer < 8
-    - Fullscreen mode is supported in all major browser, except Internet Explorer needs version 11 or newer
-
-Features:
-    - Support for images and YouTube/Vimeo movies
-    - Video's will be paused upon going to another slide or closing the mediaviewer:
-    - Fullscreen mode support
-    - Autoresize using 'fit' or 'cover'
-    - Can be used inline or in a popup
-    - Ability to autoresize content when in popup mode
-    - Ability to resize in inline mode upon calling resizeAndReposition() (FIXME: change into a public refresh() function?)
-
-
-FIXME: Flash steals focus. Is there anything we can do about this?
-ADDME: Support for our own media player
-
-
-Usage:
-
-JS
-  $ut.Mediabrowser      -> $wh.MediaSelector
-  $ut.MediaViewer       -> $wh.MediaViewer
-  $wh.MediaViewerDialog -> $wh.MediaViewerDialog
-
-CSS classes:
-  wh-mediaviewer-title // may not be used anymore??
-  wh-mediaviewer-popup
-  wh-mediaselector-go-left
-  wh-mediaselector-go-right
-
-DOM:
-  - YouTube movies
-    <div data-type="youtube" data-videoid="[videoid]"></div>
-
-  - Vimeo movies
-    <div data-type="vimeo" data-videoid="[videoid]"></div>
+ask Olfert for docs
 
 */
 

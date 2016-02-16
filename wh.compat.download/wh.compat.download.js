@@ -20,7 +20,7 @@ $wh.DownloadManager = new Class(
   }
 , destroy:function()
   {
-    if(!this.dlframe)
+    if(this.dlframe)
       this.dlframe.dispose();
     this.destroyed=true;
   }

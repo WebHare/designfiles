@@ -78,7 +78,6 @@ $wh.applyEllipsisToText = function applyEllipsisToText(container_or_elements, op
       console.warn("$wh.applyEllipsisToText got a null as element.");
       continue;
     }
-console.log(container);
 
     var orig_overflow_value;
     if (use_maxheight)
@@ -215,7 +214,7 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
     // it's required to use plaintext for this function
     if (container.childNodes.length > 1 || (container.firstChild && container.firstChild.nodeType != 3))
     {
-      console.warn("Having more than one text node is not recommended.", container);
+      //console.info(container.innerHTML);
 
       var node = container.firstChild;
       var haselem = false;
@@ -224,6 +223,7 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
         if (node.nodeType == 1)
         {
           haselem = true;
+          console.log(node);
           break;
         }
 
@@ -233,10 +233,11 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
       if (haselem)
       {
         console.warn("applyEllipsisToText encountered non-text content.")
-
         // force content to all-text before our first measurement
         currentnode.set("text", currentnode.get("text"));
       }
+      else
+        console.warn("Having more than one text node is not recommended.", container);
     }
 
     // chop up the textual content

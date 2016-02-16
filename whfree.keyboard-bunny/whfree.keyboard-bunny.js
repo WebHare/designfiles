@@ -90,8 +90,8 @@ var remapkeycode = { 48:'0', 49: '1', 50: '2', 51: '3', 52: '4', 53: '5', 54: '6
                    , 75:'K', 76: 'L', 77: 'M', 78: 'N', 79: 'O', 80: 'P', 81: 'Q', 82: 'R', 83: 'S', 84: 'T'
                    , 85:'U', 86: 'V', 87: 'W', 88: 'X', 89: 'Y', 90: 'Z'};
 var propnames = { "shiftKey":   "Shift"
-                , "ctrlKey":    Browser.Platform == "mac" ? "Control" : [ "Accel", "Control" ]
-                , "metaKey":    Browser.Platform == "mac" ? [ "Accel", "Meta" ] : "Meta"
+                , "ctrlKey":    Browser.platform == "mac" ? "Control" : [ "Accel", "Control" ]
+                , "metaKey":    Browser.platform == "mac" ? [ "Accel", "Meta" ] : "Meta"
                 , "altKey":     "Alt"
                 };
 
@@ -171,6 +171,11 @@ function getKeyNames(event, node)
 
   return result;
 }
+/** Is the native 'copy' modified for this platform pressed? */
+KeyboardBunny.hasNativeEventCopyKey = function(event)
+{
+  return event && (Browser.platform == "mac" ? event.metaKey : event.ctrlKey);
+};
 
 /** Returns thether the current pressed special key should be ignored for the current target node
     Used to detect input/textarea/rte's

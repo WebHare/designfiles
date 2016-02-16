@@ -8,7 +8,7 @@ description: The heart of MooTools.
 
 license: MIT-style license.
 
-copyright: Copyright (c) 2006-2014 [Valerio Proietti](http://mad4milk.net/).
+copyright: Copyright (c) 2006-2015 [Valerio Proietti](http://mad4milk.net/).
 
 authors: The MooTools production team (http://mootools.net/developers/)
 
@@ -20,12 +20,12 @@ provides: [Core, MooTools, Type, typeOf, instanceOf, Native]
 
 ...
 */
-/*! MooTools: the javascript framework. license: MIT-style license. copyright: Copyright (c) 2006-2014 [Valerio Proietti](http://mad4milk.net/).*/
+/*! MooTools: the javascript framework. license: MIT-style license. copyright: Copyright (c) 2006-2015 [Valerio Proietti](http://mad4milk.net/).*/
 (function(){
 
 this.MooTools = {
-        version: '1.5.1',
-        build: '0542c135fdeb7feed7d9917e01447a408f22c876'
+        version: '1.5.2',
+        build: 'ed01297a1a19de0675404640e7377cf97694e131'
 };
 
 // typeOf, instanceOf
@@ -58,13 +58,25 @@ var instanceOf = this.instanceOf = function(item, object){
         return item instanceof object;
 };
 
-// Function overloading
+var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-var Function = this.Function;
-
+/*<ltIE8>*/
 var enumerables = true;
 for (var i in {toString: 1}) enumerables = null;
 if (enumerables) enumerables = ['hasOwnProperty', 'valueOf', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'constructor'];
+function forEachObjectEnumberableKey(object, fn, bind) {
+        if (enumerables) for (var i = enumerables.length; i--;){
+               var k = enumerables[i];
+               // signature has key-value, so overloadSetter can directly pass the
+               // method function, without swapping arguments.
+               if (hasOwnProperty.call(object, k)) fn.call(bind, k, object[k]);
+        }
+}
+/*</ltIE8>*/
+
+// Function overloading
+
+var Function = this.Function;
 
 Function.prototype.overloadSetter = function(usePlural){
         var self = this;
@@ -72,10 +84,9 @@ Function.prototype.overloadSetter = function(usePlural){
                if (a == null) return this;
                if (usePlural || typeof a != 'string'){
                       for (var k in a) self.call(this, k, a[k]);
-                      if (enumerables) for (var i = enumerables.length; i--;){
-                             k = enumerables[i];
-                             if (a.hasOwnProperty(k)) self.call(this, k, a[k]);
-                      }
+                      /*<ltIE8>*/
+                      forEachObjectEnumberableKey(a, self, this);
+                      /*</ltIE8>*/
                } else {
                       self.call(this, a, b);
                }
@@ -267,7 +278,7 @@ force('String', String, [
         'slice', 'split', 'substr', 'substring', 'trim', 'toLowerCase', 'toUpperCase'
 ])('Array', Array, [
         'pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'concat', 'join', 'slice',
-        'indexOf', 'lastIndexOf', 'filter', 'forEach', 'every', 'map', 'some', 'reduce', 'reduceRight'
+        'indexOf', 'lastIndexOf', 'filter', 'forEach', 'every', 'map', 'some', 'reduce', 'reduceRight', 'contains'
 ])('Number', Number, [
         'toExponential', 'toFixed', 'toLocaleString', 'toPrecision'
 ])('Function', Function, [
@@ -300,16 +311,7 @@ Number.extend('random', function(min, max){
         return Math.floor(Math.random() * (max - min + 1) + min);
 });
 
-// forEach, each
-
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-Object.extend('forEach', function(object, fn, bind){
-        for (var key in object){
-               if (hasOwnProperty.call(object, key)) fn.call(bind, object[key], key, object);
-        }
-});
-
-Object.each = Object.forEach;
+// forEach, each, keys
 
 Array.implement({
 
@@ -327,6 +329,32 @@ Array.implement({
         }
 
 });
+
+Object.extend({
+
+        keys: function(object){
+               var keys = [];
+               for (var k in object){
+                      if (hasOwnProperty.call(object, k)) keys.push(k);
+               }
+               /*<ltIE8>*/
+               forEachObjectEnumberableKey(object, function(k){
+                      keys.push(k);
+               });
+               /*</ltIE8>*/
+               return keys;
+        },
+
+        forEach: function(object, fn, bind){
+               Object.keys(object).forEach(function(key){
+                      fn.call(bind, object[key], key, object);
+               });
+        }
+
+});
+
+Object.each = Object.forEach;
+
 
 // Array & Object cloning, Object merging and appending
 
@@ -818,7 +846,12 @@ var parse = function(ua, platform){
         ua = ua.toLowerCase();
         platform = (platform ? platform.toLowerCase() : '');
 
-        var UA = ua.match(/(opera|ie|firefox|chrome|trident|crios|version)[\s\/:]([\w\d\.]+)?.*?(safari|(?:rv[\s\/:]|version[\s\/:])([\w\d\.]+)|$)/) || [null, 'unknown', 0];
+        // chrome is included in the edge UA, so need to check for edge first,
+        // before checking if it's chrome.
+        var UA = ua.match(/(edge)[\s\/:]([\w\d\.]+)/);
+        if (!UA){
+               UA = ua.match(/(opera|ie|firefox|chrome|trident|crios|version)[\s\/:]([\w\d\.]+)?.*?(safari|(?:rv[\s\/:]|version[\s\/:])([\w\d\.]+)|$)/) || [null, 'unknown', 0];
+        }
 
         if (UA[1] == 'trident'){
                UA[1] = 'ie';
@@ -827,7 +860,7 @@ var parse = function(ua, platform){
                UA[1] = 'chrome';
         }
 
-        platform = ua.match(/ip(?:ad|od|hone)/) ? 'ios' : (ua.match(/(?:webos|android)/) || platform.match(/mac|win|linux/) || ['other'])[0];
+        platform = ua.match(/ip(?:ad|od|hone)/) ? 'ios' : (ua.match(/(?:webos|android)/) || ua.match(/mac|win|linux/) || ['other'])[0];
         if (platform == 'win') platform = 'windows';
 
         return {
@@ -840,7 +873,7 @@ var parse = function(ua, platform){
 
 var Browser = this.Browser = parse(navigator.userAgent, navigator.platform);
 
-if (Browser.name == 'ie'){
+if (Browser.name == 'ie' && document.documentMode){
         Browser.version = document.documentMode;
 }
 
@@ -1012,6 +1045,7 @@ var Class = this.Class = new Type('Class', function(params){
                reset(this);
                if (newClass.$prototyping) return this;
                this.$caller = null;
+               this.$family = null;
                var value = (this.initialize) ? this.initialize.apply(this, arguments) : this;
                this.$caller = this.caller = null;
                return value;
@@ -1049,6 +1083,10 @@ var reset = function(object){
 };
 
 var wrap = function(self, key, method){
+        // Avoid wrapping functions that don't need it
+        if (self.prototype.EnableWrapElision && !method.$origin && key != 'initialize' && key != 'addEvent' && !method.toString().match(/this\.parent/) && !method.toString().match(/this\.previous/)) // Class.refactor
+               return method;
+
         if (method.$origin) method = method.$origin;
         var wrapper = function(){
                if (method.$protected && this.$caller == null) throw new Error('The method "' + key + '" cannot be called.');
@@ -1256,47 +1294,48 @@ Object.extend({
 
         map: function(object, fn, bind){
                var results = {};
-               for (var key in object){
-                      if (hasOwnProperty.call(object, key)) results[key] = fn.call(bind, object[key], key, object);
+               var keys = Object.keys(object);
+               for (var i = 0; i < keys.length; i++){
+                      var key = keys[i];
+                      results[key] = fn.call(bind, object[key], key, object);
                }
                return results;
         },
 
         filter: function(object, fn, bind){
                var results = {};
-               for (var key in object){
-                      var value = object[key];
-                      if (hasOwnProperty.call(object, key) && fn.call(bind, value, key, object)) results[key] = value;
+               var keys = Object.keys(object);
+               for (var i = 0; i < keys.length; i++){
+                      var key = keys[i], value = object[key];
+                      if (fn.call(bind, value, key, object)) results[key] = value;
                }
                return results;
         },
 
         every: function(object, fn, bind){
-               for (var key in object){
-                      if (hasOwnProperty.call(object, key) && !fn.call(bind, object[key], key)) return false;
+               var keys = Object.keys(object);
+               for (var i = 0; i < keys.length; i++){
+                      var key = keys[i];
+                      if (!fn.call(bind, object[key], key)) return false;
                }
                return true;
         },
 
         some: function(object, fn, bind){
-               for (var key in object){
-                      if (hasOwnProperty.call(object, key) && fn.call(bind, object[key], key)) return true;
+               var keys = Object.keys(object);
+               for (var i = 0; i < keys.length; i++){
+                      var key = keys[i];
+                      if (fn.call(bind, object[key], key)) return true;
                }
                return false;
         },
 
-        keys: function(object){
-               var keys = [];
-               for (var key in object){
-                      if (hasOwnProperty.call(object, key)) keys.push(key);
-               }
-               return keys;
-        },
-
         values: function(object){
                var values = [];
-               for (var key in object){
-                      if (hasOwnProperty.call(object, key)) values.push(object[key]);
+               var keys = Object.keys(object);
+               for (var i = 0; i < keys.length; i++){
+                      var k = keys[i];
+                      values.push(object[k]);
                }
                return values;
         },
@@ -1306,8 +1345,10 @@ Object.extend({
         },
 
         keyOf: function(object, value){
-               for (var key in object){
-                      if (hasOwnProperty.call(object, key) && object[key] === value) return key;
+               var keys = Object.keys(object);
+               for (var i = 0; i < keys.length; i++){
+                      var key = keys[i];
+                      if (object[key] === value) return key;
                }
                return null;
         },
@@ -1564,7 +1605,7 @@ function parser(
 
 // Slick NS
 
-var Slick = (this.Slick || {});
+window.Slick = (this.Slick || {});
 
 Slick.parse = function(expression){
         return parse(expression);
@@ -1617,6 +1658,7 @@ local.setDocument = function(document){
         this.document = document;
 
         // check if we have done feature detection on this document before
+
         var root = document.documentElement,
                rootUid = this.getUIDXML(root),
                features = featuresCache[rootUid],
@@ -1659,7 +1701,7 @@ local.setDocument = function(document){
         try {
                testNode.innerHTML = '<a id="'+id+'"></a>';
                features.isHTMLDocument = !!document.getElementById(id);
-        } catch(e){};
+        } catch(e){}
 
         if (features.isHTMLDocument){
 
@@ -1682,7 +1724,7 @@ local.setDocument = function(document){
                try {
                       testNode.innerHTML = '<a name="'+ id +'"></a><b id="'+ id +'"></b>';
                       features.idGetsName = document.getElementById(id) === testNode.firstChild;
-               } catch(e){};
+               } catch(e){}
 
                if (testNode.getElementsByClassName){
 
@@ -1698,7 +1740,7 @@ local.setDocument = function(document){
                       try {
                              testNode.innerHTML = '<a class="a"></a><a class="f b a"></a>';
                              brokenSecondClassNameGEBCN = (testNode.getElementsByClassName('a').length != 2);
-                      } catch(e){};
+                      } catch(e){}
 
                       features.brokenGEBCN = cachedGetElementsByClassName || brokenSecondClassNameGEBCN;
                }
@@ -1709,13 +1751,13 @@ local.setDocument = function(document){
                              testNode.innerHTML = 'foo</foo>';
                              selected = testNode.querySelectorAll('*');
                              features.starSelectsClosedQSA = (selected && !!selected.length && selected[0].nodeName.charAt(0) == '/');
-                      } catch(e){};
+                      } catch(e){}
 
                       // Safari 3.2 querySelectorAll doesnt work with mixedcase on quirksmode
                       try {
                              testNode.innerHTML = '<a class="MiX"></a>';
                              features.brokenMixedCaseQSA = !testNode.querySelectorAll('.MiX').length;
-                      } catch(e){};
+                      } catch(e){}
 
                       // Webkit and Opera dont return selected options on querySelectorAll
                       try {
@@ -1727,7 +1769,7 @@ local.setDocument = function(document){
                       try {
                              testNode.innerHTML = '<a class=""></a>';
                              features.brokenEmptyAttributeQSA = (testNode.querySelectorAll('[class*=""]').length != 0);
-                      } catch(e){};
+                      } catch(e){}
 
                }
 
@@ -1735,7 +1777,7 @@ local.setDocument = function(document){
                try {
                       testNode.innerHTML = '<form action="s"><input id="action"/></form>';
                       brokenFormAttributeGetter = (testNode.firstChild.getAttribute('action') != 's');
-               } catch(e){};
+               } catch(e){}
 
                // native matchesSelector function
 
@@ -1744,7 +1786,7 @@ local.setDocument = function(document){
                       // if matchesSelector trows errors on incorrect sintaxes we can use it
                       features.nativeMatchesSelector.call(root, ':slick');
                       features.nativeMatchesSelector = null;
-               } catch(e){};
+               } catch(e){}
 
         }
 
@@ -2816,8 +2858,6 @@ Document.implement({
 
 (function(){
 
-var Slick = window.Slick || exports.Slick;
-
 Slick.uidOf(window);
 Slick.uidOf(document);
 
@@ -3139,6 +3179,7 @@ volatileInputValue = input.value != 't';
 
 // #2443 - IE throws "Invalid Argument" when trying to use html5 input types
 try {
+        input.value = '';
         input.type = 'email';
         html5InputSupport = input.type == 'email';
 } catch(e){}
@@ -3398,10 +3439,14 @@ var get = function(uid){
         return (storage[uid] || (storage[uid] = {}));
 };
 
+var tryget = function(uid){
+        return storage[uid];
+};
+
 var clean = function(item){
-        var uid = item.uniqueNumber;
         if (item.removeEvents) item.removeEvents();
         if (item.clearAttributes) item.clearAttributes();
+        var uid = item.uniqueNumber;
         if (uid != null){
                delete collected[uid];
                delete storage[uid];
@@ -3485,8 +3530,14 @@ Element.implement({
         },
 
         retrieve: function(property, dflt){
-               var storage = get(Slick.uidOf(this)), prop = storage[property];
-               if (dflt != null && prop == null) prop = storage[property] = dflt;
+               var uid = Slick.uidOf(this);
+               if (dflt != null)
+               {
+                      var storage = get(uid), prop = storage[property];
+                      if (prop == null) prop = storage[property] = dflt;
+                      return prop;
+               }
+               var storage = tryget(uid), prop = storage && storage[property];
                return prop != null ? prop : null;
         },
 
@@ -3497,11 +3548,10 @@ Element.implement({
         },
 
         eliminate: function(property){
-               var storage = get(Slick.uidOf(this));
-               delete storage[property];
+               var storage = tryget(Slick.uidOf(this));
+               if (storage) delete storage[property];
                return this;
         }
-
 });
 
 /*<ltIE9>*/
@@ -3510,7 +3560,7 @@ if (window.attachEvent && !window.addEventListener){
                Object.each(collected, clean);
                if (window.CollectGarbage) CollectGarbage();
                window.removeListener('unload', gc);
-        }
+        };
         window.addListener('unload', gc);
 }
 /*</ltIE9>*/
@@ -3720,7 +3770,7 @@ var DOMEvent = this.DOMEvent = new Type('DOMEvent', function(event, win){
 
         if (type.indexOf('key') == 0){
                var code = this.code = (event.which || event.keyCode);
-               this.key = _keys[code];
+               if (!this.shift || type != 'keypress') this.key = _keys[code];
                if (type == 'keydown' || type == 'keyup'){
                       if (code > 111 && code < 124) this.key = 'f' + (code - 111);
                       else if (code > 95 && code < 106) this.key = code - 96;
@@ -3739,8 +3789,9 @@ var DOMEvent = this.DOMEvent = new Type('DOMEvent', function(event, win){
                };
                if (type == 'DOMMouseScroll' || type == 'wheel' || type == 'mousewheel') this.wheel = normalizeWheelSpeed(event);
                this.rightClick = (event.which == 3 || event.button == 2);
-               if (type == 'mouseover' || type == 'mouseout'){
-                      var related = event.relatedTarget || event[(type == 'mouseover' ? 'from' : 'to') + 'Element'];
+               if (type == 'mouseover' || type == 'mouseout' || type == 'mouseenter' || type == 'mouseleave'){
+                      var overTarget = type == 'mouseover' || type == 'mouseenter';
+                      var related = event.relatedTarget || event[(overTarget ? 'from' : 'to') + 'Element'];
                       while (related && related.nodeType == 3) related = related.parentNode;
                       this.relatedTarget = document.id(related);
                }
@@ -3940,7 +3991,7 @@ Element.NativeEvents = {
         gesturestart: 2, gesturechange: 2, gestureend: 2, // gesture
         focus: 2, blur: 2, change: 2, reset: 2, select: 2, submit: 2, paste: 2, input: 2, //form elements
         load: 2, unload: 1, beforeunload: 2, resize: 1, move: 1, DOMContentLoaded: 1, readystatechange: 1, //window
-        hashchange: 1, popstate: 2, // history
+        hashchange: 1, popstate: 2, pageshow: 2, pagehide: 2, // history
         error: 1, abort: 1, scroll: 1, message: 2 //misc
 };
 
@@ -4283,7 +4334,12 @@ var getOpacity = (hasOpacity ? function(element){
 
 var floatName = (html.style.cssFloat == null) ? 'styleFloat' : 'cssFloat',
         namedPositions = {left: '0%', top: '0%', center: '50%', right: '100%', bottom: '100%'},
-        hasBackgroundPositionXY = (html.style.backgroundPositionX != null);
+        hasBackgroundPositionXY = (html.style.backgroundPositionX != null),
+        prefixPattern = /^-(ms)-/;
+
+var camelCase = function(property){
+        return property.replace(prefixPattern, '$1-').camelCase();
+}
 
 //<ltIE9>
 var removeStyle = function(style, property){
@@ -4298,7 +4354,7 @@ var removeStyle = function(style, property){
 Element.implement({
 
         getComputedStyle: function(property){
-               if (!hasGetComputedStyle && this.currentStyle) return this.currentStyle[property.camelCase()];
+               if (!hasGetComputedStyle && this.currentStyle) return this.currentStyle[camelCase(property)];
                var defaultView = Element.getDocument(this).defaultView,
                       computed = defaultView ? defaultView.getComputedStyle(this, null) : null;
                return (computed) ? computed.getPropertyValue((property == floatName) ? 'float' : property.hyphenate()) : '';
@@ -4310,7 +4366,7 @@ Element.implement({
                       setOpacity(this, value);
                       return this;
                }
-               property = (property == 'float' ? floatName : property).camelCase();
+               property = camelCase(property == 'float' ? floatName : property);
                if (typeOf(value) != 'string'){
                       var map = (Element.Styles[property] || '@').split(' ');
                       value = Array.from(value).map(function(val, i){
@@ -4331,7 +4387,7 @@ Element.implement({
 
         getStyle: function(property){
                if (property == 'opacity') return getOpacity(this);
-               property = (property == 'float' ? floatName : property).camelCase();
+               property = camelCase(property == 'float' ? floatName : property);
                if (supportBorderRadius && property.indexOf('borderRadius') != -1){
                       return ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius'].map(function(corner){
                              return this.style[corner] || '0px';
@@ -4506,8 +4562,12 @@ Element.implement({
                // Bug info: https://bugzilla.mozilla.org/show_bug.cgi?id=530985
                if (this.get('tag') == 'svg') return svgCalculateSize(this);
 
-               var bounds = this.getBoundingClientRect();
-               return {x: bounds.width, y: bounds.height};
+               try {
+                      var bounds = this.getBoundingClientRect();
+                      return {x: bounds.width, y: bounds.height};
+               } catch(e) {
+                      return {x: 0, y: 0};
+               }
         },
 
         getScrollSize: function(){
@@ -4560,8 +4620,8 @@ Element.implement({
                              isFixed = (styleString(this, 'position') == 'fixed');
 
                       return {
-                             x: bound.left.toInt() + elemScrolls.x + ((isFixed) ? 0 : htmlScroll.x) - html.clientLeft,
-                             y: bound.top.toInt() + elemScrolls.y + ((isFixed) ? 0 : htmlScroll.y) - html.clientTop
+                             x: bound.left.toFloat() + elemScrolls.x + ((isFixed) ? 0 : htmlScroll.x) - html.clientLeft,
+                             y: bound.top.toFloat() + elemScrolls.y + ((isFixed) ? 0 : htmlScroll.y) - html.clientTop
                       };
                }
 
@@ -4661,9 +4721,7 @@ function styleNumber(element, style){
         return styleString(element, style).toInt() || 0;
 }
 
-function borderBox(element){
-        return styleString(element, '-moz-box-sizing') == 'border-box';
-}
+
 
 function topBorder(element){
         return styleNumber(element, 'border-top-width');
@@ -5358,11 +5416,26 @@ Element.implement({
                if (!toggle) this.eliminate('fade:flag');
                fade[method].apply(fade, args);
                var to = args[args.length - 1];
-               if (method == 'set' || to != 0) this.setStyle('visibility', to == 0 ? 'hidden' : 'visible');
-               else fade.chain(function(){
-                      this.element.setStyle('visibility', 'hidden');
-                      this.callChain();
-               });
+
+               if (method == 'set'){
+                      this.setStyle('visibility', to == 0 ? 'hidden' : 'visible');
+               } else if (to != 0){
+                      if (fade.$chain.length){
+                             fade.chain(function(){
+                                    this.element.setStyle('visibility', 'visible');
+                                    this.callChain();
+                             });
+                      } else {
+                             this.setStyle('visibility', 'visible');
+                      }
+               } else {
+                      fade.chain(function(){
+                             if (this.element.getStyle('opacity')) return;
+                             this.element.setStyle('visibility', 'hidden');
+                             this.callChain();
+                      });
+               }
+
                return this;
         },
 
@@ -5911,7 +5984,8 @@ var Cookie = new Class({
                duration: false,
                secure: false,
                document: document,
-               encode: true
+               encode: true,
+               httpOnly: false
         },
 
         initialize: function(key, options){
@@ -5929,6 +6003,7 @@ var Cookie = new Class({
                       value += '; expires=' + date.toGMTString();
                }
                if (this.options.secure) value += '; secure';
+               if (this.options.httpOnly) value += '; HttpOnly';
                this.options.document.cookie = this.key + '=' + value;
                return this;
         },
@@ -6071,4 +6146,5 @@ window.Class=Class;
 window.Browser=Browser;
 window.Fx=Fx;
 window.Request=Request;
-window.Slick=exports.Slick;
+window.Slick=Slick;
+window.DOMEvent=DOMEvent;

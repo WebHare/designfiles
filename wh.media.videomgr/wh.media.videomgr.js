@@ -54,8 +54,10 @@ $wh.VideoManager = new Class(
            , loop: false
            , muted: false
            , poster:null
-           , method: ''
-           , prefermethod: ''
+
+           , method: '' // setting this will *force* a player
+           , prefermethod: '' // 'jwplayer' or 'html5'
+
            , stretching:'uniform' //uniform, fill. fill currently requires the video element to be loaded in a container with overflow:hidden
            , controls:true
            , settings_jwplayer:null
@@ -88,21 +90,10 @@ $wh.VideoManager = new Class(
 
     if(!this.options.method)
     {
-      //ADDME more browsers should prefer <video> based on the rest of the info..
-      var ismp4 = movieurl.slice(-4)=='.mp4';
-
-      if( (Browser.ie && Browser.version<9))// || Browser.firefox)
-      {
-        this.options.method = 'jwplayer'; //no choice, may be h264
-      }
-      else if(this.hasFlash())//if(!Browser.Plugins.Flash.version) //no choice either
-      {
+      if(!this.hasFlash())
         this.options.method = 'html5'; //no choice
-      }
       else
-      {
         this.options.method = this.options.prefermethod ? this.options.prefermethod : 'html5';
-      }
     }
 
     this.setMute(this.options.muted);
@@ -115,20 +106,20 @@ $wh.VideoManager = new Class(
 
 , hasFlash:function ()
   {
-      var hasFlash = false;
-      try {
-          var ao = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
-          if (ao) {
-              hasFlash = !hasFlash;
-          }
-      } catch (e) {
-          if (navigator.mimeTypes
-              && navigator.mimeTypes['application/x-shockwave-flash'] != undefined
-              && navigator.mimeTypes['application/x-shockwave-flash'].enabledPlugin) {
-              hasFlash = !hasFlash;
-          }
-      }
-      return hasFlash;
+    var hasFlash = false;
+    try {
+        var ao = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+        if (ao) {
+            hasFlash = !hasFlash;
+        }
+    } catch (e) {
+        if (navigator.mimeTypes
+            && navigator.mimeTypes['application/x-shockwave-flash'] != undefined
+            && navigator.mimeTypes['application/x-shockwave-flash'].enabledPlugin) {
+            hasFlash = !hasFlash;
+        }
+    }
+    return hasFlash;
   }
 
 , destroy:function()
@@ -297,21 +288,6 @@ $wh.VideoManager = new Class(
     return false;
   }
 
-, setupImgTag:function()
-  {
-    this.fixupWidthHeight();
-    this.container.empty();
-
-    //FIXME don't assume we have a poster
-    this.imgelement = new Element("img", {src:      this.options.poster
-                                         ,events: {"click": this.play.bind(this)
-                                                  }
-                                         ,"width": this.options.width
-                                         ,"height": this.options.height
-                                         });
-    this.container.adopt(this.imgelement);
-  }
-
 , setupVideoTag:function()
   {
     this.fixupWidthHeight();
@@ -376,26 +352,13 @@ $wh.VideoManager = new Class(
     }
   }
 
+  // (only supported in html5 mode)
 , setTracks:function(tracks)
   {
     this.options.tracks = tracks;
 
-    if(this.jwplayer)
-    {
-      try
-      {
-        // ADDME
-        //this.jwplayer.play();
-      }
-      catch(e)
-      {
-        console.log("Ignoring jwplayer play exception from " + this.jwplayerid,e);
-      }
-    }
-    else if(this.videoelement)
-    {
+    if(this.videoelement)
       this.createTrackTags();
-    }
   }
 
   /** @short set which tracks are enabled (only works for tracks for which you specified rowkeys)
@@ -649,19 +612,7 @@ don't use this... do videomanager.addEvent("ended") instead. this kills the vide
   {
 
   }
-/*
- ,hidePlayer: function()
-  {
-    $(this.containerid).setStyle("visibility","hidden");
-    if ($(this.containerid + "_wrapper"))
-      $(this.containerid + "_wrapper").setStyle("visibility","hidden");
-  }
-
- ,showPlayer: function()
-  {
-    $(this.containerid).setStyle("visibility","visible");
-    $(this.containerid + "_wrapper").setStyle("visibility","visible");
-  }*/
+*/
 
 });
 

@@ -11,24 +11,37 @@ $wh.ToolbarButton = new Class(
 , toolbar:null
 , options: { label: null
            , classnames: null
+           , hint: null
            }
 
 , initialize:function(toolbar, options)
   {
     this.toolbar=toolbar;
     this.setOptions(options);
+
+    this.node = new Element("div",{"class":["wh-toolbar-button"].append(this.options.classnames || []).join(" ")
+                                  ,"text": this.options.label || ''
+                                  ,"events": { "click": this.executeAction.bind(this) }
+                                  ,"title": this.options.hint || ""
+                                  });
+  }
+, toElement: function()
+  {
+    return this.node;
   }
 , executeAction:function()
   {
     this.fireEvent("execute");
   }
-, getLabel:function()
+});
+
+$wh.ToolbarSeparator = new Class(
+{ Extends: $wh.ToolbarButton
+, initialize: function(toolbar, options)
   {
-    return this.options.label || '';
-  }
-, getClassNames:function()
-  {
-    return this.options.classnames || [];
+    this.parent(toolbar, options);
+
+    this.node = new Element("div",{"class":["wh-toolbar-separator"].append(this.options.classnames || []).join(" ")});
   }
 });
 
@@ -47,11 +60,11 @@ $wh.ToolbarPanel = new Class(
   }
 , addButton: function(button)
   {
-    var button = new Element("div",{"class":["wh-toolbar-button"].append(button.getClassNames()).join(" ")
-                                   ,"text": button.getLabel()
-                                   ,"events": { "click": button.executeAction.bind(button) }
-                                   });
-    this.panel.adopt(button);
+    this.addComponent($(button));
+  }
+, addComponent: function(comp)
+  {
+    this.panel.adopt(comp);
   }
 });
 
@@ -67,7 +80,7 @@ $wh.Toolbar = new Class(
     this.buttonbar = new Element("div",{"class":"wh-toolbar"
                                        });
 
-    this.mainpanel = new $wh.ToolbarPanel;
+    this.mainpanel = new $wh.ToolbarPanel();
     this.buttonbar.adopt(this.mainpanel);
 
     this.modalholder = new Element("div", {"class":"wh-toolbar-modalholder"});
@@ -96,14 +109,19 @@ $wh.Toolbar = new Class(
   {
     this.mainpanel.addButton(button);
   }
+, addComponent: function(comp)
+  {
+    this.mainpanel.addComponent(comp);
+  }
 , activateModalPanel:function(subpanel)
   {
     if(this.modalpanel)
       this.closeModalPanel();
 
     $(this.mainpanel).removeClass('open');
-    this.modalholder.addClass('open');
     this.modalpanel = subpanel;
+    this.modalholder.appendChild(this.modalpanel.panel);
+    this.modalholder.addClass('open');
     this.fireEvent("modal-opened");
   }
 , closeModalPanel:function()
@@ -112,9 +130,10 @@ $wh.Toolbar = new Class(
       return;
 
     this.modalpanel.fireEvent("close");
-    this.modalpanel = null;
     $(this.mainpanel).addClass('open');
     this.modalholder.removeClass('open');
+    this.modalholder.removeChild(this.modalpanel.panel);
+    this.modalpanel = null;
     this.fireEvent("modal-closed");
   }
 , onModalApply:function()

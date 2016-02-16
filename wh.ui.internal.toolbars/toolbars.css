@@ -14,7 +14,8 @@
 {
   display: block;
 }
-.wh-toolbar > * > *
+.wh-toolbar-panel > *,
+.wh-toolbar-modalholder > *
 {
   display: inline-block;
 }

@@ -148,7 +148,7 @@ $wh.Masonry = new Class(
 
     if ("items" in options)
     {
-      console.log("New items specified");
+      //console.log("New items specified");
       this.__items_dirty = true; // need to recheck all widgets, there might be new ones
     }
 

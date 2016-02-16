@@ -202,7 +202,8 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
   if (steps_used == 100)
     console.error("Could not determine an optimal fontsize or got stuck in a loop.");
 
-  console.log("Optimal fontsize " + optimal_fontsize + " determined in "+steps_used+" steps.");
+  if(options.debug)
+    console.log("Optimal fontsize " + optimal_fontsize + " determined in "+steps_used+" steps.");
 
   textcontainer.style.fontSize = optimal_fontsize.toFixed(2) + "px";
 

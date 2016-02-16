@@ -13,27 +13,25 @@ var default_video_playback = { autoplay: false
 
 /** @short generate a video player to play the specified video with the specified settings
     @cell video
-    @cell video.network
+    @cell video.network 'youtube', 'vimeo', 'youku', 'videofile' (experimental)
     @cell video.id
     @cell playback
     @cell playback.autoplay
+    @cell playback.api make sure we can interact with the video (FIXME: current always done on YouTube)
     @cell playback.start
     @cell playback.end
     @cell playback.controls
     @cell playback.loop
-    @cell playback.interactive make sure that we can control (ADDME)
-
+    @cell playback.background (Vimeo play video in background. This hides controls but this activates: loop, mute, autoplay)
+    @cell playback.player_id id (currently required if api is set to true) to be able to distinguish from which video iframe a message originated, making two-way communication with the video iframe possible
 */
 function generateVideoNode(video, playback)
 {
   //<iframe width="560" height="315" src="//www.youtube.com/embed/Sk9ST8R2SDk" frameborder="0" allowfullscreen></iframe>
-  var ifrm = document.createElement("iframe");
-  ifrm.style.width = "100%";
-  ifrm.style.height = "100%";
-  ifrm.setAttribute("frameborder", 0);
-  ifrm.setAttribute("allowfullscreen", "");
 
   playback = Object.merge(default_video_playback, playback);
+
+  var playernode;
 
   switch(video.network)
   {
@@ -54,15 +52,23 @@ function generateVideoNode(video, playback)
 
         if (playback.loop)
         {
-          // from the documentation:
-          // 'Currently, the loop parameter only works in the AS3 player when used in conjunction with the playlist parameter.'
-          console.warn("We don't support loop for YouTube (because it only works in the flashplayer with playlists");
-          //args.push("loop=1");
+          console.warn("FIXME: loop for YouTube is untested.");
+          args.push("loop=1");
+          args.push("playlist="+video.id); // not sure if required in HTML5 player or only in AS3 player
         }
 
         args.push("rel=0"); // disable 'related video's'
 
-        args.push("enablejsapi=1");
+        //if(playback.api)
+        //{
+          args.push("enablejsapi=1");
+
+          // we need a player_id to distinguish from which iframe a message came.
+          // (in cross domain situations we cannot lookup/compare the event source with iframe.contentWindow)
+          if(playback.player_id)
+            args.push("playerapiid=" + playback.player_id );
+        //}
+
 
         // ADDME: playsinline parameter for inline or fullscreen playback on iOS
         /*
@@ -80,7 +86,8 @@ function generateVideoNode(video, playback)
         if (args.length > 0)
           youtube_url += "?" + args.join("&");
 
-        ifrm.src = youtube_url;
+        var playernode = __getPlayerFrame();
+        playernode.src = youtube_url;
         break;
 
     case "vimeo":
@@ -98,6 +105,19 @@ function generateVideoNode(video, playback)
         if (playback.loop)
           args.push("loop=1");
 
+        if (playback.background)
+          args.push("background=1");
+
+        if(playback.api)
+        {
+          args.push("api=" + playback.api);
+
+          // we need a player_id to distinguish from which iframe a message came.
+          // (in cross domain situations we cannot lookup/compare the event source with iframe.contentWindow)
+          if(playback.player_id)
+            args.push("player_id=" + playback.player_id );
+        }
+
         var vimeo_url = "//player.vimeo.com/video/" + video.id;
         if (args.length > 0)
           vimeo_url += "?" + args.join("&");
@@ -111,7 +131,8 @@ function generateVideoNode(video, playback)
           vimeo_url += "#t=" + minutes + "m" + seconds + "s";
         }
 
-        ifrm.src = vimeo_url;
+        var playernode = __getPlayerFrame();
+        playernode.src = vimeo_url;
         break;
 
     case "youku":
@@ -124,6 +145,9 @@ function generateVideoNode(video, playback)
         var args = [];
         if (playback.autoplay)
           args.push("isAutoPlay=true");
+
+        if (playback.api)
+            console.warn("api not supported by Youku ??")
 
         if (video.starttime)
           console.warn("starttime not supported by Youku ??")
@@ -149,18 +173,44 @@ function generateVideoNode(video, playback)
         if (args.length > 0)
           youku_url += "?" + args.join("&");
 
-        ifrm.src = youku_url;
+        var playernode = __getPlayerFrame();
+        playernode.src = youku_url;
+        break;
+
+    case "videofile":
+        var playernode = document.createElement("video");
+        video.loop = playback.loop;
+        video.controls = playback.controls;
+        video.style.cssText = "width: 100%; height: 100%;";
+        video.src = video.id;
         break;
 
     default:
         console.error("Unknown video type");
         break;
   }
+
+  return playernode;
+}
+
+function __getPlayerFrame()
+{
+  var ifrm = document.createElement("iframe");
+  ifrm.style.width = "100%";
+  ifrm.style.height = "100%";
+  ifrm.setAttribute("frameborder", 0);
+  ifrm.setAttribute("allowfullscreen", "");
   return ifrm;
 }
 
-/** pause any YouTube or Vimeo movie within the specified DOM
+
+/** @short pause any YouTube or Vimeo movie within the specified DOM
+    @long (usecases: a popup for which you need to stop all video's when closed, slides in a slideshow which may contain one or more videos, ...)
+
     NOTE: YouTube will only react if ?enablejsapi=1 was specified
+    NOTE: Vimeo will react, even if ?api=1 wasn't specified (it does need api=1 for two-way communication)
+
+    Also see: http://stackoverflow.com/questions/7443578/youtube-iframe-api-how-do-i-control-a-iframe-player-thats-already-in-the-html
 */
 $wh.pauseVideosWithin = function(node)
 {
@@ -195,8 +245,6 @@ $wh.pauseVideosWithin = function(node)
 
 
 
-
-
 $wh.__defaultplaybackoptions = default_video_playback;
 $wh.__generateVideoNode = generateVideoNode; //exposed only for wh.ui.popup.video and wh.ui.popup.mediaslides
 $wh.initializeVideoElement = initializeVideoElement;
@@ -211,6 +259,16 @@ function initializeVideoElement(node)
 
   var video = JSON.decode(node.getAttribute("data-video"));
   var opts = node.hasAttribute("data-video-options") ? JSON.decode(node.getAttribute("data-video-options")) : {};
+
+  // Vimeo requires a player_id for two-way communication.
+  // (to work on cross-origin restrictions which prevent us from knowing from which iframe a message originated)
+  if (video.network == "vimeo" && opts.api && !opts.player_id)
+  {
+    if (node.hasAttribute("id"))
+      opts.player_id = node.getAttribute("id");
+    else
+      console.warn("We currently don't support api=true without player_id set.");
+  }
 
   node.adopt(generateVideoNode(video, opts));
 }

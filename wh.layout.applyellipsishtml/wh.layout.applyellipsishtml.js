@@ -58,19 +58,30 @@ $wh.applyEllipsisToHTML = new Class(
   , container:     null // the main container to which apply last-line ellipsis
   , containerrect: null // positioning info on the container
 
-  , initialize: function(container, options)
+  , initialize: function(container_or_elements, options)
     {
-      this.container = container;
-
       this.setOptions(options);
 
-      // bail out if there is isn't any work to be done
-      this.containerrect = container.getBoundingClientRect();
-      if (this.containerrect.bottom - this.containerrect.top < this.options.height)
-        return;
+      var multiple = typeOf(container_or_elements) == "elements";
 
-      this.processNode(container, false);
+      var elements = multiple ? container_or_elements : [container_or_elements];
+      for (var idx = 0; idx < elements.length; idx++)
+      {
+        var container = elements[idx];
+        this.container = container;
+
+        // bail out if there is isn't any work to be done
+        this.containerrect = container.getBoundingClientRect();
+        if (this.containerrect.bottom - this.containerrect.top < this.options.height)
+          return;
+
+        this.processNode(container, false);
+      }
+
+//  if (options.debug)
+//    console.groupEnd();
     }
+
 /*
     // - remove text with ellipsis to original long text
     // - restore visibility of hidden elements/texts
@@ -225,19 +236,9 @@ if(!String.prototype.trim) {
           continue;
         }
 
-/*
-if (currentnode.tagName == "TBODY" || currentnode.tagName == "TR" || currentnode.tagName == "TD")
-{
-  nodes_outofflow.push(currentnode);
-          currentnode = forward ? currentnode.nextSibling : currentnode.previousSibling;
-          continue;
-}
-*/
-
         var inflow = !(currentnode.getStyle("float") != "none" || currentnode.getStyle("position") != "static");
 //        if (inflow && (currentnode.tagName == "TBODY" || currentnode.tagName == "TR")) // || currentnode.tagName == "TD"))
 //          inflow = false;
-
 
         //console.log(inflow, currentnode, this.options.apply_to_out_of_flow);
         if (!inflow)
@@ -263,7 +264,7 @@ if (currentnode.tagName == "TBODY" || currentnode.tagName == "TR" || currentnode
           if (ypos > this.options.height)
           {
             if(this.options.debug)
-              console.info("First overflowing node is", currentnode)
+              console.info("First overflowing node is", currentnode);
 
             index_first_overflow = nodes_inflow.length-1;//;currentnode;
           }
@@ -418,9 +419,10 @@ if (currentnode.tagName == "TBODY" || currentnode.tagName == "TR" || currentnode
       var finished = false;
       var countdown = 100;
 
+      var newtextcontent;
       while (!finished && countdown-- > 0)
       {
-        var newtextcontent = textcontent.substr(0, trylength) + "\u2026";
+        newtextcontent = textcontent.substr(0, trylength) + "\u2026";
 
         currentnode.textContent = newtextcontent;
 
@@ -500,7 +502,7 @@ if (currentnode.tagName == "TBODY" || currentnode.tagName == "TR" || currentnode
         //  uselength = 0;
       }
 
-      newtextcontent = textcontent.substr(0, uselength) + "\u2026" // "…";
+      newtextcontent = textcontent.substr(0, uselength) + "\u2026"; // "…";
       currentnode.textContent = newtextcontent;
 
       if(this.options.debug)

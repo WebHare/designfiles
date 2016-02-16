@@ -654,7 +654,14 @@ $wh.DateField = new Class(
 
 , formatManualInput : function(ev, checkinput)
   {
+    if(['right','left','up','down','shift','control','esc'].contains(ev.key))
+      return;
+
+    var orglen = this.valuenode.value.length;
+    var selpos = this.valuenode.selectionStart != null ? this.valuenode.selectionStart : -1;//used to putback cursor in current positiom
+
     val = this.valuenode.value.replace(/[^0-9]+/g,' ');//replace everything that isn't a number with space
+
     val = val.replace( /\s+/g, ' ');//remove double spaces
 
     var parts = [];
@@ -688,6 +695,13 @@ $wh.DateField = new Class(
       }
     }
     this.valuenode.set('value',formattedstr);
+
+    if(selpos > -1)
+    {
+      this.valuenode.selectionStart = selpos - (orglen - formattedstr.length);
+      this.valuenode.selectionEnd = selpos - (orglen - formattedstr.length);
+    }
+
   }
 
 , focus : function()

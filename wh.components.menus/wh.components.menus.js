@@ -189,19 +189,13 @@ $wh.Menu = new Class(
     // For detecting hover over menu items
     // By using mousemove we can use event delegation and won't have the problem
     // of mouseenter's being triggered while keyboard navigation makes the menu scroll.
-    //this.el.addEvent("mousemove", this.onMouseMove);
-
-    /*
-    !! we don't want mouseenter anyway, because a scroll of the menu element in the page
-       can also trigger mouseenter. Do relay on mousemove.
-    */
     if (this.el.tagName == "UL")
       this.el.addEvent("mousemove", this.onMouseMove);
 
     this.el.getElements("ul").addEvent("mousemove", this.onMouseMove);
+    /////
 
     this.el.addEvents({"mousedown:relay(li)": this.onMouseDownOnItem
-                      ,"mousedown":           this.onMouseDown
                       });
 
     this.keyboard = new Keyboard({ events: { 'esc'  : this.onKeyEsc
@@ -410,22 +404,11 @@ $wh.Menu = new Class(
 
     this.el.getElements("ul").removeEvent("mousemove", this.onMouseMove);
 
-    /*
-    // We cannot rely on rely for mouseenter/mouseleave events, because they don't bubble
-    this.el.getElements("li").removeEvents({"mouseenter": this.doItemEnter
-                                           ,"mouseleave": this.doItemLeave
-                                           });
-    */
-
     this.el.removeEvents({"mousedown:relay(li)": this.onMouseDownOnItem
-                         ,"mousedown": this.onMouseDown
                          });
 
     for(var mykey in this.keyboard.options.events)
-      this.keyboard.removeEvent(mykey,this.keyboard.options.events[mykey])
-
-    //FIXME: shouldn't we deactivate() too? or how do we destroy a keyboard handler?
-    //this.keyboard.deactivate();
+      this.keyboard.removeEvent(mykey, this.keyboard.options.events[mykey])
 
     if (this.container != this.el && !$wh.debug.meo)
     {
@@ -444,17 +427,8 @@ $wh.Menu = new Class(
 
     this.keyboard.activate();
 
-    if(window.addEventListener)
-    {
-      window.addEventListener("mousedown", this.onGlobalMouseDown, true); //capture
-      this.el.addEventListener("click", this.onMenuClick, true); //capture
-    }
-    else if(Browser.ie)
-    {
-      //we'll use the proprietary mouse capture API to implement menu close on click
-      this.el.setCapture(false); //false: Events originating in a container are not captured by the container
-      this.mousecapture=true;
-    }
+    window.addEventListener("mousedown", this.onGlobalMouseDown, true); //capture
+    this.el.addEventListener("click", this.onMenuClick, true); //capture
 
     this.tookfocus=true;
   }
@@ -464,18 +438,8 @@ $wh.Menu = new Class(
     if (this.options.debug)
       console.log('[wh.menu] releaseSemiFocus');
 
-    if(window.removeEventListener)
-    {
-      window.removeEventListener("mousedown", this.onGlobalMouseDown, true); // capture
-      this.el.removeEventListener("click", this.onMenuClick, true); //capture
-    }
-    else if(this.mousecapture)
-    {
-      console.log("[wh.menu] releasing capture.");
-
-      this.el.releaseCapture();
-      this.mousecapture=false;
-    }
+    window.removeEventListener("mousedown", this.onGlobalMouseDown, true); // capture
+    this.el.removeEventListener("click", this.onMenuClick, true); //capture
 
     this.tookfocus=false;
   }
@@ -671,10 +635,7 @@ $wh.Menu = new Class(
       {
 /*
 console.log(curnode, curnode.getSelfOrParent("ul"));
-        if(window.addEventListener)
           curnode.getSelfOrParent('ul').addEventListener("click", this.onMenuClick, true);
-        else if(Browser.ie)
-          curnode.getSelfOrParent('ul').setCapture(false);
 */
         this.virtualnodetree.push(curnode);
         this.currentelement = curnode; // keep the last know selection level as currentelement (for navigation purposes)
@@ -801,14 +762,7 @@ console.log(curnode, curnode.getSelfOrParent("ul"));
     node.removeClass('wh-menu-hover');
 
 /*
-    if(this.mousecapture)
-    {
-      node.getParent().releaseCapture();
-    }
-    else if(window.removeEventListener)
-    {
       node.getParent().removeEventListener("click", this.onMenuClick, true); //capture
-    }
 */
     if(node.childwrapper)
     {
@@ -1002,24 +956,6 @@ console.log(curnode, curnode.getSelfOrParent("ul"));
       this.ensureMenuOpen(target);
     else
       this.closeMenu(event.target, true);
-  }
-
-// for IE < 9
-// FIXME: does this still work with detached menu's?
-, onMouseDown:function(event)
-  {
-    if(!this.mousecapture || event.rightClick)
-      return true;
-
-    if(this.el.contains(event.target))
-    {
-      var item = $(event.target).getSelfOrParent('li');
-      return this.onSelectItem(event, item);
-    }
-    else
-    {
-      this.closeMenu(event.target);
-    }
   }
 
 , onGlobalMouseDown:function(event)

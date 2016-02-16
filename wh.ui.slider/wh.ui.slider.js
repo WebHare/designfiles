@@ -767,10 +767,10 @@ this.options.readonly
   }
 
   var replacenode = new Element('div', { 'class' : 'wh-slider-holder ' + inputclasses, 'tabindex' : tabindex });
-  var slidernode = new Element('div', { 'class' : 'wh-slider' }).inject(replacenode);
 
-  new Element('div', { 'class' : 'minvalue', 'text' : options.minvalue }).inject(slidernode);
-  new Element('div', { 'class' : 'maxvalue', 'text' : options.maxvalue }).inject(slidernode);
+  new Element('div', { 'class' : 'whslider__minvalue', 'text' : options.minvalue }).inject(replacenode);
+  var slidernode = new Element('div', { 'class' : 'wh-slider' }).inject(replacenode);
+  new Element('div', { 'class' : 'whslider__maxvalue', 'text' : options.maxvalue }).inject(replacenode);
 
   var knobs = [];
   knobs.push(new Element('div', { 'class' : 'wh-slider-knob'}).inject(slidernode));

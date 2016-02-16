@@ -278,6 +278,7 @@ function executeReplaceInstruction(startnode, instruction)
 
   //Note: we can't do startnode.getElements(), as a common selector "form select" would not match newly added arrayrows (startnode is inside the form)
   var elements = $wh.getTopMatchedElements(startnode, instruction.selector);
+
   Array.each(elements, function(node)
     {
       var replacedby = node.retrieve("wh-ui-replacedby");
@@ -659,9 +660,10 @@ $wh.focus = function(node)
 
 $wh.isAllowNativeContextMenu = function(event)
 {
-  return event.shift && event.control;
+  return (event.shift && event.control) || (event.shiftKey && event.ctrlKey);
 }
 
 window.addEvent("domready", executeReplaceDomready);
+document.documentElement.addEventListener("wh:ui-busy", function(event) { $wh.updateUIBusyFlag( event.detail.mod) });
 
 })(document.id); //end mootools wrapper

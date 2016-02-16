@@ -88,6 +88,7 @@ $wh.FacebookSDK = new Class(
   {
     var initrec = { xfbml: this.options.xfbml
                   , appId: $wh.__facebookappid
+                //, version: 'v2.1'
                   };
 
     //backwards compatiblity with old browsers for cross domain communication

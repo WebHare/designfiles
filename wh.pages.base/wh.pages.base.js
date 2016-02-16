@@ -307,7 +307,7 @@ $wh.PageManager = new Class(
     if(backpos == 0)
       this.history = [];
     else
-      this.history = this.history.slice(0, backpos-1);
+      this.history = this.history.slice(0, backpos);
 
     this.doStart(backtopage, null);
   }

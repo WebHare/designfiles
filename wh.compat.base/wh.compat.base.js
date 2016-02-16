@@ -1133,7 +1133,7 @@ $wh.extendDOMEventConstructor = function(func)
         domextends[i].apply(this, arguments);
     });
     DOMEvent.prototype = oldDOMEvent.prototype;
-    Object.keys(oldDOMEvent).each(function(key, value){ DOMEvent[key] = value; });
+    Object.keys(oldDOMEvent).each(function(key, value){ DOMEvent[key] = oldDOMEvent[key] });
   }
 
   domextends.push(func);
@@ -1458,6 +1458,11 @@ $wh.executeSubmitInstruction = function(instr, options)
     {
       parent.postMessage(instr.message, "*");
     } break;
+
+    case "close":
+    {
+      window.close();
+    }
 
     default:
     {

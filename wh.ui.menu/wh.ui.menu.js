@@ -799,6 +799,8 @@ $wh.MenuBase = new Class(
 
     FIXME Ensure the bug is gone
 */
+    //ignore clicks on things with a submenu or disabled items
+    var close_after_click = !li.hasClass("hassubmenu") && !li.hasClass("disabled");
 
     if(!$wh.dispatchEvent(eventnode, menuevent))
     {
@@ -807,8 +809,8 @@ $wh.MenuBase = new Class(
       return;
     }
 
-    if(li.hasClass("hassubmenu") || li.hasClass("disabled"))
-      return; //ignore clicks on things with a submenu or disabled items
+    if (!close_after_click)
+      return;
 
     controller.closeAll();
   }
@@ -1561,6 +1563,13 @@ $wh.openMenuAt = function(el, at, options)
     if(!options.eventnode)
       options.eventnode = at.target; //make sure events are injected at the click location
   }
+  else if (at instanceof MouseEvent)
+  {
+    options.direction="right";
+    coords = { left: at.pageX, right: at.pageX, top: at.pageY, bottom: at.pageY };
+    if(!options.eventnode)
+      options.eventnode = at.target; //make sure events are injected at the click location
+  }
   else
   {
     var coords = getRelativeBoundingRect($(at));
@@ -1618,6 +1627,7 @@ $wh.measureMenu = function(el)
   }
 
   var bcr = el.getBoundingClientRect();
+
   if(restoreparent != elbody)
   {
     if(restoreparent)

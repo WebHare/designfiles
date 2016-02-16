@@ -113,8 +113,8 @@ Events on $wh.PopupManager
 Next popup version:
   - use animations instead of transitions?? (if we can properly animate multiple CSS properties)
   - only support the JSON version of popup settings
-
-
+  - rename width/height 'stretch' to 'fill-available'? (or 'stretch-to-viewport')
+    'stretch' might be mistaken to mean stretch-to-fit-content
 
 ***********************************************************/
 
@@ -751,7 +751,7 @@ $wh.BasicPopup = new Class(
 
       /**
           - fixed amount of pixels          -> for example: 500
-          - "stretch"                       -> the whole width or height will be used
+          - "stretch"                       -> all available viewport size (minutes keepfromedge) will be used
           - "fit"                           -> (ADDME!) measure the content (check img still being loaded) and make the popup fit the content
 
           minwidth/minheight -> if due to the viewport being to small the popup has to shrink, it won't shrink below this value
@@ -1446,6 +1446,9 @@ $wh.BasicPopup = new Class(
       this.options.positionanchor_x = this.options.positionanchor;
       this.options.positionanchor_y = this.options.positionanchor;
     }
+
+    if (this.options.scroll == "popup_viewport" && this.options.height == "stretch")
+      console.warn("$wh.popup: combining options scroll:'popup_viewport' and height:'stretch' can give issues.")
   }
 
   /// @short (private) get the node in which the popup will be placed (the node which will act as viewport)
@@ -1968,6 +1971,7 @@ $(window).addEvent("domready", function()
 // Initialize the modalitylayer _after_ the TransitionManager class is defined
 $wh.PopupManager.modalitylayer = new $wh.ModalityLayer();
 $wh.Popup.createFromElement = $wh.PopupManager.createFromElement.bind($wh.PopupManager);
+$wh.Popup.createFromURL =  $wh.PopupManager.createFromURL.bind($wh.PopupManager);
 
 //Close topmost dialog
 $wh.Popup.closeTop = function()

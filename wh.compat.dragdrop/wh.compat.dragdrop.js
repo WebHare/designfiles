@@ -631,40 +631,13 @@ require ('wh.compat.base');
       //       coordinates set to 0. Is there some way to detect and
       //       correct this? For the moment: no.
 
-      /* FireFox adjusts the dropeffect based on the pressed keys. Chrome and IE don't, so just
+      /* FireFox adjusts the dropeffect based on the pressed keys. Chrome, Safari and IE don't, so just
          implement that behaviour for them. Also, override the mouse cursor in IE
       */
-      if ((this.type == 'drop' || this.type.indexOf('drag') == 0) && (Browser.chrome || Browser.name == 'ie'))
+      if ((this.type == 'drop' || this.type.indexOf('drag') == 0) && (Browser.chrome || Browser.safari || Browser.name == 'ie'))
       {
-        // Get default drop effect for allowed effects
-        var dropeffect = "none";
-        try
-        {
-          // IE denies access to dataTransfer.effectAllowed when dragging files from desktop
-          switch (event.dataTransfer.effectAllowed)
-          {
-            case "copy":           dropeffect = "copy"; break;
-            case "move":           dropeffect = "move"; break;
-            case "link":           dropeffect = "link"; break;
-            case "copyLink":       dropeffect = "copy"; break;
-            case "copyMove":       dropeffect = "move"; break;
-            case "linkMove":       dropeffect = "move"; break;
-            case "all":            dropeffect = "move"; break;
-            case "none":           dropeffect = "none"; break;
-            case "uninitialized":  dropeffect = "move"; break;
-          };
-        }
-        catch (e)
-        {
-          console.log('e: ' + e);
-        }
-
-        if (event.ctrlKey || event.metaKey)
-          dropeffect = event.shiftKey ? "link" : "copy";
-        else if (event.shiftKey)
-          dropeffect = "move";
-
-        event.dataTransfer.dropEffect = dropeffect;
+        // Set default drop effect for allowed effects
+        event.dataTransfer.dropEffect = getDefaultDropEffect(event, event.dataTransfer.effectAllowed);
       }
     }
 
@@ -685,6 +658,39 @@ function parseEffectList(data)
       mask = mask | pos;
   }
   return effectstrs[mask];
+}
+
+function getDefaultDropEffect(event, effectAllowed)
+{
+  // Get default drop effect for allowed effects
+  var dropeffect = "none";
+  try
+  {
+    // IE denies access to dataTransfer.effectAllowed when dragging files from desktop
+    switch (effectAllowed)
+    {
+      case "copy":           dropeffect = "copy"; break;
+      case "move":           dropeffect = "move"; break;
+      case "link":           dropeffect = "link"; break;
+      case "copyLink":       dropeffect = "copy"; break;
+      case "copyMove":       dropeffect = "move"; break;
+      case "linkMove":       dropeffect = "move"; break;
+      case "all":            dropeffect = "move"; break;
+      case "none":           dropeffect = "none"; break;
+      case "uninitialized":  dropeffect = "move"; break;
+    }
+  }
+  catch (e)
+  {
+    console.log('e: ' + e);
+  }
+
+  if (event.ctrlKey || event.metaKey)
+    dropeffect = event.shiftKey ? "link" : "copy";
+  else if (event.shiftKey)
+    dropeffect = "move";
+
+  return dropeffect;
 }
 
 var currentdrag;
@@ -761,6 +767,11 @@ $wh.CurrentDragData = new Class(
       return this.localdrag || this.event.type == 'drop';
     }
 
+  , isFileDrag: function()
+    {
+      return this.getTypes().contains("Files");
+    }
+
     /// Data (local from local source, external for external sources)
   , getData: function()
     {
@@ -769,15 +780,46 @@ $wh.CurrentDragData = new Class(
 
   , getFiles: function()
     {
-      return getDataTransfer(this.event).files || [];
+      var datatransfer = getDataTransfer(this.event);
+      return datatransfer ? datatransfer.files || [] : [];
+    }
+
+  , getItems: function()
+    {
+      var datatransfer = getDataTransfer(this.event);
+      return datatransfer ? datatransfer.items || [] : [];
+    }
+
+  , getTypes: function()
+    {
+      var datatransfer = getDataTransfer(this.event);
+      return datatransfer ? datatransfer.types || [] : [];
     }
 
   , getDropEffect: function()
     {
       var datatransfer = getDataTransfer(this.event);
-      var mode = datatransfer.dropEffect;
+      var mode = datatransfer ? datatransfer.dropEffect : "";
 
       return [ 'copy', 'move', 'link' ].contains(mode) ? mode : 'move';
+    }
+
+  , setDropEffect: function(mode)
+    {
+      var datatransfer = getDataTransfer(this.event);
+      if (!datatransfer)
+        return;
+      if ([ 'copy', 'move', 'link', 'none' ].contains(mode))
+        datatransfer.dropEffect = mode;
+    }
+
+  , setDefaultDropEffect: function()
+    {
+      var datatransfer = getDataTransfer(this.event);
+      if (!datatransfer)
+        return;
+      // Set default drop effect for allowed effects
+      datatransfer.dropEffect = getDefaultDropEffect(this.event, datatransfer.effectAllowed);
     }
   });
 

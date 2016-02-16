@@ -642,7 +642,9 @@ $wh.Form.ModelBase = new Class(
 
       if(this.node.getAttribute('type')=='date' || this.node.getAttribute('type')=='datetime')
       {//date or datetime
-        if(this.node.getAttribute('min') != null && Date.parse(this.node.getAttribute('min')) > inval)
+        if(typeOf(inval) != "date" || !inval.isValid())
+          validationresult = { error: Locale.get('wh-form.invalid_date') };
+        else if(this.node.getAttribute('min') != null && Date.parse(this.node.getAttribute('min')) > inval)
           validationresult = { error: Locale.get('wh-form.invalid_date_after', Date.parse(this.node.getAttribute('min')).format("%x")) };
         else if(this.node.getAttribute('max') != null && Date.parse(this.node.getAttribute('max')) < inval)
           validationresult = { error: Locale.get('wh-form.invalid_date_before', Date.parse(this.node.getAttribute('max')).format("%x")) };

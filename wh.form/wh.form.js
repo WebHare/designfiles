@@ -416,15 +416,8 @@ $wh.Form.Handler = new Class(
 
     if(!modeltype && node.hasClass('wh-inputgroup'))
     {
-      Array.each(node.className.split(' '), function (classname)
-        {
-          if(!modeltype)
-            modeltype = $wh.Form.modelsByClass[classname];
-        });
-      if(!modeltype)
-        console.error("No model for wh-inputgroup with class '" + node.className + "'", node);
-      else
-        console.warn("Field relies on modelsByClass, switch to data-form-model", node)
+      // might also be a very ancient formsapi field using CSS classes to indicate the model it wants...
+      console.warn("Field relies on modelsByClass which does not work anymore, switch to data-form-model", node)
     }
 
     if(!modeltype && node.get('tag')=='input')
@@ -704,6 +697,8 @@ $wh.Form.Handler = new Class(
 , validateField:function(model, force, ignorefocus, unlockfeedback)
   {
     //console.error("validateField: ", model, model.node, "FORCE:", force, "NEEDS:",model.needsrevalidation, "isvalid:",model.isValid(),"unlock:", unlockfeedback);
+
+
     if(model.needsrevalidation /*|| model == this.lastfocusedmodel*/ || force)
     {
       if(unlockfeedback === true)
@@ -1828,6 +1823,10 @@ $wh.Form.FocusEvent = new Class(
   }
 });
 
+/** @short
+    @param item node or element id of the form to setup
+    @options
+*/
 $wh.Form.setupHandler = function(item, options)
 {
   if(!options)
@@ -1841,8 +1840,19 @@ $wh.Form.setupHandler = function(item, options)
     form = new $wh.Form.Handler(item, options);
   return form;
 }
+
 $wh.Form.setupHandlers = function(selector, options)
 {
+  /*
+  FIXME: not sure if this is correct, or maybe we do allow non-strings?
+  if (typeOf(selector) !== "string")
+  {
+    // we might have gotten a node, MooTools elements array or HTML Collection
+    console.error("$wh.Form.setupHandlers requires a 'css selector' string as first parameter.");
+    return;
+  }
+  */
+
   $$(selector).each(function(item)
   {
     $wh.Form.setupHandler(item, options);

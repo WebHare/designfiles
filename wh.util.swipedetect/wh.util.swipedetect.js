@@ -41,7 +41,6 @@ $wh.SwipeDetect = new Class(
   }
 , onTouchStart: function(ev)
   {
-    ev.stop();
     this.swipeinfo = { starttime : new Date().getTime()
                      , endtime   : -1
                      , start     : { x : ev.page.x, y : ev.page.y }

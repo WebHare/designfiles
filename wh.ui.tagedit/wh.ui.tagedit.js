@@ -49,7 +49,7 @@ $wh.TagEdit = new Class(
 { Implements  : [ Events, Options ]
 , Binds: [ "_onNodeFocus", "_onNodeBlur", "_onNodeKeyDown", "_onNodeMouseDown", "_onNodeClick"
          , "_onTagMouseDown"
-         , "_onInputFocus", "_onInputBlur", "_onInputKeyDown", "_onInputKeyPress", "_onInputPaste"
+         , "_onInputFocus", "_onInputBlur", "_onInputKeyDown", "_onInputKeyUp", "_onInputKeyPress", "_onInputPaste"
          , "_onAutocompleteSelected"
          ]
 
@@ -244,6 +244,8 @@ $wh.TagEdit = new Class(
                                     });
     if (!this.options.multiline)
       this.node.setStyles({ "white-space": "nowrap" });
+    else
+      this.node.setStyles({ "white-space": "normal" });
     if (this.el)
       this.node.inject(this.el, "before");
 
@@ -267,6 +269,7 @@ $wh.TagEdit = new Class(
                        , "events": { "focus": this._onInputFocus
                                    , "blur": this._onInputBlur
                                    , "keydown": this._onInputKeyDown
+                                   , "keyup": this._onInputKeyUp
                                    , "keypress": this._onInputKeyPress
                                    , "paste": this._onInputPaste
                                    }
@@ -288,12 +291,23 @@ $wh.TagEdit = new Class(
       this.inputnode.set("disabled", "disabled");
     if (this.options.placeholder)
     {
-      // Set the 'data-placeholder' attribute, the value of which is used as the ::after content of the input node
-      this.inputnode.setAttribute("data-placeholder", this.options.placeholder);
+      if (this.options.useinput)
+        this.inputnode.setAttribute("placeholder", this.options.placeholder);
+      else
+        // Set the 'data-placeholder' attribute, the value of which is used as the ::after content of the input node
+        this.inputnode.setAttribute("data-placeholder", this.options.placeholder);
     }
     // Make the input large enough to at least fit the placeholder, with a minimum of 30 pixels
     if (!this.options.useinput)
       this.inputnode.setStyle("min-width", Math.max(this.inputnode.getSize().x, 30));
+    else
+    {
+      this.sizenode = new Element("span", { "class": "wh-tagedit-input" });
+      this.sizenode.style.cssText = this.inputnode.style.cssText;
+      this.sizenode.style.visibility = "hidden";
+      this.sizenode.inject(this.node);
+      this._resizeInput();
+    }
 
     // Create the nodes for the tags
     this._updateTagNodes();
@@ -539,6 +553,7 @@ $wh.TagEdit = new Class(
     var text = this._getInputText();
     if (text)
       this._addTagsFromValue(text).then(this._clearInputText.bind(this)).then(this._fireChangeEvent.bind(this));
+    this._resizeInput();
   }
 
   /// Clear the input text
@@ -556,6 +571,28 @@ $wh.TagEdit = new Class(
       this.inputnode.set("text", text);
     if (update)
       this._updateTagNodes();
+  }
+
+, _resizeInput: function()
+  {
+    if (this.options.useinput)
+    {
+      // Check if we've already checked the size of the placeholder text
+      if (!this.minwidth)
+      {
+        if (this.options.placeholder)
+        {
+          this.sizenode.set("text", this.options.placeholder);
+          // We might not yet be present or visible in the DOM
+          if (this.sizenode.getSize().x)
+            this.minwidth = Math.max(this.sizenode.getSize().x, 30);
+        }
+        else
+          this.minwidth = 30;
+      }
+      this.sizenode.set("text", this.inputnode.value);
+      this.inputnode.setStyle("width", Math.max(this.minwidth, this.sizenode.getSize().x + 20));
+    }
   }
 
   /** Lookup a tag
@@ -762,6 +799,11 @@ $wh.TagEdit = new Class(
         break;
       }
     }
+  }
+
+, _onInputKeyUp: function(event)
+  {
+    this._resizeInput();
   }
 
 , _onInputKeyPress: function(event)
