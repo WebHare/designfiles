@@ -88,9 +88,13 @@ $wh.Masonry = new Class(
       // Pass an array of nodes if you want control over the order visual order of the items (without reordering the dom)
       , items:              null
 
+      // ADDME: lockheight   (will only recalculate heights when the width of a column changed)
+
       , equalizeheight:     false
       , equalizenodequery:  "" // This is the CSS query to get the element to stretch within each item.
                                // If kept empty ("") or no element was found using the query, the item's container itself is stretched.
+
+      , listentoevents:     true // listen to load and resize events and resize/relayout the masonry if needed (for performance it's better to fully control refreshes yourself)
       , resizelistener:     false
       //, letbrowserreflow:   false // (ADDME: invent this. but how?) if set, we don't use absolute positioning. downside -> cannot animate to new position, upside -> no issues when content in the masonry
 
@@ -147,10 +151,7 @@ $wh.Masonry = new Class(
     }
 
     if ("items" in options)
-    {
-      //console.log("New items specified");
       this.__items_dirty = true; // need to recheck all widgets, there might be new ones
-    }
 
     //this.parent(options);
     Object.merge(this.options, options);
@@ -486,7 +487,8 @@ $wh.Masonry = new Class(
     var widgetrecs;
 
     // Only change widget width's when needed
-    if (!no_new_widgets && this.__columnwidth != columnwidth)
+    var need_relayout = this.__items_dirty || this.__columnwidth != columnwidth;
+    if (need_relayout)
     {
       widgetrecs = [];
 
@@ -521,7 +523,7 @@ $wh.Masonry = new Class(
           if (!("eqnode" in widgetrecs))
             widgetrec.eqnode = widget.querySelector(this.options.equalizenodequery);
 
-          if (widgetrecs.eqnode)
+          if (widgetrec.eqnode)
             widgetrec.eqnode.style.height = "auto";
         }
 
@@ -634,8 +636,11 @@ $wh.Masonry = new Class(
                          , height:   rowheights[computed.rownr]
                          };
 
-      if (this.options.equalizenodequery != "" && widgetrec.eqnode)
+      if (need_relayout && this.options.equalizenodequery != "" && widgetrec.eqnode)
+      {
+        console.info("SET to ");
         widgetrec.eqnode.style.height = (rowheights[computed.rownr] - widgetrec.height) + "px";
+      }
 
       /*
       console.group("#"+idx);
@@ -702,16 +707,29 @@ $wh.Masonry.setup = function(node, options)
 */
   var opts = optionsjson ? JSON.decode(optionsjson) : {};
 
+  if (options.debug)
+  {
+    console.log("$wh.Masonry.setup options", options);
+    console.log("DOM attribute options", opts);
+  }
+
   if (options)
     Object.append(opts, options);
+
+  if (options.debug)
+    console.log("Combined options", opts);
+
 
   var masonry = new $wh.Masonry(node, opts);
   node.store("wh-masonry", masonry);
 
   // FIXME: find a more generic way
 //    $(window).addEvent("domready", masonry.refresh.bind(masonry));
-  $(window).addEvent("load", masonry.refresh.bind(masonry));
-  $(window).addEvent("resize", masonry.refresh.bind(masonry));
+  if (options.listentoevents)
+  {
+    $(window).addEvent("load", masonry.refresh.bind(masonry));
+    $(window).addEvent("resize", masonry.refresh.bind(masonry));
+  }
 
   return masonry;
 }
