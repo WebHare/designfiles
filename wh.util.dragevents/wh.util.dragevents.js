@@ -377,7 +377,6 @@ $wh.DragEvents = new Class(
           // No click event on touch devices, so fire it ourselves
           var evt = document.createEvent("MouseEvent");
           evt.initMouseEvent("click", true, true, window, 0, event.page.x, event.page.y, event.client.x, event.client.y, false, false, false, false, 0, event.target);
-          $wh.fixupMouseEvent(evt, event.target);
           event.target.dispatchEvent(evt);
         }
         else

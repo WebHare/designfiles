@@ -21,10 +21,14 @@ options:
 - minfontsize (default 5)
 - maxfontsize (default 100)
 - maxwidth - if null=no restriction, "detect" -> use size of container (inner size, so the available space within the padding and borders)
-- maxheight - if null=no resitrction, "detect" -> use size of container
+- maxheight - if null=no restriction, "detect" -> use size of container
 - verticalalign - true / false / "top" / "middle" / "bottom"
 - lineheight - to fix the lineheight for the determined fontsize (best to use a % size, for example: '100%')
 - container - override in case the parent of the textcontainer isn't representative of the correct size (for maxwidth/maxheight == "detect") and/or isn't the element in which we have to verticalalign
+
+Use cases:
+- stretch to fill up container -> maxheight: "detect"
+- make sure a element doesn't get too high by auto-sizing text within a given element -> container: ..., maxheight: ...px
 
 Other notes:
 - vertical alignment can be done either by
@@ -35,6 +39,12 @@ Other notes:
 
 ADDME: maybe play a little with letter-spacing?
 ADDME: maybe an option to, when possible, use transform: scale() and fall back to font-size if nessecary, so both text + other content within the textcontainer can be scaled
+
+Plans for V2:
+- combine $wh.makeTextFit and $wh.applyEllipsisToText into a single library
+- add a option applyellipsis, so ellipsis is applied when even a minfontsize the text still does not fit
+- ability to batch instructions?
+- let the user handle vertical alignment using CSS (remove our alignment code)
 */
 
 (function($) {
@@ -47,19 +57,23 @@ $wh.makeTextFit = function makeTextFit(container_or_elements, options)
     options = {};
 
   if (options.debug)
-    console.group(container_or_elements);
+  {
+//    console.group("$wh.makeTextFit");
+    //console.info(container_or_elements);
+  }
 
-  var multiple = typeOf(container_or_elements) == "elements";
-
+  var sourcetype = typeOf(container_or_elements);
+  var multiple = sourcetype == /*MooTools*/"elements" || sourcetype == /*HTML*/"collection";
   var elements = multiple ? container_or_elements : [container_or_elements];
+
   for (var idx = 0; idx < elements.length; idx++)
   {
     var container = elements[idx];
     $wh.__makeTextFit(container, options);
   }
 
-  if (options.debug)
-    console.groupEnd();
+ // if (options.debug)
+  //  console.groupEnd();
 };
 
 $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
@@ -72,7 +86,24 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
     return;
   }
 
+  var measureme = options.container ? options.container : textcontainer;
+
   var container = options.container ? options.container : textcontainer.parentNode;
+
+/*
+  if (textcontainer.getStyle("display") != "inline")
+  {
+    //console.warn("maxlines ellipsis only works on inline elements.");
+    range = document.createRange();
+    range.selectNode(container.childNodes[0]);
+    measureme = range;
+  }
+*/
+  var stylecontainer = ("stylecontainer" in options) ? options.stylecontainer : textcontainer.parentNode;
+
+  if (options.lineheight)
+    stylecontainer.style.lineHeight = options.lineheight; // FIXME
+
 
   if (options.debug)
   {
@@ -101,8 +132,6 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
       maxheight = options.maxheight;
   }
 
-  if (options.debug)
-    console.log("Max size for text is " + maxwidth + " x " + maxheight);
 
 
   if (!("minfontsize" in options))
@@ -125,6 +154,21 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
   if (tcontent === undefined)
     tcontent = textcontainer.innerText;
 
+
+  if (options.debug)
+  {
+    console.groupCollapsed("$wh.makeTextFit", tcontent.substr(0, 64));
+    console.log(textcontainer, options);
+    console.log("Max size for text is " + maxwidth + " x " + maxheight);
+    console.info(
+      { measureme: measureme
+      , container: container
+      , stylecontainer: stylecontainer
+      })
+  }
+
+
+
   if (tcontent == "")
   {
     console.warn("Empty text, no need to resize."); // not even a EOL char
@@ -132,14 +176,16 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
   }
 
   // if we aren't visible or there's no text, get the hell out of here!
-  var textsize = textcontainer.getBoundingClientRect();
+  var textsize = measureme.getBoundingClientRect();
+//console.log(textsize);
   var textwidth;
-  var textheight = textsize.bottom - textsize.top; //textcontainer.scrollHeight;
-  //if (textcontainer.clientHeight == 0)
+  var textheight = textsize.bottom - textsize.top;
   if (textheight == 0)
   {
-    console.warn("No text (+inline) or display is set to none on textcontainer or it's parents.");
-    return;
+    console.warn("No text, specified textcontainer is inline or display is set to none on textcontainer or it's parents.");
+
+    if (options.debug)
+      console.groupEnd();
   }
 
   // FIXME: are there any smarter ways to quickly determine the correct size?
@@ -158,12 +204,9 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
   {
     var current_fontsize = largest_known_fitting_fontsize + (smallest_known_too_large_fontsize - largest_known_fitting_fontsize)/2;
 
-    textcontainer.style.fontSize = current_fontsize.toFixed(2) + "px";
+    stylecontainer.style.fontSize = current_fontsize.toFixed(2) + "px";
 
-    if (options.lineheight)
-      textcontainer.style.lineHeight = options.lineheight;
-
-    textsize = textcontainer.getBoundingClientRect();
+    textsize = measureme.getBoundingClientRect();
     textwidth = textsize.right - textsize.left; //textcontainer.scrollWidth;
     textheight = textsize.bottom - textsize.top; //textcontainer.scrollHeight;
 
@@ -205,12 +248,12 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
   if(options.debug)
     console.log("Optimal fontsize " + optimal_fontsize + " determined in "+steps_used+" steps.");
 
-  textcontainer.style.fontSize = optimal_fontsize.toFixed(2) + "px";
+  stylecontainer.style.fontSize = optimal_fontsize.toFixed(2) + "px";
 
   // now we can apply vertical alignment
   if (options.verticalalign === true || options.verticalalign === "middle")
   {
-    textsize = textcontainer.getBoundingClientRect();
+    textsize = measureme.getBoundingClientRect();
     textheight = textsize.bottom - textsize.top;
 
     //var verticaloffset = (container.clientHeight - textcontainer.scrollHeight) / 2;
@@ -228,10 +271,13 @@ $wh.__makeTextFit = function __makeTextFit(textcontainer, options)
   else if (options.verticalalign === "bottom")
   {
     //textcontainer.style.marginTop = (container.clientHeight - textcontainer.scrollHeight)+"px";
-    textsize = textcontainer.getBoundingClientRect();
+    textsize = measureme.getBoundingClientRect();
     textheight = textsize.bottom - textsize.top;
     textcontainer.style.marginTop = (container.clientHeight - textheight)+"px";
   }
+
+  if (options.debug)
+    console.groupEnd();
 };
 
 })(document.id);

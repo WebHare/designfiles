@@ -4,6 +4,8 @@ require ('frameworks.mootools.more.class.binds');
 /*! LOAD: frameworks.mootools.core, frameworks.mootools.more.class.binds
 !*/
 
+//Ported to: @webhare-system/dom/scroll
+
 if(!window.$wh) $wh={};
 
 (function($) { //mootools wrapper

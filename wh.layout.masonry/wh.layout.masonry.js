@@ -76,6 +76,7 @@ $wh.Masonry = new Class(
 { //Implements: [ Options ] //, Events ]
   options:
       { columns:            3
+      , columnwidth:        0     // if not set the width will be set so the amount of columns will fill up the horizontal space
 
       // gutter size
       // gutter:            10 // shorthand for gutter_x and gutter_y
@@ -297,7 +298,10 @@ $wh.Masonry = new Class(
 
     var visiblewidgetscount = 0;
 
-    var columnwidth = (this.__containerwidth - (this.options.columns-1) * this.options.gutter_x) / this.options.columns;
+    var columnwidth = this.options.columnwidth;
+    if (!columnwidth)
+      columnwidth = (this.__containerwidth - (this.options.columns-1) * this.options.gutter_x) / this.options.columns;
+
     var columncount = this.options.columns;
     var singlerow = true; // until we have to place a new widget below another one all widgets are still on a single row
 
@@ -442,6 +446,9 @@ $wh.Masonry = new Class(
     var maxheight = Math.max.apply(null, columns);
 
     //reorderWidgets(keepcolumnpos);
+    if (this.options.columnwidth)
+      this.container.style.width = (this.options.columnwidth * this.options.columns + (this.options.columns-1) * this.options.gutter_x) + "px";
+
     this.container.style.height = maxheight + "px";
 
 
@@ -480,9 +487,11 @@ $wh.Masonry = new Class(
 
     var visiblewidgetscount = 0;
 
-    var columnwidth = (this.__containerwidth - (this.options.columns-1) * this.options.gutter_x) / this.options.columns;
-    var columncount = this.options.columns;
+    var columnwidth = this.options.columnwidth;
+    if (!columnwidth)
+      columnwidth = (this.__containerwidth - (this.options.columns-1) * this.options.gutter_x) / this.options.columns;
 
+    var columncount = this.options.columns;
 
     var widgetrecs;
 

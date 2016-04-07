@@ -230,33 +230,24 @@ if (window !== top) // or window.self != window.top
   if(window.console)
     console.info("wh autoresize script activated.");
 
-  if (window.addEventListener)
+  //window.addEvent("domready", __framedContent_onDomReady);
+  document.addEventListener("DOMContentLoaded", $wh.__framedContent_onDomReady, false); // IE9, FF, ...
+  document.addEventListener("load", $wh.__framedContent_onLoad, false);
+  document.addEventListener("message", $wh.__framedContent_onMessage, false);
+  //document.addEventListener("resize", $wh.__framedContent_onResize, false); // do we need to listen to resize events?
+
+  if (window.navigator && window.navigator.product == "Gecko")
   {
-    //window.addEvent("domready", __framedContent_onDomReady);
-    document.addEventListener("DOMContentLoaded", $wh.__framedContent_onDomReady, false); // IE9, FF, ...
-    document.addEventListener("load", $wh.__framedContent_onLoad, false);
-    document.addEventListener("message", $wh.__framedContent_onMessage, false);
-    //document.addEventListener("resize", $wh.__framedContent_onResize, false); // do we need to listen to resize events?
-
-    if (window.navigator && window.navigator.product == "Gecko")
-    {
-      // Gecko 1.9.2 / Firefox 3.6
-      // detect content resize without polling and the potential to trigger document reflows
-      // (it does not fire upon scroll in contridiction to what the MDN documentation says)
-      document.addEventListener("MozScrolledAreaChanged", $wh.__framesContent_onMozResize, false);
-    }
-    //else if (window.requestAnimationFrame) // ADDME !!!
-    else
-    {
-      // resort to polling
-      $wh.__framedContent_resizepolltimeout = setTimeout($wh.__framesContent_pollForResize, 500);
-    }
-
+    // Gecko 1.9.2 / Firefox 3.6
+    // detect content resize without polling and the potential to trigger document reflows
+    // (it does not fire upon scroll in contridiction to what the MDN documentation says)
+    document.addEventListener("MozScrolledAreaChanged", $wh.__framesContent_onMozResize, false);
   }
-  else if (window.attachEvent) // IE < 9
+  //else if (window.requestAnimationFrame) // ADDME !!!
+  else
   {
-    document.attachEvent("load", $wh.__framedContent_onLoad);
-    document.attachEvent("message", $wh.__framedContent_onMessage);
+    // resort to polling
+    $wh.__framedContent_resizepolltimeout = setTimeout($wh.__framesContent_pollForResize, 500);
   }
 
   window.parent.postMessage("-wh-popup:hello", "*");

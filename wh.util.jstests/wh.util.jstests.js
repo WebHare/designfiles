@@ -11,6 +11,8 @@ require ('wh.util.promise');
     LOAD: wh.net.jsonrpc, wh.net.url, wh.util.promise
 !*/
 
+//Ported to: @webhare-system/wh/testframework
+
 //basic test functions
 
 (function($) {
@@ -546,7 +548,6 @@ function fireDNDEvent(eventtype, cx, cy, el, button, relatedtarget, dragop)
     mouseevent.initMouseEvent(eventtype, true, true, doc.defaultView, 0/*clickcount? is 0 correct?*/, cx+25, cy+25, cx, cy,
                               ctrl||false, dragop.options.alt||false, dragop.options.shift||false, meta||false,
                               button, null, dataTransfer);
-    $wh.fixupMouseEvent(mouseevent, el);
 
     // Can't update the dataTransfer attr, though. Create a htmlevent, and place all mousevent attrs in it
     // That one can be fired!
@@ -659,7 +660,7 @@ function fireMouseEvent(eventtype, cx, cy, el, button, relatedtarget, options)
   evt.initMouseEvent(eventtype, canBubble, true, doc.defaultView, options.clickcount || 1, cx+25, cy+25, cx, cy,
                      ctrl||false, options.alt||false, options.shift||false, meta||false,
                      button, relatedtarget||null);
-  $wh.fixupMouseEvent(evt, el);
+
   return checkedDispatchEvent(el, evt);
 }
 

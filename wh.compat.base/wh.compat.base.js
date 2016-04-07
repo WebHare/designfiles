@@ -45,7 +45,7 @@ String.implement(
   /* decodeFromHtml */
 , decodeFromHtml: function()
   {
-    var str = this.replace(/<br *\/?>/, "\n");
+    var str = this.replace(/<br *\/?>/g, "\n");
     str = str.replace(/&#(\d+);/g, function(match, dec) { return String.fromCharCode(dec) });
     str = str.replace(/&amp;/g, "&");
     return str.replace(/&lt;/g, "<");

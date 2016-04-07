@@ -418,6 +418,7 @@ $wh.setupGoogleAnalytics = function(gacode, options)
     didautotrackevents=true;
     //ADDME register capture events on modern browsers to catch later dom additions and clicks on subnodes
     $$('*[data-ga-category]').addEvent('click', onGaClick, true);
+    //$(document.body).addEvent('click:relay(*[data-ga-category])', onGaClick, true); // FIXME: something like this? functions need to be changed too?
   }
 };
 

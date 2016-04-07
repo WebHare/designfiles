@@ -32,7 +32,26 @@ Events
   - startslide
   - endslide
 
+
 FIXME: *DON'T* use the callbacks (slide_onstart / slide_onend) and remove them??
+
+
+
+
+
+Slideshow 2:
+- remove slide_onstart / slideonend
+- remove initialdelay
+- remove -wh legacy CSS classes
+- rename delay         to slideviewduration
+- rename slideduration to slidetransitionduration
+- rename startposition to startslideidx
+- combine prevbutton_enabledclass and nextbutton_enabledclass + set default to 'enabled' ??
+- combine prevbutton_disabledclass and nextbutton_disabledclass + set default to 'enabled' ??
+- default 'selected' for slide_selectedclass ??
+- remove all non-CSS animation/transition based animation code
+- remove stepsize ? (80/20 rule -> easy to implement in own site code)
+
 */
 
 (function($) { //mootools wrapper
@@ -65,7 +84,7 @@ $wh.Slideshow = new Class(
            , slide_onstart: null //function callback option (DON'T use?? use events)
            , slide_onend: null //function callback option (DON't use?? use events)
 
-           , initialdelay: 0
+           , initialdelay: 0 // ?? this does the same as delay (and they are)
            , delay:3000
            , slideduration: 1000
 
@@ -359,7 +378,6 @@ $wh.Slideshow = new Class(
                    , currentslide: slideidx >= 0 ? this.slidemethod.slides[slideidx] : null
                    , num: this.slidemethod.slides.length
                    }
-    this.fireEvent("startslide", slideevt);
 
     if(this.options.prevbutton)
     {
@@ -395,10 +413,13 @@ $wh.Slideshow = new Class(
       }
     }
 
+
     var lastslide = this.currentpos;
     this.currentpos = slideidx;
 
     this.slidemethod.gotoSlide(lastslide, slideidx, animate, forwards);
+    this.fireEvent("startslide", slideevt);
+
     //ADDME endslide event with data from 'slideevt', but deal properly with cancellation etc if someone prematurely jumps ?
 
     if(this.options.persisttag)

@@ -3,6 +3,9 @@ require ('wh.form.model.base');
 /*! LOAD: wh.form.model.base !*/
 /* plugin to support Dutch address fields */
 
+
+// FIXME: readOnly
+
 (function($) {
 
 $wh.Form.NLAddress = { lookup: null

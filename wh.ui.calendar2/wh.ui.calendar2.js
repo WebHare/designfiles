@@ -193,8 +193,10 @@ $wh.CalendarTable = new Class(
 $wh.Calendar2 = new Class(
 { Implements: [Events,Options]
 , Extends: $wh.CalendarTable
-, options : { show_weeknr  : false
-            , date         : null
+, options : { show_weeknr:   false
+            , date:          null   // initial value
+            , min:           null
+            , max:           null
             }
 , node : null
 , tablenode: null
@@ -274,7 +276,16 @@ $wh.Calendar2 = new Class(
     var minyear = Number(this.options.min.get('FullYear'));
     var maxyear = Number(this.options.max.get('FullYear'));
     var selectedyear = Number(this.options.date.get('FullYear'));
-    this.yearselectnode = new Element('input',{'type' : 'number', 'class' : 'wh-spinner wh-calendar-year', 'value' : selectedyear, 'step' : '1', 'min' : minyear, 'max' : maxyear }).inject(headernode);
+
+    this.yearselectnode = new Element('input'
+           , { 'type' : 'number'
+             , 'class' : 'wh-spinner wh-calendar-year'
+             , 'value' : selectedyear
+             , 'step' : '1'
+             , 'min' : minyear
+             , 'max' : maxyear
+             });
+    headernode.adopt(this.yearselectnode);
     this.yearselectnode.setAttribute('value',selectedyear);//PATCH, WHY??? value in above line is ignored by mootools??
 
     //prev/next arrows

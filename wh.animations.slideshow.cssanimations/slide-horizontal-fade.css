@@ -22,12 +22,10 @@
   animation: slideFromRight 350ms 10ms linear both;
 }
 
-/*
 .wh-slideshow-cssanimation.anim-slide-h .hidePrevious,
 .wh-slideshow-cssanimation.anim-slide-h .hideNext {
   visibility: visible;
 }
-*/
 
 .wh-slideshow-cssanimation.anim-slide-h .hidePrevious {
   -webkit-animation: slideToLeft 350ms 10ms linear both;
@@ -116,7 +114,12 @@
 }
 
 @-webkit-keyframes slideToLeft {
+  99% {
+    opacity: 1;
+  }
+
   100% {
+    opacity: 0;
     -webkit-transform: translate3d(-100%, 0, 0);
     -moz-transform: translate3d(-100%, 0, 0);
     -ms-transform: translate3d(-100%, 0, 0);
@@ -125,7 +128,12 @@
 }
 
 @-moz-keyframes slideToLeft {
+  99% {
+    opacity: 1;
+  }
+
   100% {
+    opacity: 0;
     -webkit-transform: translate3d(-100%, 0, 0);
     -moz-transform: translate3d(-100%, 0, 0);
     -ms-transform: translate3d(-100%, 0, 0);
@@ -134,7 +142,12 @@
 }
 
 @-ms-keyframes slideToLeft {
+  99% {
+    opacity: 1;
+  }
+
   100% {
+    opacity: 0;
     -webkit-transform: translate3d(-100%, 0, 0);
     -moz-transform: translate3d(-100%, 0, 0);
     -ms-transform: translate3d(-100%, 0, 0);
@@ -143,7 +156,12 @@
 }
 
 @keyframes slideToLeft {
+  99% {
+    opacity: 1;
+  }
+
   100% {
+    opacity: 0;
     -webkit-transform: translate3d(-100%, 0, 0);
     -moz-transform: translate3d(-100%, 0, 0);
     -ms-transform: translate3d(-100%, 0, 0);
@@ -152,7 +170,12 @@
 }
 
 @-webkit-keyframes slideToRight {
+  99% {
+    opacity: 1;
+  }
+
   100% {
+    opacity: 0;
     -webkit-transform: translate3d(100%, 0, 0);
     -moz-transform: translate3d(100%, 0, 0);
     -ms-transform: translate3d(100%, 0, 0);
@@ -161,7 +184,12 @@
 }
 
 @-moz-keyframes slideToRight {
+  99% {
+    opacity: 1;
+  }
+
   100% {
+    opacity: 0;
     -webkit-transform: translate3d(100%, 0, 0);
     -moz-transform: translate3d(100%, 0, 0);
     -ms-transform: translate3d(100%, 0, 0);
@@ -170,7 +198,12 @@
 }
 
 @-ms-keyframes slideToRight {
+  99% {
+    opacity: 1;
+  }
+
   100% {
+    opacity: 0;
     -webkit-transform: translate3d(100%, 0, 0);
     -moz-transform: translate3d(100%, 0, 0);
     -ms-transform: translate3d(100%, 0, 0);
@@ -179,7 +212,12 @@
 }
 
 @keyframes slideToRight {
+  99% {
+    opacity: 1;
+  }
+
   100% {
+    opacity: 0;
     -webkit-transform: translate3d(100%, 0, 0);
     -moz-transform: translate3d(100%, 0, 0);
     -ms-transform: translate3d(100%, 0, 0);

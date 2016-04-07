@@ -1,9 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
 require ('./slideshow2.css');
 require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.element.measure');
 require ('wh.ui.base');
-/*! LOAD: frameworks.mootools.core, frameworks.mootools.more.element.measure, wh.ui.base
+/*! LOAD: frameworks.mootools.core, wh.ui.base
 !*/
 
 /*
@@ -59,6 +58,8 @@ DONE
     - not defaulting to use display: none; on slides that should not be visible
       (because it throws away images from memory/texture buffers)
 
+- removed frameworks.mootools.more.element.measure dependancy
+
 - removed -wh legacy CSS classes
 
 - removed all animation bases which could be done better using CSS
@@ -103,7 +104,7 @@ $wh.Slideshow2 = new Class(
            , slideheight: null
            , slide_selectedclass: ''
 
-           , delay:3000
+           , delay:         3000
            , slideduration: 1000
 
            // animation settings
@@ -204,11 +205,13 @@ $wh.Slideshow2 = new Class(
     {
       this.options.prevbutton.addEvent("click", this.handlePrevButton.bind(this));
       this.options.prevbutton.addEvent("mousedown", function(evt) { evt.stop(); } ); // prevent rapid clicking selecting text
+      this.options.prevbutton.addEvent("touchend", this.handlePrevButton.bind(this));
     }
     if(this.options.nextbutton)
     {
       this.options.nextbutton.addEvent("click", this.handleNextButton.bind(this));
       this.options.nextbutton.addEvent("mousedown", function(evt) { evt.stop(); } ); // prevent rapid clicking selecting text
+      this.options.nextbutton.addEvent("touchend", this.handleNextButton.bind(this));
     }
 
     if(this.options.pauseonhover)

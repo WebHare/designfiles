@@ -37,9 +37,6 @@ if(!('content' in document.createElement("template")))
       Object.defineProperty(templatenode, "content", { get: getContent });
     })
   })
-
-  if(Browser.ie && Browser.version <= 8)
-    document.importNode = $wh.importNode.bind(window, document);
 }
 else
 {
@@ -164,11 +161,11 @@ function expandNode(data, node)
 }
 $wh.importTemplate = function(doc, templatenode)
 {
-  return $wh.importNode(doc, templatenode.content, true);
+  return doc.importNode(templatenode.content, true);
 }
 $wh.instantiateTemplate = function(templatenode, data)
 {
-  var fragment = $wh.importNode(templatenode.ownerDocument, templatenode.content, true);
+  var fragment = templatenode.ownerDocument.importNode(templatenode.content, true);
   $wh.expandTemplateContent({ rangestart: fragment.firstChild }, data, templatenode); //pass the original node for easier debugging
   return fragment;
 }

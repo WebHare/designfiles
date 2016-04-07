@@ -89,7 +89,8 @@ $wh.InternetRequester = new Class(
     if(options && options.headers)
       Object.each(options.headers, function(value,key) { this.conn.setRequestHeader(key,value); }.bind(this));
 
-    //this.conn.withCredentials = true;
+    if(this.options.withcredentials)
+      this.conn.withCredentials = true;
     this.conn.onreadystatechange = this.onStateChange.bind(this);
     // Required for Firefox 12 (+firebug?), without it statechange to 4 doesn't seem to be fired sometimes
     this.conn.onloadend = this.onStateChange.bind(this);

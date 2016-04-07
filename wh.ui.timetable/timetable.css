@@ -1,0 +1,155 @@
+
+.wh-timetable
+{
+  position: relative;
+  z-index: 0; /* new stacking context */
+}
+
+.wh-timetable-viewport
+{
+  position: relative; /* keep scrollport/content and locations/labels within same space */
+  width: 100%;
+}
+
+.wh-timetable-scrollport /* to scroll times and guidelines */
+{
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  width: 100%;
+}
+
+.wh-timetable-content
+{
+  position: relative;
+/*  width: 200%;*/
+}
+
+.wh-timetable-header
+{
+  position: relative;
+  overflow: hidden;
+
+  background-color: #EEEEEE;
+
+  padding-left: 9px;
+
+  border-bottom: 1px solid #AAAAAA; /* #EBEBEB; */
+/*
+  transform: translate3d(0,0,0);
+  -webkit-backface-visibility: hidden;
+*/
+}
+.wh-timetable-header .wh-timetable-timeindicator
+{
+  padding-left: 8px;
+}
+
+  .wh-timetable-header
+, .wh-timetable-header-placeholder
+{
+  height: 49px;
+  line-height: 49px;
+}
+
+
+/* location label overlays */
+.wh-timetable-rowlabels
+{
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.wh-timetable-row
+{
+  position: relative;
+  height: 61px;
+  border: 1px solid #FFFFFF;
+}
+.wh-timetable-content .wh-timetable-row:nth-child(odd)
+{
+  background-color: #FFFFFF;
+}
+.wh-timetable-content .wh-timetable-row:nth-child(even)
+{
+  background-color: #F6F6F6;
+}
+
+
+
+.wh-timetable-label
+{
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+
+  align-items: center;
+
+  text-transform: uppercase;
+
+  padding: 9px;
+
+  width: 175px;
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #FFFFFF;
+}
+.wh-timetable-label .content
+{
+
+}
+
+  .wh-timetable-label
+, .wh-timetable-time
+{
+}
+
+.wh-timetable-time
+{
+  position: absolute;
+  left: 0;
+  padding: 9px;
+
+  background-color: #23a64c;
+  color: #FFFFFF;
+
+  min-width: 3px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wh-timetable-timeindicator
+{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+
+  border-left: 1px dashed rgba(0,0,0,0.20);
+}
+
+
+
+.wh-timetable-header
+{
+  z-index: 10;
+}
+.wh-timetable-rowlabels
+{
+  z-index: 3;
+}
+.wh-timetable-time
+{
+  z-index: 2;
+}
+.wh-timetable-timeindicator
+{
+  z-index: 1;
+}

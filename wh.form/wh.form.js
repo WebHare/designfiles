@@ -1480,6 +1480,8 @@ $wh.Form.Handler = new Class(
 
     if(!model)
       model = event.target.retrieve("wh-form-parentmodel")
+    if(model)
+      model.prepareOnChange();
 
     if(model && model.__dirtyonchange && !model.isPristineValue())
     {

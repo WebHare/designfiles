@@ -664,6 +664,5 @@ $wh.isAllowNativeContextMenu = function(event)
 }
 
 window.addEvent("domready", executeReplaceDomready);
-document.documentElement.addEventListener("wh:ui-busy", function(event) { $wh.updateUIBusyFlag( event.detail.mod) });
 
 })(document.id); //end mootools wrapper

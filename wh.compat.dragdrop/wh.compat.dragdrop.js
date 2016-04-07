@@ -3,6 +3,8 @@ require ('wh.compat.base');
 /*! LOAD: wh.compat.base
 !*/
 
+//ported to @webhare-system/compat/dragdrop
+
 /** Drag and drop compatibility library
 
     This library fixes some browser quirks related to mouse coordinates in drag
@@ -441,7 +443,6 @@ require ('wh.compat.base');
     // defaultPrevented is still false, we cannot detect if the default was prevented. Fortunately, for older Internet
     // Explorers we will have to check the returnValue property to see if an event was cancelled, which we can set here
     // because it's not an existing property of the event object in Internet Explorer 9 and up.
-    $wh.fixupMouseEvent(evt, target);
     var cancelled = !target.dispatchEvent(evt);
     if (cancelled && !evt.defaultPrevented)
       evt.returnValue = false;
@@ -826,25 +827,6 @@ $wh.CurrentDragData = new Class(
 $wh.getDragData = function(event)
 {
   return new $wh.CurrentDragData(event, currentdrag);
-}
-
-$wh.fixupMouseEvent = function(evt, evttarget)
-{
-  if(Browser.ie && Browser.version==9) //IE9 refuses to let us set pageX and pageY, they'll always remain 0 in the original object
-  {
-    var view = evttarget;
-    if(view.ownerDocument)
-      view = view.ownerDocument;
-    if(view.defaultView)
-      view = view.defaultView;
-
-    //polyfill pageX and pageY
-    var pagex = Math.floor(evt.clientX + view.pageXOffset);
-    var pagey = Math.floor(evt.clientY + view.pageYOffset);
-
-    Object.defineProperty(evt, 'pageX', { get : function() { return pagex } } );
-    Object.defineProperty(evt, 'pageY', { get : function() { return pagey } } );
-  }
 }
 
 /// Reset the current drag when a local drag has ended

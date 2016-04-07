@@ -351,7 +351,10 @@ $wh.Form.ModelBase = new Class(
   //
   // To override
   //
+, prepareOnChange:function()
+  {
 
+  }
   /// override this function to define your own cleanup on raw values
 , cleanup:function(rawvalue)
   {
@@ -820,11 +823,28 @@ $wh.Form.ModelBase = new Class(
 $wh.Form.InputFieldBase = new Class(
 { Extends: $wh.Form.ModelBase
 , needschecked: false
+, filename:null
+, filevalue:null
 , initialize:function(formhandler, node, parentmodel)
   {
     this.parent(formhandler, node, parentmodel);
     this.needschecked = ['radio','checkbox'].contains(node.getAttribute('type'));
     // FIXME - what did this fix? it's good at causing dupe events during unfocus... this.node.addEvent("change", this.runValidation.bind(this))
+  }
+, prepareOnChange:function()
+  {
+    if(this.node.nodeName == 'INPUT' && this.node.type=='file' && this.node.files.length>0)
+    {
+      this.filename = this.node.files[0].name;
+      this.filevalue = null;
+      var reader = new FileReader;
+      reader.onload = function(file)
+      {
+        this.filevalue = reader.result;
+        console.log(this.filevalue.substr(0,100));
+      }.bind(this)
+      reader.readAsDataURL(this.node.files[0]);
+    }
   }
 , cleanup:function(rawvalue) //override this function to define your own cleanup on raw values
   {
@@ -836,6 +856,12 @@ $wh.Form.InputFieldBase = new Class(
       rawvalue = filterUsingInputLimit(rawvalue, this.node.getAttribute("data-limitinput"));
     }
     return rawvalue;
+  }
+, getApiValue:function()
+  {
+    if(this.filevalue)
+      return { inputname: this.getName() || '', raw: this.filevalue, filename: this.filename };
+    return this.parent();
   }
 , getRawValue:function()
   {

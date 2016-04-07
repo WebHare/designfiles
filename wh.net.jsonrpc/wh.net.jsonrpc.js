@@ -4,6 +4,8 @@ require ('wh.net.requests');
 /*! LOAD: wh.util.preloader, wh.net.requests
 !*/
 
+// Ported to: @webhare-system/net/jsonrpc
+
 if(!window.$wh) $wh={};
 
 (function($) { //mootools wrapper
