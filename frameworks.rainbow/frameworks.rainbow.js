@@ -1,23 +1,23 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./all-hallows-eve.css');
+require ('./solarized-dark.css');
+require ('./paraiso-dark.css');
+require ('./twilight.css');
+require ('./kimbie-light.css');
+require ('./tricolore.css');
+require ('./paraiso-light.css');
+require ('./tomorrow-night.css');
+require ('./sunburst.css');
+require ('./pastie.css');
 require ('./blackboard.css');
 require ('./espresso-libre.css');
-require ('./dreamweaver.css');
 require ('./github.css');
-require ('./kimbie-dark.css');
-require ('./kimbie-light.css');
-require ('./twilight.css');
-require ('./obsidian.css');
-require ('./zenburnesque.css');
-require ('./paraiso-dark.css');
 require ('./solarized-light.css');
-require ('./sunburst.css');
-require ('./tomorrow-night.css');
-require ('./paraiso-light.css');
-require ('./pastie.css');
 require ('./monokai.css');
-require ('./solarized-dark.css');
-require ('./tricolore.css');
+require ('./dreamweaver.css');
+require ('./zenburnesque.css');
+require ('./all-hallows-eve.css');
+require ('./kimbie-dark.css');
+require ('./obsidian.css');
 /**
  * Copyright 2013 Craig Campbell
  *

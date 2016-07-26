@@ -137,7 +137,7 @@ $wh.InternetRequester = new Class(
     //FIXME only decode JSON data if the mimetype specified it was JSON, and then log any errors
     try
     {
-      evt.responsejson = JSON.decode(evt.responsetext);
+      evt.responsejson = JSON.parse(evt.responsetext);
     }
     catch(e)
     {

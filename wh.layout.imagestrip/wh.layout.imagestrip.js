@@ -136,7 +136,7 @@ function setupImageStrip(node)
       return;
     }
 
-    var opts = JSON.decode(optionsjson);
+    var opts = JSON.parse(optionsjson);
     node.store("wh-imagestrip", new $wh.ImageStrip(node, opts));
   }
 }

@@ -714,7 +714,7 @@ $wh.Masonry.setup = function(node, options)
     return;
   }
 */
-  var opts = optionsjson ? JSON.decode(optionsjson) : {};
+  var opts = optionsjson ? JSON.parse(optionsjson) : {};
 
   if (options.debug)
   {

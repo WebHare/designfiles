@@ -58,7 +58,7 @@ $wh.reportException = function(errorobj, options)
     exception_text = options.altstack;
 
   if (!exception_text)
-    try { exception_text = JSON.encode(errorobj); } catch (e) {}
+    try { exception_text = JSON.stringify(errorobj); } catch (e) {}
   if (!exception_text)
     try { exception_text = errorobj.toString(); } catch (e) {}
 

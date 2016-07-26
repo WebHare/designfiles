@@ -180,7 +180,7 @@ $wh.JSONRPC = new Class(
       this.startXMLHTTPRequest(
             "post",
             request.url,
-            JSON.encode(request.request),
+            JSON.stringify(request.request),
             { headers: { "Content-Type": "application/json; charset=utf-8" }
             , synchronous: request.synchronous
             });
@@ -191,7 +191,7 @@ $wh.JSONRPC = new Class(
         console.log("JSONRPC request #" + request.id + " offering for JSONP");
 
       var req = this.prepareJavascriptCallback();
-      var url = this.options.url + "?rpcdata=" + encodeURIComponent(JSON.encode(request.request)) + "&callback=" + encodeURIComponent(req.callback) + "&cachedefeat=" + (new Date()).getTime() + '-' + ++this.cachecounter;
+      var url = this.options.url + "?rpcdata=" + encodeURIComponent(JSON.stringify(request.request)) + "&callback=" + encodeURIComponent(req.callback) + "&cachedefeat=" + (new Date()).getTime() + '-' + ++this.cachecounter;
       this.startJavascriptRequest(url, req);
     }
     this.handleWaitTimeouts();

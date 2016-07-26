@@ -169,7 +169,7 @@ require ('wh.compat.base');
       return;
 
     // Retrieve and decode the data
-    return JSON.decode(decodeURIComponent(data.substr(webharedataurl.length)), true);
+    return JSON.parse(decodeURIComponent(data.substr(webharedataurl.length)), true);
   }
 
   // Store the WebHare data in our custom data url

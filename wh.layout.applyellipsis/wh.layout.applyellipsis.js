@@ -30,6 +30,11 @@ Options:
 
 
 
+- measuring is done either directly on inline elements or by getting a range on the first (text)node within a block element
+  (in Firefox it's also possible to get a box quad for textual content in a block element)
+
+
+
 Work to be done:
 FIXME: use height or lines in calculation to determine how many chars to try next
 FIXME: can we use ranges if available to get a better estimate of the amount of lines and how much chars to remove?
@@ -41,6 +46,34 @@ FIXME: smarter way to handle text lines bleeding out of their container instead 
 (function($) {
 
 if(!window.$wh) window.$wh={};
+
+
+/** @short restore original text content
+*/
+$wh.removeEllipsisFromText = function applyEllipsisToText(container_or_elements)
+{
+  var sourcetype = typeOf(container_or_elements);
+  var multiple = sourcetype == /*MooTools*/"elements" || sourcetype == /*HTML*/"collection";
+  var elements = multiple ? container_or_elements : [container_or_elements];
+
+  for (var idx = 0; idx < elements.length; idx++)
+  {
+    var container = elements[idx];
+    if (container == null)
+    {
+      console.warn("$wh.removeEllipsisFromText got a null as element.");
+      continue;
+    }
+
+    if ("originalTextContent" in container)
+    {
+      textcontent = container.originalTextContent;
+      container.set("text", textcontent);
+    }
+  }
+}
+
+
 
 $wh.applyEllipsisToText = function applyEllipsisToText(container_or_elements, options)
 {
@@ -200,9 +233,12 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
     }
   }
 
+  var range;
   if (options.maxlines && container.getStyle("display") != "inline")
   {
-    console.warn("maxlines ellipsis only works on inline elements.");
+    //console.warn("maxlines ellipsis only works on inline elements.", container);
+    range = document.createRange();
+    range.selectNode(container.childNodes[0]);
   }
 
   var textheight;
@@ -254,9 +290,10 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
 
   //if (options.debug)
   //  console.log("Lines: ", $wh.countLinesInElement(currentnode));
+//console.info( $wh.countLinesInElement(range ? range : currentnode) + " lines in ", currentnode);
 
 
-  if (options.maxlines && $wh.countLinesInElement(currentnode) > options.maxlines)
+  if (options.maxlines && $wh.countLinesInElement(range ? range : currentnode) > options.maxlines)
     fits = false;
 
   if (use_maxheight)
@@ -320,7 +357,9 @@ $wh.__applyEllipsisToText = function applyEllipsisToText(container, options)
 
     fits = true;
 
-    if (options.maxlines && $wh.countLinesInElement(currentnode) > options.maxlines)
+console.info( $wh.countLinesInElement(range ? range : currentnode) + " lines in ", currentnode);
+
+    if (options.maxlines && $wh.countLinesInElement(range ? range : currentnode) > options.maxlines)
       fits = false;
 
     if (use_maxheight)

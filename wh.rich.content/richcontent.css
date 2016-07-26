@@ -2,6 +2,7 @@
 , .wh-rtd img.-wh-rtd-floatleft
 , img.wh-rtd-floatleft
 , img.wh-rtd.floatleft
+, .wh-rtd__img--floatleft
 {
   float: left;
   margin: 0 10px 0 0;
@@ -10,16 +11,19 @@
 , .wh-rtd img.-wh-rtd-floatright
 , img.wh-rtd-floatright
 , img.wh-rtd.floatright
+, .wh-rtd__img--floatright
 {
   float: right;
   margin: 0 0px 0 10px;
 }
 .wh-rtd-table > table
+, .wh-rtd__table
 {
   border-collapse: collapse;
   border: none;
 }
 .wh-rtd-table > table > tbody > tr > td
+, .wh-rtd__table > tbody > tr > td
 {
   padding: 0;
   vertical-align: top;

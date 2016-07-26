@@ -199,6 +199,32 @@ $wh.PageManager = new Class(
     pageobj.node.store("wh-pagemgr", this); // !!! for internal use (so we can make wh-pagemgr-start="" work)
   }
 
+, removePage: function(pageid)
+  {
+    var pagenode = $(pageid);
+    if(!pagenode)
+      return;
+
+    for(var i = 0; i < this.pages.length; i++)
+    {
+      if( this.pages[i].id == pageid)
+      {
+        this.pages.splice(i,1);
+        break;
+      }
+    }
+    for(var i = 0; i < this.history.length; i++)
+    {
+      if( this.history[i].id == pageid)
+      {
+        this.history.splice(i,1);
+        break;
+      }
+    }
+
+    pagenode.destroy();
+  }
+
 , addPages: function(pages)
   {
     for (i = 0; i < pages.length; i++)

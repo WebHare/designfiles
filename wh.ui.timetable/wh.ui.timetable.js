@@ -66,8 +66,6 @@ Required DOM:
 
 */
 
-var $wh = {};
-
 $wh.TimeTable = function TimeTable(container, options)
 {
   if (options.debug)
@@ -369,7 +367,7 @@ console.log ( "translate3d("+ (-this.nodes.scrollport.scrollLeft) + "px,0,0)" );
 
 
     //var required_guidelines = Math.round((endhour - starthour) * 60 / timestep_mins);
-    var required_guidelines = Math.round( timerange_in_minutes / timestep_mins );
+    var required_guidelines = Math.ceil( timerange_in_minutes / timestep_mins );
 
     var rowlabels_width = this.nodes.rowlabels.offsetWidth;
 
@@ -396,7 +394,7 @@ console.log ( "translate3d("+ (-this.nodes.scrollport.scrollLeft) + "px,0,0)" );
       console.log(csstext);
       guideline.style.cssText = csstext;
 
-      var str_hours = Math.round(timemins / 60);
+      var str_hours = Math.floor(timemins / 60);
       var str_minutes = timemins % 60;
       var timestr = str_hours + ":" + (str_minutes < 10 ? "0"+str_minutes : str_minutes);
 
@@ -528,7 +526,7 @@ console.log ( "translate3d("+ (-this.nodes.scrollport.scrollLeft) + "px,0,0)" );
 
     // to stabilize the values (when fixed we still track the top as it would be in relative position)
     var headerheight = (header_bcr.bottom - header_bcr.top);
-    var header_would_be_top = viewport_bcr.top - headerheight;
+    var header_would_be_top = viewport_bcr.top;
 
     var page_viewport_height = document.body.clientHeight; // FIXME: might in some cases need to use documentElement.clientHeight??
 

@@ -251,7 +251,7 @@ $wh.AnimationTimeline = new Class(
       for(var i=0;i<this.animations.length;++i)
         this.animations[i].iscomplete=false;
 
-      this.playback_startposition = timeoffset * 1000;
+      this.playback_startposition = Math.max(0,timeoffset * 1000);
     }
 
     // we need to set a base time to calculate how much time has passed
@@ -504,7 +504,6 @@ $wh.AnimationTimeline = new Class(
           if (ani.hooksetstyles)
             ani.hooksetstyles(setstyles);
         }
-
 
         // keep administration on left/top/scale for each element so we can later
         // consolidate them to a transform property/value

@@ -666,3 +666,12 @@ $wh.isAllowNativeContextMenu = function(event)
 window.addEvent("domready", executeReplaceDomready);
 
 })(document.id); //end mootools wrapper
+
+if (window.wh_testapi_ui)
+  console.error("wh_testapi_ui already exists, test framework loaded twice");
+
+window.wh_testapi_ui = { requestUIReady: $wh.requestUIReady
+                       , resetUIHasBeenBusy: $wh.resetUIHasBeenBusy
+                       , getUIHasBeenBusy: $wh.getUIHasBeenBusy
+                       };
+

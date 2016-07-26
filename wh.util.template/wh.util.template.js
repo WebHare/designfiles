@@ -93,7 +93,7 @@ function expandNode(data, node)
   {
     if(node.hasAttribute('data-template-set'))
     {
-      var instructions = JSON.decode(node.getAttribute("data-template-set"));
+      var instructions = JSON.parse(node.getAttribute("data-template-set"));
       var toset = decodeSets(instructions, data);
       if(toset.text) //apply with linefeeds
       {
@@ -116,7 +116,7 @@ function expandNode(data, node)
     }
     if(node.hasAttribute('data-template-store'))
     {
-      var instructions = JSON.decode(node.getAttribute("data-template-store"));
+      var instructions = JSON.parse(node.getAttribute("data-template-store"));
       Object.each(decodeSets(instructions, data), function (value,key)
       {
         node.store(key, value);

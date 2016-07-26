@@ -1379,7 +1379,7 @@ $wh.Form.Handler = new Class(
   {
     if(this.form.getAttribute('data-gtm-submit') && window.dataLayer)
     {
-      var layerobj = JSON.decode(this.form.getAttribute('data-gtm-submit'));
+      var layerobj = JSON.parse(this.form.getAttribute('data-gtm-submit'));
       var prefix = 'form_';
       Object.each(this.getRawData(), function(value,key)
       {
@@ -1857,7 +1857,8 @@ $wh.Form.setupHandlers = function(selector, options)
 
   $$(selector).each(function(item)
   {
-    $wh.Form.setupHandler(item, options);
+    if(!item.retrieve('wh-formhandler'))
+      $wh.Form.setupHandler(item, options);
   });
 }
 

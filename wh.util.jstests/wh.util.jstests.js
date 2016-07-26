@@ -170,8 +170,8 @@ window.testEq = function(expected, actual, explanation)
   var expected_str = expected;
   var actual_str = actual;
 
-  try { expected_str = typeof expected == "string" ? unescape(escape(expected).split('%u').join('/u')) : JSON.encode(expected); } catch(e){}
-  try { actual_str = typeof actual == "string" ? unescape(escape(actual).split('%u').join('/u')) : JSON.encode(actual); } catch(e){}
+  try { expected_str = typeof expected == "string" ? unescape(escape(expected).split('%u').join('/u')) : JSON.stringify(expected); } catch(e){}
+  try { actual_str = typeof actual == "string" ? unescape(escape(actual).split('%u').join('/u')) : JSON.stringify(actual); } catch(e){}
 
   if(explanation)
     logExplanation(explanation);
@@ -279,8 +279,8 @@ window.testEqFloat = function(expected, actual, delta, explanation)
   var expected_str = expected;
   var actual_str = actual;
 
-  try { expected_str = typeof expected == "string" ? unescape(escape(expected).split('%u').join('/u')) : JSON.encode(expected); } catch(e){}
-  try { actual_str = typeof actual == "string" ? unescape(escape(actual).split('%u').join('/u')) : JSON.encode(actual); } catch(e){}
+  try { expected_str = typeof expected == "string" ? unescape(escape(expected).split('%u').join('/u')) : JSON.stringify(expected); } catch(e){}
+  try { actual_str = typeof actual == "string" ? unescape(escape(actual).split('%u').join('/u')) : JSON.stringify(actual); } catch(e){}
 
   if(explanation)
     logExplanation(explanation);
@@ -926,7 +926,7 @@ function convertbndrec(elt)
   if (!elt.getBoundingClientRect)
     return 'n/a';
   var rec = elt.getBoundingClientRect();
-  return JSON.encode({ left: rec.left, top: rec.top, right: rec.right, bottom: rec.bottom });
+  return JSON.stringify({ left: rec.left, top: rec.top, right: rec.right, bottom: rec.bottom });
 }
 
 function onMouseDocUnload(event)

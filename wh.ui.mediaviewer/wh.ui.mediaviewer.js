@@ -719,7 +719,7 @@ $wh.MediaViewer = new Class(
 
             // Chrome may throw an exception saying the message was blocked,
             // (on localhost usage?) but the message probably still reached the destination, which it should since we used "*")
-            var val = JSON.encode({ method: "pause" });
+            var val = JSON.stringify({ method: "pause" });
             iframe.contentWindow.postMessage(val, "*");
             break;
       }

@@ -82,7 +82,7 @@ $wh.MediaSlidesPopup = new Class(
         }
         else
         {
-          imginfo = JSON.decode(imginfo);
+          imginfo = JSON.parse(imginfo);
           if(imginfo instanceof Array)
           {
             images = imginfo;
@@ -280,7 +280,7 @@ $wh.MediaSlidesPopup = new Class(
     var videonode = this.slideshow.slides[this.slideshow.currentpos].getElement('[data-video]');
     if(videonode)
     {
-      $wh.__generateVideoNode(JSON.decode(this.items[this.slideshow.currentpos].video), { autoplay: true }).inject(videonode);
+      $wh.__generateVideoNode(JSON.parse(this.items[this.slideshow.currentpos].video), { autoplay: true }).inject(videonode);
       this.activevideo = videonode;
     }
   }

@@ -154,7 +154,7 @@ $wh.Slideshow2 = new Class(
 
     if(this.options.persisttag)
     {
-      var positions = JSON.decode(Cookie.read('wh-slideshow'));
+      var positions = JSON.parse(Cookie.read('wh-slideshow'));
       if(positions && positions[this.options.persisttag] && positions[this.options.persisttag].cpos)
         this.options.startposition = parseInt(positions[this.options.persisttag].cpos) || this.options.startposition;
     }
@@ -438,11 +438,11 @@ $wh.Slideshow2 = new Class(
 
     if(this.options.persisttag)
     {
-      var positions = JSON.decode(Cookie.read('wh-slideshow'));
+      var positions = JSON.parse(Cookie.read('wh-slideshow'));
       if(!positions)
         positions={}
       positions[this.options.persisttag]= { cpos: this.currentpos };
-      Cookie.write('wh-slideshow', JSON.encode(positions));
+      Cookie.write('wh-slideshow', JSON.stringify(positions));
     }
 
     if(this.playing)
@@ -554,7 +554,7 @@ function setupSlideShow(node)
 {
   if(!node.retrieve("wh-slideshow"))
   {
-    var opts = JSON.decode(node.getAttribute("data-slideshow-options"));
+    var opts = JSON.parse(node.getAttribute("data-slideshow-options"));
     node.store("wh-slideshow", new $wh.Slideshow(node, opts));
   }
 }

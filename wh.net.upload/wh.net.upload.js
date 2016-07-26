@@ -774,7 +774,7 @@ var Html5SingleChunk = new Class(
     if (this.xmlhttp.status == 200)
     {
       this.pvt_loaded = this.options.size;
-      var data = JSON.decode(this.xmlhttp.responseText);
+      var data = JSON.parse(this.xmlhttp.responseText);
       if (data && data.sessionid)
         this.setSessionId(data.sessionid);
       if (!this.uploadfile.pvt_fileid)

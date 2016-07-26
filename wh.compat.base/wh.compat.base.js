@@ -399,7 +399,7 @@ if (!Element.NativeEvents.hashchange)
 var whconfigel=document.querySelector('script#wh-config');
 if(whconfigel)
 {
-  $wh.config=Object.merge($wh.config||{}, JSON.decode(whconfigel.textContent));
+  $wh.config=Object.merge($wh.config||{}, JSON.parse(whconfigel.textContent));
   // Make sure we have obj/site as some sort of object, to prevent crashes on naive 'if ($wh.config.obj.x)' tests'
   if(!$wh.config.obj)
     $wh.config.obj={};
@@ -410,6 +410,31 @@ else if(!$wh.config) //no $wh.config is no <webdesign>. don't bother with obj & 
 {
   $wh.config={};
 }
+
+//polyfill CustomEvent
+try  //IE11 does not ship with CustomEvent
+{
+  new window.CustomEvent("test");
+}
+catch(e)
+{
+  var eventconstructor = function(event, params)
+  {
+    var evt;
+    params = params || {
+        bubbles: false,
+        cancelable: false,
+        detail: undefined
+    };
+
+    evt = document.createEvent("CustomEvent");
+    evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+    return evt;
+  };
+  eventconstructor.prototype = window.Event.prototype;
+  window.CustomEvent = eventconstructor;
+}
+
 
 function getAndroidVersion(ua)
 {
@@ -1016,7 +1041,7 @@ $wh.getJSONAttribute = function(node, attrname)
     data = curr;
   }
   else
-    data = JSON.decode(data);
+    data = JSON.parse(data);
 
   return data;
 }
@@ -1370,11 +1395,6 @@ function runCompat()
   //Firefox redisables buttons that were disabled at refresh, even if they're not disabled in the HTML
   if (Browser.name == "firefox")
     $$('button:disabled').set('disabled',null);
-  if($wh.debug.dev || location.pathname == "/tollium_todd.res/blex_alpha/publish.shtml")
-  {
-    (document.head || document.body || document.documentElement).adopt(new Element("script", {"src": "/.publisher/devbar/devbar.js"}))
-                                                                .adopt(new Element("link", {"href": "/.publisher/devbar/devbar.css", "rel":"stylesheet"}));
-  }
 }
 
 $wh.isPreview = function()

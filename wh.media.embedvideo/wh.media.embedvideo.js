@@ -257,8 +257,8 @@ function initializeVideoElement(node)
   node.empty();
   node.store("wh-did-initvideo", true);
 
-  var video = JSON.decode(node.getAttribute("data-video"));
-  var opts = node.hasAttribute("data-video-options") ? JSON.decode(node.getAttribute("data-video-options")) : {};
+  var video = JSON.parse(node.getAttribute("data-video"));
+  var opts = node.hasAttribute("data-video-options") ? JSON.parse(node.getAttribute("data-video-options")) : {};
 
   // Vimeo requires a player_id for two-way communication.
   // (to work on cross-origin restrictions which prevent us from knowing from which iframe a message originated)

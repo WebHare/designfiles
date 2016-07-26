@@ -80,7 +80,7 @@ $wh.WRDAuthenticationProvider = new Class(
       if(currentstate.length > 1)
         try
         {
-          this.userinfo = JSON.decode(currentstate.substr(jsstate.length));
+          this.userinfo = JSON.parse(currentstate.substr(jsstate.length));
         }
         catch(e)
         {
@@ -211,6 +211,21 @@ $wh.WRDAuthenticationProvider = new Class(
   {
     if(form)
       form.removeClass("submitting");
+
+    var completion = this._completeLoginSuccess.bind(this, response);
+    var evt = new CustomEvent('wh:wrdauth-onlogin', { bubbles:true, cancelable: true, detail: { callback: completion, userinfo: response.userinfo }});
+    try
+    {
+      (form || document).dispatchEvent(evt);
+    }
+    finally
+    {
+      if(!evt.defaultPrevented)
+        completion();
+    }
+  }
+, _completeLoginSuccess:function(response)
+  {
     $wh.updateUIBusyFlag(-1);
     if(response.success)
     {
@@ -387,7 +402,7 @@ $wh.WRDAuthenticationProvider = new Class(
         if(currentstate.length > 1)
           try
           {
-            this.userinfo = JSON.decode(currentstate.substr(jsstate.length));
+            this.userinfo = JSON.parse(currentstate.substr(jsstate.length));
           }
           catch(e)
           {

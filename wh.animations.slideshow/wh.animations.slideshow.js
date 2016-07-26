@@ -11,6 +11,10 @@ require ('wh.ui.base');
 /*
 NOTES:
 
+!! This slideshow is deprecated. For newer sites use:
+   - ws2016 slideshow (ES6)
+   - our carrousel (ES6)
+
 - if the part of the DOM in which you have the wh-slideshow-item's has display: none;
   the slide sizes cannot be determined and slides cannot be properly layed out.
   In this case specify a slidewidth AND slideheight and these sizes will be used instead.
@@ -51,6 +55,8 @@ Slideshow 2:
 - default 'selected' for slide_selectedclass ??
 - remove all non-CSS animation/transition based animation code
 - remove stepsize ? (80/20 rule -> easy to implement in own site code)
+
+- is limitlastposition used on any still active site??
 
 */
 
@@ -98,6 +104,7 @@ $wh.Slideshow = new Class(
            , autoplay: false
            , startposition:0
            , loop: false //if at end or begin, goto first/last slide
+           , loopautoplay: true // if false, autoplay will stop at the last slide
 
            , pauseonhover: false    // if true the slideshow will pause while the mouse pointer hovers over the specified element (warning: if used the setPause function should not be used anymore)
            , pauseonhovernode: null
@@ -136,7 +143,7 @@ $wh.Slideshow = new Class(
 
     if(this.options.persisttag)
     {
-      var positions = JSON.decode(Cookie.read('wh-slideshow'));
+      var positions = JSON.parse(Cookie.read('wh-slideshow'));
       if(positions && positions[this.options.persisttag] && positions[this.options.persisttag].cpos)
         this.options.startposition = parseInt(positions[this.options.persisttag].cpos) || this.options.startposition;
     }
@@ -424,15 +431,22 @@ $wh.Slideshow = new Class(
 
     if(this.options.persisttag)
     {
-      var positions = JSON.decode(Cookie.read('wh-slideshow'));
+      var positions = JSON.parse(Cookie.read('wh-slideshow'));
       if(!positions)
         positions={}
       positions[this.options.persisttag]= { cpos: this.currentpos };
-      Cookie.write('wh-slideshow', JSON.encode(positions));
+      Cookie.write('wh-slideshow', JSON.stringify(positions));
     }
 
     if(this.playing)
-      this.scheduleNextSlide();
+    {
+      if (this.currentpos < this.slides.length-1)
+        this.scheduleNextSlide();
+      else if (this.options.loopautoplay)
+        this.scheduleNextSlide(); // continue, whe'll wrap to the first slide
+      else
+        this.stop();
+    }
   }
 
 , getSlideDimensions:function(slide)
@@ -925,7 +939,7 @@ function setupSlideShow(node)
 {
   if(!node.retrieve("wh-slideshow"))
   {
-    var opts = JSON.decode(node.getAttribute("data-slideshow-options"));
+    var opts = JSON.parse(node.getAttribute("data-slideshow-options"));
     node.store("wh-slideshow", new $wh.Slideshow(node, opts));
   }
 }
