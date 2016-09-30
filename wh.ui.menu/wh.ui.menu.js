@@ -1087,7 +1087,7 @@ $wh.MenuList = new Class(
         var rendermenu = false;
         Array.each(item.getElementsByTagName("li"), function(subitem)
         {
-          if(!subitem.hasClass("hidden"))
+          if(!subitem.hasClass("hidden") && !subitem.hasClass("divider"))
             rendermenu = true;
         }, this);
 
