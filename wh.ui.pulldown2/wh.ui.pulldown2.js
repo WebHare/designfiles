@@ -82,12 +82,12 @@ $wh.Pulldown2 = new Class(
       this.options.debug = true;
 
     // usenativeselector works on iOS and Android+Chrome (NOT Firefox)
-    // FIXME: for now we only allow this on
-    if (this.options.usenativeselector &&
-           (    Browser.Platform.ios     /* Safari on iOS */
+    // and it's stopped on Android's Chrome. let's just kill it
+/*    if (this.options.usenativeselector &&
+           (    Browser.Platform.ios     /* Safari on iOS * /
             || (Browser.Platform.android &&
                  (   Browser.name == "chrome"
-                  || Browser.name == "safari" /* inbuild Android 4.1 browser */
+                  || Browser.name == "safari" /* inbuild Android 4.1 browser * /
                  )
                )
            ))
@@ -96,7 +96,7 @@ $wh.Pulldown2 = new Class(
       if (this.options.debug)
         console.log("$wh.Pulldown will use the native option selector");
     }
-
+*/
     this.el = $(el);
 
     // Store the supplied values locally, so setNewValues can set the correct

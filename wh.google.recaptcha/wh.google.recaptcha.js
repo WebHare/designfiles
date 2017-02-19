@@ -119,6 +119,10 @@ $wh.Form.models["wh.google.recaptcha"] = new Class(
 
     return handler.recaptchacomplete ? handler.recaptcharesponse : '';
   }
+, setRawValue:function(value)
+  {
+//no-op, it's read only
+  }
 })
 
 function initGoogleRecaptcha(node)
