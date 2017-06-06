@@ -75,11 +75,18 @@ $wh.Pulldown2 = new Class(
 
 , usenativeselector: false
 
+, ismobileplatform: false
+
 , initialize: function(options, el)
   {
     this.setOptions(options);
     if($wh.debug.pulldown) //ADDME combine into a TLA
       this.options.debug = true;
+
+    if(typeof Browser.Platform == "undefined") //moo 1.5
+      this.ismobileplatform = Browser.platform == "ios";
+    else
+      this.ismobileplatform = Browser.Platform.ios;
 
     // usenativeselector works on iOS and Android+Chrome (NOT Firefox)
     // and it's stopped on Android's Chrome. let's just kill it
@@ -128,7 +135,7 @@ $wh.Pulldown2 = new Class(
     // since Android (FIXME: all versions?) seem to dispatch both touchStart and mouseDown
     // events even though we have a event.stop() in our touchStart handling,
     // whe'll only give iOS the benefit of directly acting on a touchStart.
-    if (Browser.Platform.ios)
+    if (this.ismobileplatform)
       events.touchstart = this.onTouchStart;
 
     this.node = new Element("div", { "class":  this.options.cssclass + (this.el && this.el.className ? " " + this.el.className : "")
@@ -541,7 +548,7 @@ function replaceSelectComponent(select, options)
   }
 
   if (!"usenativeselector" in options)
-    options.usenativeselector = true; //Browser.Platform.ios === true;
+    options.usenativeselector = true; //this.ismobileplatform;
 
   var comp = new $wh.Pulldown2(options, select);
 

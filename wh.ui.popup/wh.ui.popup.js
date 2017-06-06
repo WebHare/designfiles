@@ -592,7 +592,10 @@ $wh.PopupManagerClass = new Class(
   // FIXME: it might be possible to keep 1px of scrollable content according to our measurement due to rounding errors
 , onMouseWheel: function(evt)
   {
-    if (!this.options.keepscrollevents || this.modalstack.length == 0)
+    if (!this.options.keepscrollevents
+        || this.modalstack.length == 0
+        //|| this.options.position == "relative"
+        )
       return;
 
     var popup = this.getPopupContainingNode(evt.target);
@@ -677,7 +680,7 @@ $wh.BasicPopup = new Class(
       {// Styling
         theme:              "white" // pass an empty string to disable default themes
       , cssclass:           ""      // extra CSS class for the wh-popup-chrome element so you can target specific popups in your stylesheets
-      , valign_content:     true
+      , valign_content:     false
 
     //, fullscreen:        false     // ... not implemented yet
 
@@ -1186,7 +1189,7 @@ $wh.BasicPopup = new Class(
     else
     {
       // FIXME: geeft ook scrollbars als iemand via negatieve margins iets positioneert
-      sizenode.setStyle("overflow-y", "auto"); // FIXME: apply overflow: auto; in all sizing scenario's?
+//      sizenode.setStyle("overflow-y", "auto"); // FIXME: apply overflow: auto; in all sizing scenario's?
     }
 
     this._size = { width:       contentwidth
