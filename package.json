@@ -9,8 +9,9 @@
     "type": "git",
     "url": "git+https://github.com/WebHare/designfiles.git"
   },
-  "author": "B-Lex IT BV",
+  "author": "WebHare bv",
   "license": "MIT",
+  "files": ["*","*core*"],
   "bugs": {
     "url": "https://github.com/WebHare/designfiles/issues"
   },
