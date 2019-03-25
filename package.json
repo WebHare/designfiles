@@ -11,7 +11,7 @@
   },
   "author": "WebHare bv",
   "license": "MIT",
-  "files": ["*","*core*"],
+  "files": ["*core*"],
   "bugs": {
     "url": "https://github.com/WebHare/designfiles/issues"
   },
