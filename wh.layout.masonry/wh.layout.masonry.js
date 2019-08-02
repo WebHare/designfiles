@@ -280,11 +280,8 @@ $wh.Masonry = new Class(
 
     var widget = this.__widgetrecs.getByProperty("node", elem);
     //console.log(widget.height, elem.clientHeight);
-    if (widget.height == elem.clientHeight)
-    {
-      console.log("ignoring resize event.");
+    if (!widget || widget.height == elem.clientHeight)
       return;
-    }
 
     //console.log(widget);
 
