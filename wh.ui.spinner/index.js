@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./spinner.css');
-require ('frameworks.mootools.more.keyboard');
-require ('wh.ui.base');
-require ('wh.util.dragevents');
+require ('.././spinner.css');
+require ('../frameworks.mootools.more.keyboard');
+require ('../wh.ui.base');
+require ('../wh.util.dragevents');
 /*! LOAD: frameworks.mootools.more.keyboard, wh.ui.base, wh.util.dragevents
 !*/
 

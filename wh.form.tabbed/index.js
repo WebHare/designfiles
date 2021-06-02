@@ -1,7 +1,7 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.form');
-require ('wh.pages.base');
-require ('wh.ui.tabs');
+require ('../wh.form');
+require ('../wh.pages.base');
+require ('../wh.ui.tabs');
 /*! LOAD: wh.form, wh.pages.base, wh.ui.tabs
 !*/
 

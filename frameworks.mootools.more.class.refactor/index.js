@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.compat.base');
+require ('../wh.compat.base');
 /*! REQUIRE: wh.compat.base !*/
 
 /*

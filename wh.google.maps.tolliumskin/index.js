@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.google.maps');
+require ('../wh.google.maps');
 /*! REQUIRE: wh.google.maps !*/
 
 window.addEvent("domready", function()

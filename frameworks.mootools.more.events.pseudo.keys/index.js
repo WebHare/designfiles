@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.more.events.pseudo');
+require ('../frameworks.mootools.more.events.pseudo');
 /*! LOAD: frameworks.mootools.more.events.pseudo !*/
 
 /*

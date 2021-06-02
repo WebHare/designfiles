@@ -1,12 +1,12 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./calendar2.css');
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('wh.ui.base');
-require ('frameworks.mootools.more.keyboard');
-require ('frameworks.mootools.more.date');
-require ('wh.ui.spinner');
-/*! LOAD: frameworks.mootools.core, wh.compat.base, wh.ui.base
+require ('.././calendar2.css');
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../wh.ui.base');
+require ('../frameworks.mootools.more.keyboard');
+require ('../frameworks.mootools.more.date');
+require ('../wh.ui.spinner');
+/*! LOAD: frameworks.mootools, wh.compat.base, wh.ui.base
     LOAD: frameworks.mootools.more.keyboard
     LOAD: frameworks.mootools.more.date
 

@@ -1,7 +1,7 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.string.extras');
-/*! REQUIRE: frameworks.mootools.core, frameworks.mootools.more.string.extras
+require ('../frameworks.mootools');
+require ('../frameworks.mootools.more.string.extras');
+/*! REQUIRE: frameworks.mootools, frameworks.mootools.more.string.extras
 !*/
 
 /*

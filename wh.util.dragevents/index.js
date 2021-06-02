@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('frameworks.mootools.more.class.binds');
-/*! REQUIRE: frameworks.mootools.core, wh.compat.base, frameworks.mootools.more.class.binds !*/
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../frameworks.mootools.more.class.binds');
+/*! REQUIRE: frameworks.mootools, wh.compat.base, frameworks.mootools.more.class.binds !*/
 
 (function($) { //mootools wrapper
 

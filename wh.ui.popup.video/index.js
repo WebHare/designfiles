@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.ui.popup');
-require ('wh.media.embedvideo');
+require ('../wh.ui.popup');
+require ('../wh.media.embedvideo');
 /*! LOAD: wh.ui.popup, wh.media.embedvideo !*/
 
 (function($) { //mootools wrapper

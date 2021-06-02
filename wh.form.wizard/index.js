@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.form');
-require ('wh.pages.base');
+require ('../wh.form');
+require ('../wh.pages.base');
 /*! LOAD: wh.form,  wh.pages.base
 !*/
 

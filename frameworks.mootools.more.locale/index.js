@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.more.object.extras');
+require ('../frameworks.mootools.more.object.extras');
 /*! REQUIRE: frameworks.mootools.more.object.extras
 !*/
 

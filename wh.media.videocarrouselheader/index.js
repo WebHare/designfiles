@@ -1,10 +1,10 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.net.url');
-require ('wh.compat.base');
-require ('wh.util.preloader');
-require ('wh.media.base');
-require ('wh.util.resizelistener');
-require ('wh.media.videomgr');
+require ('../wh.net.url');
+require ('../wh.compat.base');
+require ('../wh.util.preloader');
+require ('../wh.media.base');
+require ('../wh.util.resizelistener');
+require ('../wh.media.videomgr');
 /*! LOAD: wh.net.url, wh.compat.base, wh.util.preloader, wh.media.base, wh.util.resizelistener, wh.media.videomgr
 !*/
 

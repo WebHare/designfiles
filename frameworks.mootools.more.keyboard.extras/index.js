@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.more.keyboard');
+require ('../frameworks.mootools.more.keyboard');
 /*! REQUIRE: frameworks.mootools.more.keyboard !*/
 
 /*

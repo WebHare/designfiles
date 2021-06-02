@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./cardflip.css');
-require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.element.measure');
-/*! REQUIRE: frameworks.mootools.core, frameworks.mootools.more.element.measure
+require ('.././cardflip.css');
+require ('../frameworks.mootools');
+require ('../frameworks.mootools.more.element.measure');
+/*! REQUIRE: frameworks.mootools, frameworks.mootools.more.element.measure
 !*/
 
 (function($) { //mootools wrapper

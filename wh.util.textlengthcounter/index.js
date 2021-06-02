@@ -1,7 +1,7 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./textlengthcounter.css');
-require ('frameworks.mootools.core');
-/*! LOAD: frameworks.mootools.core
+require ('.././textlengthcounter.css');
+require ('../frameworks.mootools');
+/*! LOAD: frameworks.mootools
 !*/
 
 /*

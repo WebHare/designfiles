@@ -1,11 +1,11 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./calendar.css');
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('frameworks.mootools.more.date');
-require ('frameworks.mootools.more.keyboard');
-require ('wh.ui.base');
-/*! LOAD: frameworks.mootools.core, wh.compat.base, frameworks.mootools.more.date, frameworks.mootools.more.keyboard, wh.ui.base
+require ('.././calendar.css');
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../frameworks.mootools.more.date');
+require ('../frameworks.mootools.more.keyboard');
+require ('../wh.ui.base');
+/*! LOAD: frameworks.mootools, wh.compat.base, frameworks.mootools.more.date, frameworks.mootools.more.keyboard, wh.ui.base
 !*/
 
 //Load any needed localizations yourself: frameworks.mootools.more.locale.nl-nl.date, frameworks.mootools.more.locale.es-es.date, frameworks.mootools.more.locale.de-de.date, frameworks.mootools.more.locale.fr-fr.date

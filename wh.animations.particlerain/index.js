@@ -1,7 +1,7 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-/*! REQUIRE: frameworks.mootools.core, wh.compat.base !*/
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+/*! REQUIRE: frameworks.mootools, wh.compat.base !*/
 
 //if(!window.$wh) $wh={};
 

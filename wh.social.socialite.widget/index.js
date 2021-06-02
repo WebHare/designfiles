@@ -1,10 +1,10 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.compat.base');
-require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.locale');
-require ('frameworks.mootools.more.date');
-require ('wh.util.template');
-/*! LOAD: wh.compat.base, frameworks.mootools.core, frameworks.mootools.more.locale, frameworks.mootools.more.date, wh.util.template
+require ('../wh.compat.base');
+require ('../frameworks.mootools');
+require ('../frameworks.mootools.more.locale');
+require ('../frameworks.mootools.more.date');
+require ('../wh.util.template');
+/*! LOAD: wh.compat.base, frameworks.mootools, frameworks.mootools.more.locale, frameworks.mootools.more.date, wh.util.template
 !*/
 
 if(!window.$wh) $wh={};

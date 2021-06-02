@@ -1,12 +1,12 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./mediaslides.css');
-require ('wh.util.template');
-require ('wh.util.preloader');
-require ('wh.util.swipedetect');
-require ('wh.animations.slideshow');
-require ('wh.animations.slideshow.cssanimations');
-require ('wh.ui.popup');
-require ('wh.media.embedvideo');
+require ('.././mediaslides.css');
+require ('../wh.util.template');
+require ('../wh.util.preloader');
+require ('../wh.util.swipedetect');
+require ('../wh.animations.slideshow');
+require ('../wh.animations.slideshow.cssanimations');
+require ('../wh.ui.popup');
+require ('../wh.media.embedvideo');
 /*! LOAD: wh.util.template, wh.util.preloader, wh.util.swipedetect, wh.animations.slideshow, wh.animations.slideshow.cssanimations, wh.ui.popup, wh.media.embedvideo
 !*/
 

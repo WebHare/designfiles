@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.date');
-require ('wh.net.jsonrpc');
-/*! LOAD: frameworks.mootools.core, frameworks.mootools.more.date, wh.net.jsonrpc
+require ('../frameworks.mootools');
+require ('../frameworks.mootools.more.date');
+require ('../wh.net.jsonrpc');
+/*! LOAD: frameworks.mootools, frameworks.mootools.more.date, wh.net.jsonrpc
 !*/
 
 /* This libraries monitors root.error and reports errors to the webhare notice log

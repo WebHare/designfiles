@@ -1,10 +1,10 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./mediaviewer.css');
-require ('frameworks.mootools.core');
-require ('wh.ui.popup');
-require ('wh.animations.slideshow');
-require ('wh.components.scrollableview');
-/*! LOAD: frameworks.mootools.core
+require ('.././mediaviewer.css');
+require ('../frameworks.mootools');
+require ('../wh.ui.popup');
+require ('../wh.animations.slideshow');
+require ('../wh.components.scrollableview');
+/*! LOAD: frameworks.mootools
     LOAD: wh.ui.popup, wh.animations.slideshow, wh.components.scrollableview
 !*/
 

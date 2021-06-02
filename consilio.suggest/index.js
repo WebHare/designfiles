@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.components.autocomplete');
+require ('../wh.components.autocomplete');
 /*! LOAD: wh.components.autocomplete
 !*/
 

@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.ui.base');
-require ('wh.pages.base');
+require ('../wh.ui.base');
+require ('../wh.pages.base');
 /*! LOAD: wh.ui.base, wh.pages.base
 !*/
 

@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-/*! LOAD: frameworks.mootools.core !*/
+require ('../frameworks.mootools');
+/*! LOAD: frameworks.mootools !*/
 
 // MooTools: the javascript framework.
 // Load this file's selection again by visiting: http://mootools.net/more/06dc8529f5e64edcdef526754d049015

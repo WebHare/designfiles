@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-/*! LOAD: frameworks.mootools.core
+require ('../frameworks.mootools');
+/*! LOAD: frameworks.mootools
 !*/
 
 /** This package contains an standards-conforming implementation of the ECMAScript 6 promise.

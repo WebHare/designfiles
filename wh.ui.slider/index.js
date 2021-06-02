@@ -1,13 +1,13 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./slider.css');
-require ('frameworks.mootools.more.keyboard');
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('wh.util.dragevents');
-require ('frameworks.mootools.more.element.measure');
-require ('wh.ui.base');
-require ('wh.util.resizelistener');
-/*! LOAD: frameworks.mootools.more.keyboard, frameworks.mootools.core, wh.compat.base, wh.util.dragevents, frameworks.mootools.more.element.measure, wh.ui.base, wh.util.resizelistener
+require ('.././slider.css');
+require ('../frameworks.mootools.more.keyboard');
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../wh.util.dragevents');
+require ('../frameworks.mootools.more.element.measure');
+require ('../wh.ui.base');
+require ('../wh.util.resizelistener');
+/*! LOAD: frameworks.mootools.more.keyboard, frameworks.mootools, wh.compat.base, wh.util.dragevents, frameworks.mootools.more.element.measure, wh.ui.base, wh.util.resizelistener
 !*/
 
 (function($) { //mootools wrapper

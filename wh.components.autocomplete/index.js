@@ -1,12 +1,12 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./autocomplete.css');
-require ('frameworks.mootools.more.class.binds');
-require ('wh.compat.base');
-require ('wh.ui.base');
-require ('wh.net.jsonrpc');
-require ('wh.ui.menu');
-require ('wh.components.scrollableview');
-require ('wh.util.promise');
+require ('.././autocomplete.css');
+require ('../frameworks.mootools.more.class.binds');
+require ('../wh.compat.base');
+require ('../wh.ui.base');
+require ('../wh.net.jsonrpc');
+require ('../wh.ui.menu');
+require ('../wh.components.scrollableview');
+require ('../wh.util.promise');
 /*! LOAD: frameworks.mootools.more.class.binds
     LOAD: wh.compat.base, wh.ui.base, wh.net.jsonrpc, wh.ui.menu, wh.components.scrollableview, wh.util.promise
 !*/

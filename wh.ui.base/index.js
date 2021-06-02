@@ -1,7 +1,7 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.class.binds');
-/*! LOAD: frameworks.mootools.core, frameworks.mootools.more.class.binds
+require ('../frameworks.mootools');
+require ('../frameworks.mootools.more.class.binds');
+/*! LOAD: frameworks.mootools, frameworks.mootools.more.class.binds
 !*/
 
 if(!window.$wh) $wh={};

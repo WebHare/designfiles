@@ -1,11 +1,11 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./menu.css');
-require ('wh.compat.base');
-require ('frameworks.mootools.more.class.binds');
-require ('frameworks.mootools.more.keyboard');
-require ('frameworks.mootools.more.element.measure');
-require ('wh.components.scrollableview');
-require ('wh.util.scroll');
+require ('.././menu.css');
+require ('../wh.compat.base');
+require ('../frameworks.mootools.more.class.binds');
+require ('../frameworks.mootools.more.keyboard');
+require ('../frameworks.mootools.more.element.measure');
+require ('../wh.components.scrollableview');
+require ('../wh.util.scroll');
 /*! LOAD: wh.compat.base, frameworks.mootools.more.class.binds, frameworks.mootools.more.keyboard, frameworks.mootools.more.element.measure
     LOAD: wh.components.scrollableview, wh.util.scroll
 !*/

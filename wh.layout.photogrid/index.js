@@ -1,11 +1,11 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./photogrid-basic.css');
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('wh.animations.slideshow');
-require ('wh.util.preloader');
-require ('wh.util.swipedetect');
-/*! LOAD: frameworks.mootools.core, wh.compat.base, wh.animations.slideshow, wh.util.preloader, wh.util.swipedetect
+require ('.././photogrid-basic.css');
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../wh.animations.slideshow');
+require ('../wh.util.preloader');
+require ('../wh.util.swipedetect');
+/*! LOAD: frameworks.mootools, wh.compat.base, wh.animations.slideshow, wh.util.preloader, wh.util.swipedetect
 !*/
 
 "use strict";

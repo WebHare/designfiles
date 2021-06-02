@@ -1,12 +1,12 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./carousel.css');
-require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.fx.sort');
-require ('wh.animations.slideshow');
-require ('wh.components.scrollableview');
-require ('wh.animations.timeline');
-require ('wh.util.errorreporting');
-/*! LOAD: frameworks.mootools.core, frameworks.mootools.more.fx.sort
+require ('.././carousel.css');
+require ('../frameworks.mootools');
+require ('../frameworks.mootools.more.fx.sort');
+require ('../wh.animations.slideshow');
+require ('../wh.components.scrollableview');
+require ('../wh.animations.timeline');
+require ('../wh.util.errorreporting');
+/*! LOAD: frameworks.mootools, frameworks.mootools.more.fx.sort
     LOAD: wh.animations.slideshow, wh.components.scrollableview, wh.animations.timeline, wh.util.errorreporting
 !*/
 

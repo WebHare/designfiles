@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('wh.util.swipedetect');
-/*! LOAD: frameworks.mootools.core, wh.compat.base, wh.util.swipedetect
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../wh.util.swipedetect');
+/*! LOAD: frameworks.mootools, wh.compat.base, wh.util.swipedetect
 !*/
 
 "use strict";

@@ -1,10 +1,10 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./time.css');
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('frameworks.mootools.more.keyboard');
-require ('wh.ui.base');
-/*! LOAD: frameworks.mootools.core, wh.compat.base, frameworks.mootools.more.keyboard, wh.ui.base
+require ('.././time.css');
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../frameworks.mootools.more.keyboard');
+require ('../wh.ui.base');
+/*! LOAD: frameworks.mootools, wh.compat.base, frameworks.mootools.more.keyboard, wh.ui.base
 !*/
 
 (function($) { //mootools wrapper

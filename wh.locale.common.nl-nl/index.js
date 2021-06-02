@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.more.locale');
-require ('frameworks.mootools.more.locale.nl-nl.date');
+require ('../frameworks.mootools.more.locale');
+require ('../frameworks.mootools.more.locale.nl-nl.date');
 /*! LOAD: frameworks.mootools.more.locale, frameworks.mootools.more.locale.nl-nl.date
 !*/
 

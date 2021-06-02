@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-/*! LOAD: frameworks.mootools.core !*/
+require ('../frameworks.mootools');
+/*! LOAD: frameworks.mootools !*/
 
 /* This is based on https://github.com/inkling/backbone-mootools/blob/master/MooToolsAdapter.js
    which uses it to run Backbone.js. We'll try to adapt it for edge

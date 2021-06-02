@@ -1,10 +1,10 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('wh.util.preloader');
-require ('wh.social.socialite');
-require ('wh.net.url');
-/*! LOAD: frameworks.mootools.core, wh.compat.base, wh.util.preloader, wh.social.socialite, wh.net.url
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../wh.util.preloader');
+require ('../wh.social.socialite');
+require ('../wh.net.url');
+/*! LOAD: frameworks.mootools, wh.compat.base, wh.util.preloader, wh.social.socialite, wh.net.url
 !*/
 
 if(!window.$wh) $wh={};

@@ -1,10 +1,10 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.class.binds');
-require ('frameworks.edge.2-0');
-require ('wh.compat.base');
-require ('wh.util.preloader');
-/*! LOAD: frameworks.mootools.core, frameworks.mootools.more.class.binds, frameworks.edge.2-0 flag=debug
+require ('../frameworks.mootools');
+require ('../frameworks.mootools.more.class.binds');
+require ('../frameworks.edge.2-0');
+require ('../wh.compat.base');
+require ('../wh.util.preloader');
+/*! LOAD: frameworks.mootools, frameworks.mootools.more.class.binds, frameworks.edge.2-0 flag=debug
     LOAD: wh.compat.base, wh.util.preloader
 !*/
 

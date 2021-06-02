@@ -1,12 +1,12 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./fileedit.css');
-require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.class.binds');
-require ('wh.ui.base');
-require ('wh.net.upload');
-require ('wh.form.model.base');
-require ('wh.net.url');
-/*! LOAD: frameworks.mootools.core, frameworks.mootools.more.class.binds, wh.ui.base, wh.net.upload, wh.form.model.base, wh.net.url
+require ('.././fileedit.css');
+require ('../frameworks.mootools');
+require ('../frameworks.mootools.more.class.binds');
+require ('../wh.ui.base');
+require ('../wh.net.upload');
+require ('../wh.form.model.base');
+require ('../wh.net.url');
+/*! LOAD: frameworks.mootools, frameworks.mootools.more.class.binds, wh.ui.base, wh.net.upload, wh.form.model.base, wh.net.url
 !*/
 
 //ADDME: Ensure we refresh pending images at most every 30 minutes, or the server will lose them if they were sessionbacked.

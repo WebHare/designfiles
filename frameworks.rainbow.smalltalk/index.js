@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.rainbow.generic');
+require ('../frameworks.rainbow.generic');
 /*! LOAD: frameworks.rainbow.generic !*/
 /**
  * Smalltalk patterns

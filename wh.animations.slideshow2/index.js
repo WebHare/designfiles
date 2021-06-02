@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./slideshow2.css');
-require ('frameworks.mootools.core');
-require ('wh.ui.base');
-/*! LOAD: frameworks.mootools.core, wh.ui.base
+require ('.././slideshow2.css');
+require ('../frameworks.mootools');
+require ('../wh.ui.base');
+/*! LOAD: frameworks.mootools, wh.ui.base
 !*/
 
 /*

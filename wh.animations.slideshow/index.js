@@ -1,10 +1,10 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./slideshow.css');
-require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.element.measure');
-require ('wh.util.resizelistener');
-require ('wh.ui.base');
-/*! LOAD: frameworks.mootools.core, frameworks.mootools.more.element.measure, wh.util.resizelistener, wh.ui.base
+require ('.././slideshow.css');
+require ('../frameworks.mootools');
+require ('../frameworks.mootools.more.element.measure');
+require ('../wh.util.resizelistener');
+require ('../wh.ui.base');
+/*! LOAD: frameworks.mootools, frameworks.mootools.more.element.measure, wh.util.resizelistener, wh.ui.base
 !*/
 
 

@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.compat.base');
-require ('wh.layout.measure');
+require ('../wh.compat.base');
+require ('../wh.layout.measure');
 /*! LOAD: wh.compat.base
     LOAD: wh.layout.measure
 !*/

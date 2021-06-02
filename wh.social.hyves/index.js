@@ -1,7 +1,7 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('wh.social.socialite');
-/*! REQUIRE: frameworks.mootools.core, wh.social.socialite
+require ('../frameworks.mootools');
+require ('../wh.social.socialite');
+/*! REQUIRE: frameworks.mootools, wh.social.socialite
 !*/
 
 if(!window.$wh) $wh={};

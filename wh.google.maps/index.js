@@ -1313,10 +1313,10 @@ ClusterIcon.prototype['draw'] = ClusterIcon.prototype.draw;
 ClusterIcon.prototype['onRemove'] = ClusterIcon.prototype.onRemove;
 
 })();
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('wh.util.preloader');
-/*! REQUIRE: frameworks.mootools.core, wh.compat.base, wh.util.preloader !*/
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../wh.util.preloader');
+/*! REQUIRE: frameworks.mootools, wh.compat.base, wh.util.preloader !*/
 
 (function(){
 

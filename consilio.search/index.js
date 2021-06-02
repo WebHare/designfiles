@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.more.class.binds');
-require ('wh.net.jsonrpc');
+require ('../frameworks.mootools.more.class.binds');
+require ('../wh.net.jsonrpc');
 /*! LOAD: frameworks.mootools.more.class.binds, wh.net.jsonrpc
 !*/
 

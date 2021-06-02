@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-/*! LOAD: frameworks.mootools.core
+require ('../frameworks.mootools');
+/*! LOAD: frameworks.mootools
 !*/
 
 /* This file is always included when wh.compat.base is requested. It only contains non-browser stuff, like generic object
@@ -362,8 +362,8 @@ $wh.setDefaultTracker = function(newtracker)
 }
 
 })(); //end function scope guard
-require ('frameworks.mootools.core');
-/*! LOAD: frameworks.mootools.core
+require ('../frameworks.mootools');
+/*! LOAD: frameworks.mootools
     AFTER: base.js
 !*/
 

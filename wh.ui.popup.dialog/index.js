@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.ui.popup');
+require ('../wh.ui.popup');
 /*! LOAD: wh.ui.popup !*/
 
 (function($) { //mootools wrapper

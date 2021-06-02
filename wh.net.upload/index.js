@@ -1,9 +1,9 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('wh.net.url');
-require ('frameworks.mootools.more.class.binds');
-/*! LOAD: frameworks.mootools.core, wh.compat.base, wh.net.url, frameworks.mootools.more.class.binds
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../wh.net.url');
+require ('../frameworks.mootools.more.class.binds');
+/*! LOAD: frameworks.mootools, wh.compat.base, wh.net.url, frameworks.mootools.more.class.binds
 !*/
 
 (function($) { //mootools/scope wrapper

@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./sharepage.css');
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-/*! LOAD: frameworks.mootools.core, wh.compat.base
+require ('.././sharepage.css');
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+/*! LOAD: frameworks.mootools, wh.compat.base
 !*/
 
 /* DOM setup:

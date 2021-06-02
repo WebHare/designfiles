@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.form.model.base');
+require ('../wh.form.model.base');
 /*! LOAD: wh.form.model.base !*/
 /*
 The MIT License (MIT)

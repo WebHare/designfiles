@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.google.analytics-plugin.universal');
+require ('../wh.google.analytics-plugin.universal');
 /*! LOAD: wh.google.analytics-plugin.universal
 !*/
 

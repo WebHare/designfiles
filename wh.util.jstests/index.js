@@ -1,12 +1,12 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.compat.base');
-require ('wh.ui.base');
-require ('wh.compat.dom');
-require ('wh.compat.dragdrop');
-require ('wh.util.scroll');
-require ('wh.net.jsonrpc');
-require ('wh.net.url');
-require ('wh.util.promise');
+require ('../wh.compat.base');
+require ('../wh.ui.base');
+require ('../wh.compat.dom');
+require ('../wh.compat.dragdrop');
+require ('../wh.util.scroll');
+require ('../wh.net.jsonrpc');
+require ('../wh.net.url');
+require ('../wh.util.promise');
 /*! LOAD: wh.compat.base, wh.ui.base, wh.compat.dom, wh.compat.dragdrop, wh.util.scroll
     LOAD: wh.net.jsonrpc, wh.net.url, wh.util.promise
 !*/

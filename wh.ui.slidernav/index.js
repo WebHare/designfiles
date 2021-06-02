@@ -1,10 +1,10 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./slidernav.css');
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('frameworks.mootools.more.element.measure');
-require ('wh.util.dragevents');
-/*! LOAD: frameworks.mootools.core, wh.compat.base, frameworks.mootools.more.element.measure, wh.util.dragevents
+require ('.././slidernav.css');
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../frameworks.mootools.more.element.measure');
+require ('../wh.util.dragevents');
+/*! LOAD: frameworks.mootools, wh.compat.base, frameworks.mootools.more.element.measure, wh.util.dragevents
 !*/
 
 /****************************************************************************************************************************

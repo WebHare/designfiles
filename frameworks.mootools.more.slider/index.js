@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.more.drag');
-require ('frameworks.mootools.more.class.binds');
-require ('frameworks.mootools.more.drag');
-require ('frameworks.mootools.more.element.measure');
+require ('../frameworks.mootools.more.drag');
+require ('../frameworks.mootools.more.class.binds');
+require ('../frameworks.mootools.more.drag');
+require ('../frameworks.mootools.more.element.measure');
 /*! REQUIRE: frameworks.mootools.more.drag, frameworks.mootools.more.class.binds, frameworks.mootools.more.drag, frameworks.mootools.more.element.measure
 !*/
 

@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.compat.base');
-require ('wh.compat.dom');
+require ('../wh.compat.base');
+require ('../wh.compat.dom');
 /*! LOAD: wh.compat.base, wh.compat.dom !*/
 
 (function($) { //mootools wrapper

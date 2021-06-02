@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.more.locale');
+require ('../frameworks.mootools.more.locale');
 /*! REQUIRE: frameworks.mootools.more.locale
 !*/
 

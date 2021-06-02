@@ -1,10 +1,10 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./page.css');
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('wh.ui.mediaviewer');
-require ('wh.ui.mediaviewer.style.default');
-/*! LOAD: frameworks.mootools.core, wh.compat.base
+require ('.././page.css');
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../wh.ui.mediaviewer');
+require ('../wh.ui.mediaviewer.style.default');
+/*! LOAD: frameworks.mootools, wh.compat.base
     LOAD: wh.ui.mediaviewer, wh.ui.mediaviewer.style.default
 !*/
 

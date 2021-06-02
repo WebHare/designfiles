@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('wh.social.socialite');
-require ('wh.compat.base');
-/*! LOAD: frameworks.mootools.core, wh.social.socialite, wh.compat.base
+require ('../frameworks.mootools');
+require ('../wh.social.socialite');
+require ('../wh.compat.base');
+/*! LOAD: frameworks.mootools, wh.social.socialite, wh.compat.base
 !*/
 
 if(!window.$wh) $wh={};

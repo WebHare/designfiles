@@ -1,9 +1,9 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./scrollableview.css');
-require ('wh.util.dragevents');
-require ('wh.util.resizelistener');
-require ('frameworks.mootools.more.class.binds');
-require ('wh.compat.dragdrop');
+require ('.././scrollableview.css');
+require ('../wh.util.dragevents');
+require ('../wh.util.resizelistener');
+require ('../frameworks.mootools.more.class.binds');
+require ('../wh.compat.dragdrop');
 /*! LOAD: wh.util.dragevents, wh.util.resizelistener,frameworks.mootools.more.class.binds,wh.compat.dragdrop  !*/
 
 /****************************************************************************************************************************

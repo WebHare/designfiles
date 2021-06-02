@@ -1,9 +1,9 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.compat.base');
-require ('wh.util.preloader');
-require ('wh.ui.base');
-require ('wh.form.model.base');
-require ('wh.util.adhoccache');
+require ('../wh.compat.base');
+require ('../wh.util.preloader');
+require ('../wh.ui.base');
+require ('../wh.form.model.base');
+require ('../wh.util.adhoccache');
 /*! LOAD: wh.compat.base, wh.util.preloader, wh.ui.base, wh.form.model.base, wh.util.adhoccache
 !*/
 

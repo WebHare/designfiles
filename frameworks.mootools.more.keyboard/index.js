@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.more.events.pseudo.keys');
-require ('frameworks.mootools.more.class.refactor');
+require ('../frameworks.mootools.more.events.pseudo.keys');
+require ('../frameworks.mootools.more.class.refactor');
 /*! LOAD: frameworks.mootools.more.events.pseudo.keys, frameworks.mootools.more.class.refactor !*/
 
 

@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.compat.base');
-require ('frameworks.mootools.more.class.binds');
-require ('wh.animations.timeline');
-require ('wh.ui.base');
+require ('../wh.compat.base');
+require ('../frameworks.mootools.more.class.binds');
+require ('../wh.animations.timeline');
+require ('../wh.ui.base');
 /*! LOAD: wh.compat.base, frameworks.mootools.more.class.binds, wh.animations.timeline, wh.ui.base
 !*/
 

@@ -1,11 +1,11 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./popup.css');
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('frameworks.mootools.more.element.measure');
-require ('wh.ui.base');
-require ('wh.util.csstransitionmanager');
-/*! LOAD: frameworks.mootools.core, wh.compat.base, frameworks.mootools.more.element.measure
+require ('.././popup.css');
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../frameworks.mootools.more.element.measure');
+require ('../wh.ui.base');
+require ('../wh.util.csstransitionmanager');
+/*! LOAD: frameworks.mootools, wh.compat.base, frameworks.mootools.more.element.measure
     LOAD: wh.ui.base
     LOAD: wh.util.csstransitionmanager
 !*/

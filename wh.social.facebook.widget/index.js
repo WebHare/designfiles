@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('wh.social.socialite.widget');
-require ('frameworks.mootools.more.request.jsonp');
-/*! REQUIRE: frameworks.mootools.core, wh.social.socialite.widget, frameworks.mootools.more.request.jsonp !*/
+require ('../frameworks.mootools');
+require ('../wh.social.socialite.widget');
+require ('../frameworks.mootools.more.request.jsonp');
+/*! REQUIRE: frameworks.mootools, wh.social.socialite.widget, frameworks.mootools.more.request.jsonp !*/
 
 /*
 

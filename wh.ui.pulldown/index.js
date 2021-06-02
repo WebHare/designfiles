@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./pulldown.css');
-require ('wh.components.menus');
-require ('wh.ui.base');
-require ('frameworks.mootools.more.keyboard');
+require ('.././pulldown.css');
+require ('../wh.components.menus');
+require ('../wh.ui.base');
+require ('../frameworks.mootools.more.keyboard');
 /*! LOAD: wh.components.menus, wh.ui.base, frameworks.mootools.more.keyboard
 !*/
 

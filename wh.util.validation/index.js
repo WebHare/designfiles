@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-/*! LOAD: frameworks.mootools.core
+require ('../frameworks.mootools');
+/*! LOAD: frameworks.mootools
 !*/
 
 (function($) {

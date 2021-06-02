@@ -1,7 +1,7 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.element.measure');
-/*! LOAD: frameworks.mootools.core, frameworks.mootools.more.element.measure
+require ('../frameworks.mootools');
+require ('../frameworks.mootools.more.element.measure');
+/*! LOAD: frameworks.mootools, frameworks.mootools.more.element.measure
 !*/
 
 /*

@@ -1,9 +1,9 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('wh.util.preloader');
-require ('wh.media.base');
-require ('mediaplayers.jwplayer.licensed');
-/*! LOAD: frameworks.mootools.core, wh.util.preloader, wh.media.base
+require ('../frameworks.mootools');
+require ('../wh.util.preloader');
+require ('../wh.media.base');
+require ('../mediaplayers.jwplayer.licensed');
+/*! LOAD: frameworks.mootools, wh.util.preloader, wh.media.base
     LOAD: mediaplayers.jwplayer.licensed
 !*/
 

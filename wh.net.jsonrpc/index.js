@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('wh.util.preloader');
-require ('wh.net.requests');
+require ('../wh.util.preloader');
+require ('../wh.net.requests');
 /*! LOAD: wh.util.preloader, wh.net.requests
 !*/
 

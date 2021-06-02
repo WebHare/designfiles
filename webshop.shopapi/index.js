@@ -1,10 +1,10 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('wh.net.jsonrpc');
-require ('consilio.suggest');
-require ('wh.net.url');
-/*! LOAD: frameworks.mootools.core, wh.compat.base, wh.net.jsonrpc, consilio.suggest, wh.net.url
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../wh.net.jsonrpc');
+require ('../consilio.suggest');
+require ('../wh.net.url');
+/*! LOAD: frameworks.mootools, wh.compat.base, wh.net.jsonrpc, consilio.suggest, wh.net.url
 !*/
 
 (function($) { //mootools wrapper

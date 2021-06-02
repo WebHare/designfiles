@@ -1,7 +1,7 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./sticky.css');
-require ('wh.compat.base');
-require ('wh.util.resizelistener');
+require ('.././sticky.css');
+require ('../wh.compat.base');
+require ('../wh.util.resizelistener');
 /*! LOAD: wh.compat.base, wh.util.resizelistener
 !*/
 

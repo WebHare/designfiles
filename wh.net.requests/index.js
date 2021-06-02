@@ -1,7 +1,7 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.date');
-/*! REQUIRE: frameworks.mootools.core, frameworks.mootools.more.date
+require ('../frameworks.mootools');
+require ('../frameworks.mootools.more.date');
+/*! REQUIRE: frameworks.mootools, frameworks.mootools.more.date
 !*/
 
 if(!window.$wh) $wh={};

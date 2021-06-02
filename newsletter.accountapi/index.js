@@ -1,11 +1,11 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('wh.compat.base');
-require ('wh.ui.base');
-require ('wh.net.jsonrpc');
-require ('wh.util.validation');
-require ('wh.net.url');
-/*! LOAD: frameworks.mootools.core, wh.compat.base, wh.ui.base
+require ('../frameworks.mootools');
+require ('../wh.compat.base');
+require ('../wh.ui.base');
+require ('../wh.net.jsonrpc');
+require ('../wh.util.validation');
+require ('../wh.net.url');
+/*! LOAD: frameworks.mootools, wh.compat.base, wh.ui.base
     LOAD: wh.net.jsonrpc, wh.util.validation, wh.net.url
 !*/
 

@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.more.date');
-require ('wh.form.model.base');
+require ('../frameworks.mootools.more.date');
+require ('../wh.form.model.base');
 /*! LOAD: frameworks.mootools.more.date, wh.form.model.base !*/
 /* plugin to support separated date/time fields */
 

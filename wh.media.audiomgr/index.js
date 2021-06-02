@@ -1,9 +1,9 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('wh.util.preloader');
-require ('mediaplayers.soundmanager');
-require ('wh.media.base');
-/*! REQUIRE: frameworks.mootools.core, wh.util.preloader, mediaplayers.soundmanager, wh.media.base !*/
+require ('../frameworks.mootools');
+require ('../wh.util.preloader');
+require ('../mediaplayers.soundmanager');
+require ('../wh.media.base');
+/*! REQUIRE: frameworks.mootools, wh.util.preloader, mediaplayers.soundmanager, wh.media.base !*/
 
 /*
 Supported events:

@@ -1,9 +1,9 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('frameworks.mootools.core');
-require ('frameworks.mootools.more.locale');
-require ('frameworks.mootools.more.request.jsonp');
-require ('wh.social.socialite.widget');
-/*! REQUIRE: frameworks.mootools.core, frameworks.mootools.more.locale, frameworks.mootools.more.request.jsonp, wh.social.socialite.widget !*/
+require ('../frameworks.mootools');
+require ('../frameworks.mootools.more.locale');
+require ('../frameworks.mootools.more.request.jsonp');
+require ('../wh.social.socialite.widget');
+/*! REQUIRE: frameworks.mootools, frameworks.mootools.more.locale, frameworks.mootools.more.request.jsonp, wh.social.socialite.widget !*/
 
 /*
 

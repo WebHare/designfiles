@@ -1,8 +1,8 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./pulldown2.css');
-require ('wh.ui.menu');
-require ('wh.ui.base');
-require ('whfree.keyboard-bunny');
+require ('.././pulldown2.css');
+require ('../wh.ui.menu');
+require ('../wh.ui.base');
+require ('../whfree.keyboard-bunny');
 /*! LOAD: wh.ui.menu, wh.ui.base, whfree.keyboard-bunny
 !*/
 /* For debugging, add #wh-ignore-pulldown-blur to the URL to prevent

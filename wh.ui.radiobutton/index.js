@@ -1,6 +1,6 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('./radiobutton.css');
-require ('wh.ui.base');
+require ('.././radiobutton.css');
+require ('../wh.ui.base');
 /*! LOAD: wh.ui.base
 !*/
 
