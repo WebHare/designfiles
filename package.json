@@ -1,6 +1,6 @@
 {
   "name": "designfiles",
-  "version": "1.2221.5",
+  "version": "2.0.0",
   "description": "'legacy' mootools based design files",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
