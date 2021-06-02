@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././timetable.css');
+require ('./timetable.css');
 /*
 
 Implemented:

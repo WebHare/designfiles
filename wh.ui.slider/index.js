@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././slider.css');
+require ('./slider.css');
 require ('../frameworks.mootools.more.keyboard');
 require ('../frameworks.mootools');
 require ('../wh.compat.base');

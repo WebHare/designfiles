@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././slidernav.css');
+require ('./slidernav.css');
 require ('../frameworks.mootools');
 require ('../wh.compat.base');
 require ('../frameworks.mootools.more.element.measure');

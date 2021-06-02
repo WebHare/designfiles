@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././checkbox.css');
+require ('./checkbox.css');
 require ('../wh.ui.base');
 /*! LOAD: wh.ui.base
 !*/

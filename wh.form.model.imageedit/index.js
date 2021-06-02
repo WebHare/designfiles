@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././imageedit.css');
+require ('./imageedit.css');
 require ('../wh.form.model.fileedit');
 /*! LOAD: wh.form.model.fileedit
 !*/

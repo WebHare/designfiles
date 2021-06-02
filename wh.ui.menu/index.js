@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././menu.css');
+require ('./menu.css');
 require ('../wh.compat.base');
 require ('../frameworks.mootools.more.class.binds');
 require ('../frameworks.mootools.more.keyboard');

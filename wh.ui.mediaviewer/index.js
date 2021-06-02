@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././mediaviewer.css');
+require ('./mediaviewer.css');
 require ('../frameworks.mootools');
 require ('../wh.ui.popup');
 require ('../wh.animations.slideshow');

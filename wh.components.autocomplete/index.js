@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././autocomplete.css');
+require ('./autocomplete.css');
 require ('../frameworks.mootools.more.class.binds');
 require ('../wh.compat.base');
 require ('../wh.ui.base');

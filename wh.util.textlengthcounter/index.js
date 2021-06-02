@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././textlengthcounter.css');
+require ('./textlengthcounter.css');
 require ('../frameworks.mootools');
 /*! LOAD: frameworks.mootools
 !*/

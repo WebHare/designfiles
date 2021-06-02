@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././placeholder.css');
+require ('./placeholder.css');
 require ('../frameworks.mootools');
 /*! REQUIRE: frameworks.mootools
 !*/

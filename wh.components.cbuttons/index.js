@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././cbuttons.css');
+require ('./cbuttons.css');
 require ('../frameworks.mootools');
 require ('../wh.compat.base');
 /*! REQUIRE: frameworks.mootools, wh.compat.base

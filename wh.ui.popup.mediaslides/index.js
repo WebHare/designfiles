@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././mediaslides.css');
+require ('./mediaslides.css');
 require ('../wh.util.template');
 require ('../wh.util.preloader');
 require ('../wh.util.swipedetect');

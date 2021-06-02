@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././fileedit.css');
+require ('./fileedit.css');
 require ('../frameworks.mootools');
 require ('../frameworks.mootools.more.class.binds');
 require ('../wh.ui.base');

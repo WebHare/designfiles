@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././slideshow2.css');
+require ('./slideshow2.css');
 require ('../frameworks.mootools');
 require ('../wh.ui.base');
 /*! LOAD: frameworks.mootools, wh.ui.base

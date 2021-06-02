@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././pulldown2.css');
+require ('./pulldown2.css');
 require ('../wh.ui.menu');
 require ('../wh.ui.base');
 require ('../whfree.keyboard-bunny');

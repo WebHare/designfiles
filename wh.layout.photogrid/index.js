@@ -1,5 +1,5 @@
 /* generated from Designfiles Public by generate_data_designfles */
-require ('.././photogrid-basic.css');
+require ('./photogrid-basic.css');
 require ('../frameworks.mootools');
 require ('../wh.compat.base');
 require ('../wh.animations.slideshow');
